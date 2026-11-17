@@ -359,12 +359,12 @@ window.BOS_V2={
     {
       id:"case-apartment-270",
       title:"Plan-séquence 270° dans un appartement de jour",
-      setup:"Une comédienne traverse trois pièces pendant 90 s. Trois fenêtres réelles, ciel variable, caméra presque 270°. On veut naturel mais sculpté, sans relight visible pendant le plan.",
+      setup:"Une comédienne traverse trois pièces pendant 90 s. Trois fenêtres réelles, ciel variable, caméra presque 270°. On cherche une lumière naturelle mais modelée, sans correction visible en cours de plan.",
       constraints:["Plan large + passages proches","Fenêtres parfois dans le cadre","Peu de place au sol","Raccord météo incertain"],
       approaches:[
         {name:"A · Base extérieure + négatif intérieur",idea:"Construire le niveau par les fenêtres depuis l’extérieur puis sculpter surtout avec solids et négatifs à l’intérieur.",tradeoff:"Très cohérent géographiquement, mais demande puissance / accès extérieur et contrôle des fenêtres."},
-        {name:"B · Ambient top discret + fenêtres motivantes",idea:"Tenir un floor faible depuis le plafond, laisser les fenêtres donner la direction et réserver quelques accents cachés aux zones critiques.",tradeoff:"Libère la caméra, mais le top peut devenir visible dans les yeux ou aplatir les murs si mal contenu."},
-        {name:"C · Zones volontairement différentes",idea:"Accepter une pièce sombre, une zone fenêtre plus haute et un passage silhouette. Le blocking porte la variation.",tradeoff:"Plus cinématographique, mais exige confiance du réalisateur et raccords précis pour les inserts."}
+        {name:"B · Ambiance légère au plafond et lumière venant des fenêtres",idea:"Installer une faible ambiance au plafond, laisser les fenêtres définir la direction et prévoir quelques renforts cachés aux endroits difficiles.",tradeoff:"Libère la caméra, mais le top peut devenir visible dans les yeux ou aplatir les murs si mal contenu."},
+        {name:"C · Zones volontairement différentes",idea:"Accepter une pièce sombre, une zone fenêtre plus haute et un passage silhouette. Le déplacement des comédiens donne son sens à cette variation.",tradeoff:"Plus cinématographique, mais exige confiance du réalisateur et raccords précis pour les inserts."}
       ],
       ask:["Où veux-tu que le visage soit le plus lisible ?","Quelle fenêtre est réellement la motivation dominante ?","Le plan doit-il être homogène ou raconter une progression par la lumière ?"]
     },
@@ -375,20 +375,20 @@ window.BOS_V2={
       constraints:["Murs blancs à 1 m","Plafond blanc","Baie large","Champ/contrechamp"],
       approaches:[
         {name:"A · Traiter l’origine du fill",idea:"Le problème n’est peut-être pas le côté ombre mais le plafond / mur caméra. Agrandir le noir pour occuper réellement ce champ réfléchi.",tradeoff:"Efficace mais encombrant."},
-        {name:"B · Abaisser l’ambient floor",idea:"Réduire la baie avec net / diffusion / tenting partiel puis reconstruire une key plus directionnelle.",tradeoff:"Plus de contrôle, mais on perd du niveau général."},
-        {name:"C · Production design",idea:"Introduire surfaces plus sombres hors axe ou repositionner le sujet pour augmenter la distance aux murs.",tradeoff:"Très propre, mais nécessite collaboration déco / mise en scène."}
+        {name:"B · Réduire le niveau de lumière ambiante",idea:"Contrôler la lumière de la baie avec un filet, une diffusion ou une occultation partielle, puis créer une key plus directionnelle.",tradeoff:"Plus de contrôle, mais on perd du niveau général."},
+        {name:"C · Adapter le décor",idea:"Introduire surfaces plus sombres hors axe ou repositionner le sujet pour augmenter la distance aux murs.",tradeoff:"Très propre, mais nécessite collaboration déco / mise en scène."}
       ],
       ask:["D’où vient réellement le fill mesuré ?","Le solid est-il assez grand depuis le visage ?","Peux-tu déplacer le sujet plutôt que la lumière ?"]
     },
     {
       id:"case-night-car",
       title:"Voiture de nuit en mouvement",
-      setup:"Deux acteurs dans une voiture roulante, caméra frontale et profils. On veut ville nocturne crédible sans ‘RGB demo’.",
+      setup:"Deux acteurs dans une voiture roulante, caméra frontale et profils. On cherche une ambiance urbaine nocturne crédible, sans multiplier artificiellement les couleurs saturées.",
       constraints:["Très peu de place","Reflets pare-brise","Sources extérieures variables","Peaux à préserver"],
       approaches:[
-        {name:"A · Base douce quasi neutre + interactions extérieures",idea:"Créer une faible base propre dans l’habitacle puis réserver couleurs et mouvements aux interactions de rue.",tradeoff:"Peaux solides, mais peut sembler trop propre si la base est trop haute."},
-        {name:"B · Practical dashboard / plafonnier motivé",idea:"Faire porter la lecture par une source intégrée très basse et laisser l’extérieur découper.",tradeoff:"Très motivé, mais risque de lumière basse peu flatteuse."},
-        {name:"C · Reflections-first",idea:"Concevoir d’abord les réflexions sur vitres et carrosserie, puis ajuster la peau autour de ce dessin.",tradeoff:"Excellent pour publicité / stylisé, plus exigeant en répétabilité."}
+        {name:"A · Base douce quasi neutre + interactions extérieures",idea:"Créer une faible base propre dans l’habitacle puis réserver couleurs et mouvements aux interactions de rue.",tradeoff:"Carnations cohérentes, mais rendu potentiellement trop propre si l’ambiance de base est trop lumineuse."},
+        {name:"B · Éclairage de tableau de bord ou plafonnier motivé",idea:"Garder les visages lisibles avec une source discrète intégrée dans l’habitacle, puis laisser les lumières extérieures dessiner les contours.",tradeoff:"Très motivé, mais risque de lumière basse peu flatteuse."},
+        {name:"C · Construire d’abord les reflets",idea:"Concevoir d’abord les réflexions sur vitres et carrosserie, puis ajuster la peau autour de ce dessin.",tradeoff:"Très efficace pour une image publicitaire ou stylisée, mais plus difficile à reproduire à l’identique d’une prise à l’autre."}
       ],
       ask:["Quel est le niveau minimal de peau acceptable ?","Les interactions doivent-elles raconter une géographie réelle ?","Que veux-tu voir dans le pare-brise : sujet ou ville ?"]
     },
@@ -398,9 +398,9 @@ window.BOS_V2={
       setup:"Petit objet chromé manipulé en macro. La forme est lisible mais les reflets deviennent vite sales et la main paraît plate.",
       constraints:["Métal miroir","Macro","Mouvement de main","Fond sombre"],
       approaches:[
-        {name:"A · Light by reflection",idea:"Construire d’abord les grandes formes blanches/noires reflétées dans le métal, sans chercher à ‘éclairer’ directement l’objet.",tradeoff:"Très propre, mais demande surfaces de contrôle proches."},
+        {name:"A · Éclairer en dessinant les reflets",idea:"Construire d’abord les grandes formes blanches/noires reflétées dans le métal, sans chercher à ‘éclairer’ directement l’objet.",tradeoff:"Résultat précis, mais nécessite des surfaces blanches et noires bien placées autour de l’objet."},
         {name:"B · Source longue et étroite",idea:"Créer un trait spéculaire continu qui décrit le volume, plus un petit négatif pour séparer l’arête.",tradeoff:"Graphique et précis, moins naturel."},
-        {name:"C · Deux systèmes séparés",idea:"Un environnement de réflexion pour le produit, une petite key indépendante pour la main.",tradeoff:"Contrôle maximum, mais risque de directions contradictoires."}
+        {name:"C · Deux systèmes séparés",idea:"Un environnement de réflexion pour le produit, une petite key indépendante pour la main.",tradeoff:"Contrôle important, mais risque d’incohérence entre la direction de lumière sur la main et les reflets de l’objet."}
       ],
       ask:["Quelle forme veux-tu lire dans le reflet ?","Le chrome doit-il paraître noir, blanc ou dégradé ?","Peux-tu séparer le travail peau et produit ?"]
     },
@@ -410,9 +410,9 @@ window.BOS_V2={
       setup:"Deux acteurs dans un décor ouvert, plein soleil, scène longue. Couverture large + gros plans, horaire peu flexible.",
       constraints:["Soleil qui tourne","Vent","Fond très lumineux","Temps plateau limité"],
       approaches:[
-        {name:"A · Backlight sun + passive/negative",idea:"Placer la scène pour garder le soleil arrière, ouvrir les faces par bounce et densifier le côté caméra par négatif.",tradeoff:"Rapide, mais dépend de la trajectoire solaire."},
+        {name:"A · Soleil en contre-jour, rebond et négatif",idea:"Placer la scène pour garder le soleil arrière, ouvrir les faces par bounce et densifier le côté caméra par négatif.",tradeoff:"Rapide, mais dépend de la trajectoire solaire."},
         {name:"B · Grand overhead",idea:"Créer une zone contrôlée pour toute la scène, puis reconstruire un soleil / edge si nécessaire.",tradeoff:"Raccord stable, mais rigging lourd et fond toujours au soleil."},
-        {name:"C · Exploiter le soleil comme changement",idea:"Découper le blocking pour que les variations deviennent narratives plutôt que des erreurs de raccord.",tradeoff:"Élégant si assumé, difficile au montage classique."}
+        {name:"C · Exploiter le soleil comme changement",idea:"Adapter les déplacements des comédiens pour que les variations du soleil deviennent un effet voulu, plutôt qu’un problème de raccord.",tradeoff:"Élégant si assumé, difficile au montage classique."}
       ],
       ask:["Quel plan doit établir la direction du soleil ?","Combien de temps la couverture va-t-elle réellement prendre ?","Le fond peut-il être 2–3 stops plus haut sans casser le look ?"]
     },
@@ -424,7 +424,7 @@ window.BOS_V2={
       approaches:[
         {name:"A · Overhead juponné asymétrique",idea:"Petite surface mince au plafond, décentrée, avec jupe pour conserver une direction.",tradeoff:"Couverture efficace, mais risque de reflets et orbites."},
         {name:"B · Practicals + hidden bounces",idea:"Utiliser suspensions / lampes comme motivation et cacher des bounces bas ou latéraux hors angles.",tradeoff:"Très intégré, mais nécessite beaucoup de micro-ajustements."},
-        {name:"C · Cross-key au-delà des acteurs",idea:"Deux sources latérales croisées servant alternativement de key et edge.",tradeoff:"Bon modelé, mais doubles ombres possibles sur table / fond."}
+        {name:"C · Cross-key derrière les comédiens",idea:"Deux sources latérales croisées servant alternativement de key et edge.",tradeoff:"Bon relief sur les visages, mais risque de doubles ombres sur la table et le décor."}
       ],
       ask:["Peux-tu accepter une direction différente selon chaque côté de table ?","Quel élément du décor peut devenir la motivation principale ?","Le plafond doit-il rester sombre ou participer à l’ambiance ?"]
     },
@@ -435,22 +435,22 @@ window.BOS_V2={
       constraints:["Champ/contrechamp serré","Large fenêtre réelle","Peaux différentes","Raccord exposition fenêtre"],
       approaches:[
         {name:"A · Une seule direction fenêtre",idea:"Conserver la même motivation et accepter que l’un soit plus far-side que l’autre.",tradeoff:"Géographie très solide, beauté moins symétrique."},
-        {name:"B · Cross augmentation discrète",idea:"Fenêtre comme base, petit renfort opposé pour le second champ sans inverser visiblement la logique.",tradeoff:"Plus flatteur, mais attention à la seconde ombre."},
-        {name:"C · Blocking / eyelines",idea:"Modifier légèrement orientation des corps et regards pour que la même source travaille mieux les deux visages.",tradeoff:"Solution élégante mais dépend de la mise en scène."}
+        {name:"B · Renfort discret pour le contrechamp",idea:"Fenêtre comme base, petit renfort opposé pour le second champ sans inverser visiblement la logique.",tradeoff:"Plus flatteur, mais attention à la seconde ombre."},
+        {name:"C · Ajuster positions et directions de regard",idea:"Modifier légèrement orientation des corps et regards pour que la même source travaille mieux les deux visages.",tradeoff:"Solution discrète, à condition de pouvoir ajuster les positions avec la mise en scène."}
       ],
       ask:["Le raccord de direction vaut-il plus que la symétrie des visages ?","Quelle différence de contraste entre personnages est acceptable ?","Peux-tu résoudre par le blocking avant d’ajouter une source ?"]
     },
     {
       id:"case-beauty-skin",
-      title:"Beauty / peau : source très douce mais visage sans volume",
+      title:"Gros plan beauté : lumière douce, mais visage trop plat",
       setup:"Grande diffusion proche, peau magnifique mais visage trop uniforme. Le client veut garder la douceur.",
-      constraints:["Beauty close-up","Maquillage précis","Reflets yeux importants","Peu de contraste autorisé"],
+      constraints:["Gros plan beauté","Maquillage précis","Reflets yeux importants","Peu de contraste autorisé"],
       approaches:[
-        {name:"A · Déplacer la grande source",idea:"Garder la taille mais décentrer la surface pour recréer une direction plutôt que réduire sa taille.",tradeoff:"Conserve la douceur, change le dessin du catchlight."},
+        {name:"A · Décaler la grande source",idea:"Garder la taille mais décentrer la surface pour recréer une direction plutôt que réduire sa taille.",tradeoff:"Conserve des ombres douces, mais déplace le reflet de la source dans l’œil."},
         {name:"B · Negative fill très proche",idea:"Retirer localement le retour caméra sans toucher à la key.",tradeoff:"Très efficace, mais peut apparaître dans les reflets ou gêner l’axe."},
-        {name:"C · Shape the source",idea:"Masquer une partie de la diffusion ou utiliser un eggcrate / skirt pour rendre la surface asymétrique.",tradeoff:"Contrôle fin, mais peut créer un gradient visible sur mouvement."}
+        {name:"C · Modifier la forme de la source",idea:"Masquer une partie de la diffusion ou utiliser un eggcrate / skirt pour rendre la surface asymétrique.",tradeoff:"Contrôle fin, mais peut créer un gradient visible sur mouvement."}
       ],
-      ask:["Le problème est-il la douceur ou l’absence de direction ?","Quel catchlight veux-tu conserver ?","Peut-on modifier la surface sans modifier la peau ?"]
+      ask:["Le problème est-il la douceur ou l’absence de direction ?","Quel catchlight veux-tu conserver ?","Peut-on modifier la forme des reflets sans durcir les ombres sur le visage ?"]
     }
   ],
 
