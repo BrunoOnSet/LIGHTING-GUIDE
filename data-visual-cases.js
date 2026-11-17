@@ -375,6 +375,72 @@ window.BOS_VISUAL_CASES={
  ],
  "takeaway": "Sur une interview, mélanger une grande key juponnée/grillée, un accent plus net et un rim froid peut créer du relief tout en conservant le fond chaud du lieu.",
  "caveat": "Le schéma correspond à la prévisualisation de ce décor ; les réglages ont été ajustés sur le plateau. L'image caméra provient du même tournage, sans garantie d'une prise identique à la BTS."
+},
+{
+ "id": "kohfield-rain-car",
+ "title": "Habitacle de nuit sous la pluie — rebond depuis un garage",
+ "author": "Nathaniel Kohfield, directeur de la photographie",
+ "production": "Court métrage réalisé par Nick Chavez",
+ "year": "2016",
+ "match": "partiel",
+ "relevance": [
+  "car-night",
+  "night-skin",
+  "practical"
+ ],
+ "context": "Face à des lampadaires trop faibles et à une pluie importante, le DP installe le véhicule dans une allée et éclaire l'habitacle en réfléchissant un ARRI T1 depuis l'intérieur d'un garage. Le document comprend une photo BTS et des images du rendu, mais aucun plan d'implantation original : le schéma BOS est notre interprétation.",
+ "source": "https://nathanielkohfield.com/journal/2016/1/17/lighting-a-night-car-interior-scene",
+ "media": [
+  {
+   "role": "plan",
+   "title": "Pas de plan de feu original publié",
+   "url": "",
+   "caption": "Le plan de principe BOS de cette fiche représente la configuration décrite, mais n'est pas le plan réel du tournage.",
+   "relation": "schéma BOS séparé, pas plan d'auteur"
+  },
+  {
+   "role": "bts",
+   "title": "BTS — le garage et le dispositif lumineux",
+   "url": "https://images.squarespace-cdn.com/content/v1/531bc203e4b0fd769de8d3ad/1453062500805-XR9SPLJIKYH04XKNI9Z7/image-asset.jpeg",
+   "caption": "Photo BTS noir et blanc de l'installation de garage permettant d'éclairer la voiture pendant la pluie.",
+   "relation": "même tournage / BTS"
+  },
+  {
+   "role": "frame",
+   "title": "Rendu du visage dans la voiture",
+   "url": "https://images.squarespace-cdn.com/content/v1/531bc203e4b0fd769de8d3ad/1453059723554-3GTY9NUY51RFVXET25D8/image-asset.jpeg",
+   "caption": "Image finale très sombre : direction froide, visage partiellement éclairé et niveau ambiant limité.",
+   "relation": "même film / plan voiture"
+  }
+ ],
+ "positions": [
+  {
+   "name": "A · ARRI T1 + correction gélatine",
+   "where": "Dans le garage, hors cadre de l'habitacle, lampe orientée vers le 4×4 blanc.",
+   "purpose": "Le DP indique une correction plus vert et 1/4 CTB sur le tungstène pour créer une source urbaine froide plutôt que le rendu naturellement chaud de la lampe.",
+   "consequence": "Une correction par gélatine atténue aussi le flux. Le spectre du tungstène filtré et celui d'une LED réglée à la même CCT ne sont pas identiques."
+  },
+  {
+   "name": "B · 4×4 bounce blanc",
+   "where": "Réflecteur 4×4 recevant la lumière du T1 depuis le garage.",
+   "purpose": "Élargir la taille apparente de source sur les visages et éviter l'ombre dure d'un 1K tungstène placé au plus près.",
+   "consequence": "Le rebond réduit le niveau et adoucit l'image. Si trop frontal, il ferait perdre le contraste de la scène."
+  },
+  {
+   "name": "C · Practical de maison",
+   "where": "Lampes visibles à proximité de la voiture et de la façade.",
+   "purpose": "Faire croire que la lumière ambiante provient de l'éclairage de rue et des maisons.",
+   "consequence": "Ces points doivent rester crédibles visuellement ; ne pas éclairer uniformément tous les visages."
+  },
+  {
+   "name": "D · ND sur lampe de porche",
+   "where": "Devant une practical extérieure trop brillante.",
+   "purpose": "Ramener la lampe à un niveau cohérent avec les visages et le décor.",
+   "consequence": "On ajuste le rapport d'exposition du décor plutôt que de monter tout le key pour compenser une seule ampoule trop lumineuse."
+  }
+ ],
+ "takeaway": "Plutôt que d'ajouter une source dans la voiture, un rebond contrôlé hors champ depuis le garage peut produire une motivation de nuit crédible et préserver les ombres du visage.",
+ "caveat": "Pas de plan de feu original publié. Le BTS documente le lieu et l'installation, mais le plan final n'est pas une photo prise pendant le BTS. Les positions fines ne peuvent être déduites au centimètre."
 }
  ],
  situationPriority:{
@@ -399,6 +465,7 @@ window.BOS_VISUAL_CASES={
  "window-sun":["burum-classical"],
  "window-sun-sky":["burum-classical"],
  "studio-day":["burum-classical"],
- "interview":["grant-interview"]
+ "interview":["grant-interview"],
+ "car-night":["kohfield-rain-car"]
  }
 };
