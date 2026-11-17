@@ -450,7 +450,6 @@ window.BOS_VISUAL_CASES={
  "window-night":["grant-apartment"],
  "moving-pools":["grant-apartment","hall-times-square","hall-worldship"],
  "smoke":["grant-apartment","hall-worldship"],
- "practical":["josh-bar-wide","grant-apartment","hall-worldship"],
  "table":["josh-bar-wide","josh-bar-close"],
  "dialogue":["josh-bar-close","grant-saloon","burum-classical"],
  "low-ceiling":["josh-bar-wide"],
