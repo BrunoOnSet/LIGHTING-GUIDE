@@ -77,7 +77,7 @@ function methodCard(item){
 function openMethod(id,{fromHash=false}={}){
   if(current)closeItem({fromHash:true});
   if(tab!=="techniques"||query||filter!=="Tous")selectTab("techniques");
-  let node=$("[data-method-id]",$("#cards")).find(el=>el.dataset.methodId===id);
+  let node=$$("[data-method-id]",$("#cards")).find(el=>el.dataset.methodId===id);
   if(node){node.open=true;node.scrollIntoView({behavior:"smooth",block:"center"});}
   if(!fromHash)history.pushState(null,"","#methode/"+encodeURIComponent(id));
 }
