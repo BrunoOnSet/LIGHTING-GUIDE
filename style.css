@@ -358,3 +358,8 @@
 .method-action{font-size:12px;margin-bottom:15px}
 .method-tip p{font-size:12px}
 }
+
+
+/* Recherche / favoris : aucune illustration fictive sur les fiches Méthodes. */
+.method-no-photo{height:100%;min-height:120px;display:grid;place-items:center;background:var(--soft);color:var(--muted);font-size:11px;font-weight:650;letter-spacing:.11em;text-transform:uppercase}
+.method-image-fallback{display:grid;place-items:center;padding:14px;text-align:center;height:100%;min-height:100px;background:var(--soft);color:var(--muted);font-size:11px}
