@@ -38,7 +38,7 @@ $("#clearSearch").addEventListener("click",()=>{query="";$("#searchInput").value
 $("#resetBtn").addEventListener("click",()=>{query="";filter="Tous";$("#searchInput").value="";$("#clearSearch").hidden=true;render()});
 function baseItems(){if(query)return all;return tab==="favoris"?all.filter(x=>favoriteIds.has(x.id)):DATA[tab]||[]}
 const searchIndex=new Map();
-function searchText(o){if(searchIndex.has(o.id))return searchIndex.get(o.id);const p=window.BOS_PRO?.[o.id];const extra=p?JSON.stringify(p):"";const value=normalize([o.title,o.group,o.brand,o.summary,o.principle,o.usage,o.tip,...list(o.steps),...list(o.related),extra].join(" "));searchIndex.set(o.id,value);return value}
+function searchText(o){if(searchIndex.has(o.id))return searchIndex.get(o.id);const p=window.BOS_PRO?.[o.id];const extra=p?JSON.stringify(p):"";const study=o.study?JSON.stringify({author:o.study.author,production:o.study.production,context:o.description,positions:o.study.positions,tags:o.tags}):"";const value=normalize([o.title,o.group,o.brand,o.summary,o.principle,o.usage,o.tip,...list(o.steps),...list(o.related),extra,study].join(" "));searchIndex.set(o.id,value);return value}
 function renderFilters(items){const groups=[...new Set(items.map(x=>x.group).filter(Boolean))];if(!groups.includes(filter))filter="Tous";const filters=$("#filters");filters.innerHTML=["Tous",...groups].map(g=>'<button type="button" data-filter="'+esc(g)+'" class="'+(filter===g?"active":"")+'" aria-pressed="'+(filter===g)+'">'+esc(g)+'</button>').join("");$$("[data-filter]",filters).forEach(el=>el.addEventListener("click",()=>{filter=el.dataset.filter;render()}))}
 function cardSketch(type){
 const variant=({window:1,book:2,bounce:3,cove:3,negative:4,moving:5,top:6,cross:7,back:8,direct:9,diffuse:10,double:10,three:7,practical:8,side:9,under:9,cookie:1})[type]||9;
@@ -47,8 +47,8 @@ return '<svg viewBox="0 0 440 170" aria-hidden="true"><defs><pattern id="gridc" 
 }
 function photoFor(item){return item.media&&MEDIA[item.media]?MEDIA[item.media]:null}
 function card(item){
-const m=photoFor(item);const typeLabel=SECTIONS[item.type]||"Guide";
-return '<button class="guide-card" type="button" data-open="'+esc(item.id)+'" aria-label="Ouvrir '+esc(item.title)+'"><div class="card-graphic">'+(m?'<img class="card-photo" src="'+esc(m.url)+'" alt="Photographie réelle : '+esc(item.title)+'" loading="lazy" referrerpolicy="no-referrer">':cardSketch(item.diagram))+'<span class="graphic-corner">'+esc(typeLabel.toUpperCase())+'</span></div><div class="card-content"><div class="card-topline"><span class="card-category">'+esc(item.brand?item.brand+" · "+item.group:item.group)+'</span><span class="card-arrow">'+(favoriteIds.has(item.id)?"★":"↗")+'</span></div><h3>'+esc(item.title)+'</h3><p>'+esc(item.summary)+'</p><div class="card-tags"><span>'+(window.BOS_PRO?.[item.id]?"Dossier DP approfondi":"Fiche de référence")+'</span>'+(item.type==="situations"||item.type==="techniques"?'<span>Schéma en plan</span>':"<span>Documentation</span>")+'</div></div></button>';
+const m=item.study?.media?.find(x=>x.role==="frame")||photoFor(item);const typeLabel=SECTIONS[item.type]||"Guide";
+return '<button class="guide-card" type="button" data-open="'+esc(item.id)+'" aria-label="Ouvrir '+esc(item.title)+'"><div class="card-graphic">'+(m?'<img class="card-photo" src="'+esc(m.url)+'" alt="Photographie réelle : '+esc(item.title)+'" loading="lazy" referrerpolicy="no-referrer">':cardSketch(item.diagram))+'<span class="graphic-corner">'+esc(typeLabel.toUpperCase())+'</span></div><div class="card-content"><div class="card-topline"><span class="card-category">'+esc(item.brand?item.brand+" · "+item.group:item.group)+'</span><span class="card-arrow">'+(favoriteIds.has(item.id)?"★":"↗")+'</span></div><h3>'+esc(item.title)+'</h3><p>'+esc(item.summary)+'</p><div class="card-tags"><span>'+(item.study?"Plan + plateau + image":window.BOS_PRO?.[item.id]?"Dossier DP approfondi":"Fiche de référence")+'</span>'+(item.type==="situations"||item.type==="techniques"?'<span>Schéma en plan</span>':"<span>Documentation</span>")+'</div></div></button>';
 }
 function render(){
 favoritesCount();const base=baseItems();
@@ -173,7 +173,7 @@ const arr=DATA.situations||[],groups=[...new Set(arr.map(x=>x.group))];
 return '<details class="reader-index"><summary><span>Parcourir toutes les situations</span><small>'+arr.length+' fiches · accès direct</small></summary><div class="reader-index-inner">'+groups.map(g=>'<section class="reader-group"><h4>'+esc(g)+'</h4><div>'+arr.filter(x=>x.group===g).map(x=>'<button type="button" data-related="'+esc(x.id)+'">'+esc(x.title)+'<span>↗</span></button>').join("")+'</div></section>').join("")+'</div></details>';
 }
 function visualAtlas(item){
-if(item.type!=="situations")return "";
+if(item.type!=="situations"&&!PRO[item.id])return "";
 const cases=situCases(item.id);
 const gallery=cases.length?cases.map(caseStudy).join(""):'<div class="case-none"><strong>Pas encore de triptyque vérifié pour cette situation.</strong><p>Le plan de principe est présenté plus bas avec les configurations de travail. J’évite d’associer trois photos qui ne proviennent pas de la même scène. Les sources documentaires en bas de fiche permettent de poursuivre la recherche.</p></div>';
 return '<section class="casebook" id="casebook"><div class="casebook-intro"><div><span>ATLAS VISUEL / '+(cases.length?cases.length+" ÉTUDE"+(cases.length>1?"S":""):"RECHERCHE DOCUMENTAIRE")+'</span><h3>Plan de feu · Plateau · Image</h3></div><p>Les documents de tournage réels sont réunis lorsque le lien entre les images est attesté. Mon analyse décrit ce que fait chaque source et l’effet de sa position. Un plan pédagogique reconstruit n’est jamais présenté comme un plan original.</p></div>'+gallery+'</section>';
@@ -244,7 +244,33 @@ $("#prevItem").addEventListener("click",()=>stepMove(-1));
 $("#nextItem").addEventListener("click",()=>stepMove(1));
 $("#itemJump").addEventListener("change",e=>{if(find(e.target.value))openItem(e.target.value)});
 
+
+/* Étude de plateau V1.3 — une seule production par page, sans recyclage de photos. */
+function studyDetail(item){
+  const s=item.study;
+  const photos=list(s.media);
+  const positions=list(s.positions).map((p,i)=>'<article class="shoot-source"><div class="shoot-source-title"><span>'+String.fromCharCode(65+i)+'</span><h4>'+esc(p.name.replace(/^[A-Z]\s*·\s*/,""))+'</h4></div><div class="shoot-source-desc"><p><strong>Où ?</strong>'+esc(p.where)+'</p><p><strong>Pourquoi ?</strong>'+esc(p.purpose)+'</p><p><strong>Ce que cela change à l’image</strong>'+esc(p.consequence)+'</p></div></article>').join("");
+  const credits=esc(s.author)+" · "+esc(s.production);
+  const extras=list(s.extras).filter(x=>x.url);
+  const plus=extras.length?'<details class="shoot-more"><summary>Photos complémentaires de ce même tournage ('+extras.length+')</summary><div class="shoot-more-grid">'+extras.map(m=>'<figure><a href="'+esc(m.url)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(m.url)+'" alt="'+esc(m.title)+'" loading="lazy" referrerpolicy="no-referrer"></a><figcaption>'+esc(m.title)+' — '+esc(m.caption)+'</figcaption></figure>').join("")+'</div></details>':"";
+  const variation=item.variationId?'<p class="shoot-variant">Le même tournage comporte également une variante de cadre plus serré, décrite dans l’article du chef opérateur. Elle reste rattachée à cette étude, et n’apparaît plus comme une autre Situation.</p>':"";
+  const tags=list(item.tags).map(x=>'<span>'+esc(x)+'</span>').join("");
+  return '<div class="shoot-reader"><div class="shoot-kicker">SITUATION DE TOURNAGE / '+esc(item.group.toUpperCase())+'</div>'+
+  '<h2 class="shoot-title" id="detailTitle">'+esc(item.title)+'</h2>'+
+  '<p class="shoot-subtitle">'+esc(item.summary)+'</p>'+
+  '<div class="shoot-meta"><span>'+credits+'</span><a href="'+esc(s.source)+'" target="_blank" rel="noopener noreferrer">Breakdown original du chef opérateur ↗</a></div>'+
+  '<div class="shoot-tags">'+tags+'</div>'+
+  '<section class="shoot-section shoot-context"><h3>Le tournage</h3><p>'+esc(item.description)+'</p></section>'+
+  '<section class="shoot-section"><div class="shoot-section-heading"><span>01 / DOCUMENTS DU MÊME TOURNAGE</span><h3>Plan de feu · Plateau · Image tournée</h3><p>Les trois documents sont ceux de cette seule configuration. Le plan peut être une prévisualisation réalisée par le DP ; les vues de plateau et les photogrammes ne représentent pas nécessairement la même prise.</p></div><div class="case-photo-grid">'+photos.map(m=>mediaFigure(m,s.source)).join("")+'</div><p class="shoot-provenance">'+esc(item.provenance)+'</p></section>'+
+  '<section class="shoot-section"><div class="shoot-section-heading"><span>02 / LECTURE DU PLAN DE FEU</span><h3>Ce que fait chaque source</h3><p>Pour chaque appareil ou dispositif : sa place, sa fonction et ses conséquences sur le contraste, la profondeur ou la couleur.</p></div><div class="shoot-sources">'+positions+'</div></section>'+
+  '<section class="shoot-section shoot-takeaway"><span>03 / LE POINT TECHNIQUE À RETENIR</span><p>'+esc(item.lesson)+'</p></section>'+
+  plus+variation+
+  '<section class="shoot-foot"><h3>Documentation et limites</h3><p>'+esc(s.caveat)+'</p><p>Positions et usages rédigés à partir du breakdown de l’auteur ; ne pas déduire de distances, niveaux lux ou angles non documentés. Les photos sont affichées depuis les sites sources et leurs droits appartiennent à leurs auteurs.</p><a href="'+esc(s.source)+'" target="_blank" rel="noopener noreferrer">Consulter les photos et le récit complet sur le site d’origine ↗</a></section>'+
+  related(item)+'</div>';
+}
+
 function detailHTML(item){
+if(item.type==="situations"&&item.study)return exploreSituations()+studyDetail(item);
 let isTech=item.type==="techniques"||item.type==="situations";
 const advanced=!!PRO[item.id];
 return (item.type==="situations"?exploreSituations():"")+'<div class="detail-kicker">'+esc(SECTIONS[item.type])+' / '+esc(item.group)+'</div><h2 class="detail-title" id="detailTitle">'+esc(item.title)+'</h2><p class="detail-summary">'+esc(item.summary)+'</p><div class="detail-labels">'+(item.brand?'<span>'+esc(item.brand)+'</span>':"")+'<span>'+esc(item.group)+'</span><span>'+(advanced?"Carnet DP · dossier technique":isTech?"Installation illustrée":"Référence de plateau")+'</span></div>'+(advanced?visualAtlas(item)+proDetail(item)+'<details class="pro-legacy"><summary>Fiche synthétique & photographie documentaire</summary>'+(photoFor(item)?"":showPhotograph(item))+mainDetails(item)+(isTech?diagram(item.diagram):"")+'</details>':showPhotograph(item)+(isTech?diagram(item.diagram):"")+mainDetails(item)+materialSpecs(item)+(isTech?"":diagram(item.diagram)))+related(item)+sourceList(item);
@@ -258,7 +284,7 @@ updateStepper(item);
 $("#detailOverlay").hidden=false;document.body.classList.add("modal-open");$("#favoriteBtn").textContent=favoriteIds.has(id)?"★":"☆";$("#favoriteBtn").classList.toggle("is-fav",favoriteIds.has(id));
 $("#detailScroll").scrollTop=0;$(".detail-panel").focus();
 if(!fromHash)history.pushState(null,"","#fiche/"+encodeURIComponent(id));
-if(!photoFor(item))loadCommonsPhoto(item,loadingMedia);
+if(!item.study&&!photoFor(item))loadCommonsPhoto(item,loadingMedia);
 const img=$(".detail-photo img");
 if(img)img.addEventListener("error",()=>{const fig=img.closest("figure");if(fig)fig.innerHTML='<div class="photo-status"><b>Photo non accessible depuis ce site</b><a href="'+esc(photoFor(item).page)+'" target="_blank" rel="noopener noreferrer">Consulter la photographie sur son site d’origine ↗</a></div>'},{once:true});
 }
