@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f3f4f3">
-<meta name="description" content="BOS LIGHTING GUIDE — encyclopédie pratique des techniques, situations, projecteurs et accessoires de lumière au cinéma.">
+<meta name="description" content="BOS LIGHTING GUIDE — carnet technique de chef opérateur : configurations, pièges, projecteurs et colorimétrie de plateau.">
 <title>BOS — LIGHTING GUIDE</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
@@ -26,10 +26,10 @@
 <main id="main">
 <section class="hero" id="accueil">
 <div class="hero-content">
-<div class="eyebrow"><span class="eyebrow-dot"></span> BIBLIOTHÈQUE CINÉMA <span class="version">V1.0</span></div>
-<h1>Comprendre la lumière.<br><em>Savoir la construire.</em></h1>
-<p class="hero-lead">Des principes aux choix de plateau : techniques d’éclairage, solutions de mise en scène, projecteurs et accessoires professionnels.</p>
-<div class="hero-actions"><button class="primary-button" id="exploreBtn">Explorer le guide <span>↗</span></button><span class="hero-note">Fiches croisées · schémas en plan · sources</span></div>
+<div class="eyebrow"><span class="eyebrow-dot"></span> CARNET DE CHEF OPÉRATEUR <span class="version">V1.1</span></div>
+<h1>La lumière,<br><em>sans approximation.</em></h1>
+<p class="hero-lead">Un carnet personnel d’implantations, d’options de projecteurs, de diagnostics colorimétriques et de solutions éprouvées sur un plateau de cinéma.</p>
+<div class="hero-actions"><button class="primary-button" id="exploreBtn">Explorer le guide <span>↗</span></button><span class="hero-note">Fiches techniques · pièges · configurations · sources</span></div>
 </div>
 <div class="hero-visual" aria-hidden="true">
 <svg viewBox="0 0 580 360" class="hero-drawing">
@@ -59,7 +59,7 @@
 <button class="overview-card" data-section="accessoires"><span class="overview-top"><b>04</b><span class="round-arrow">↗</span></span><strong>Accessoires</strong><p>Diffuser, réfléchir, découper, accrocher.</p><span class="overview-count" data-count="accessoires"></span></button>
 </section>
 <section class="library" id="bibliotheque">
-<div class="library-heading"><div><span class="section-kicker">LE GUIDE / 01—04</span><h2>Bibliothèque</h2></div><p>Des fiches concrètes, documentées et reliées entre elles.</p></div>
+<div class="library-heading"><div><span class="section-kicker">LE GUIDE / 01—04</span><h2>Bibliothèque</h2></div><p>Notes de travail, configurations alternatives et diagnostics concrets.</p></div>
 <div class="tabs" id="tabs" role="tablist" aria-label="Rubriques du guide">
 <button role="tab" aria-selected="true" data-tab="techniques" class="active">Méthodes</button>
 <button role="tab" aria-selected="false" data-tab="situations">Situations</button>
@@ -72,14 +72,15 @@
 <div class="cards-grid" id="cards" aria-live="polite"></div>
 <div class="empty-state" id="emptyState" hidden><strong>Aucune fiche trouvée</strong><span>Essaie un autre terme ou supprime le filtre.</span><button id="resetBtn">Réinitialiser</button></div>
 </section>
-<section class="reference" id="references"><div><span class="section-kicker">MÉTHODE DE TRAVAIL</span><h2>Un guide de terrain,<br>pas une recette universelle.</h2></div><div class="reference-copy"><p>Chaque configuration dépend du décor, du cadre, des déplacements, de la puissance disponible et du rendu recherché. Les schémas sont pédagogiques, non à l’échelle et ne remplacent pas une étude technique ou de sécurité.</p><p>Les caractéristiques indiquées sont vérifiées sur les pages constructeurs quand elles sont chiffrées. Les exemples d’utilisation sont des pratiques possibles, pas des prescriptions des fabricants.</p><a href="SOURCES.md" target="_blank" rel="noopener">Sources, images et périmètre de la V1 ↗</a></div></section>
+<section class="reference" id="references"><div><span class="section-kicker">MÉTHODE DE TRAVAIL</span><h2>Un guide de terrain,<br>pas une recette universelle.</h2></div><div class="reference-copy"><p>Les configurations sont des propositions de travail à adapter au décor, au cadre, aux déplacements et aux moyens lumière disponibles. Les schémas ne constituent pas des plans de sécurité ou des simulations photométriques.</p><p>Les caractéristiques indiquées sont vérifiées sur les pages constructeurs quand elles sont chiffrées. Les exemples d’utilisation sont des pratiques possibles, pas des prescriptions des fabricants.</p><a href="SOURCES.md" target="_blank" rel="noopener">Sources, images et périmètre de la V1 ↗</a></div></section>
 </main>
-<footer class="footer"><span><b>BOS</b> — LIGHTING GUIDE · V1.0</span><span>Bruno OnSet · Pour les équipes image & lumière</span><a href="https://brunoguillard.com" target="_blank" rel="noopener noreferrer">BrunoGuillard.com ↗</a></footer>
+<footer class="footer"><span><b>BOS</b> — LIGHTING GUIDE · V1.1</span><span>Bruno OnSet · Pour les équipes image & lumière</span><a href="https://brunoguillard.com" target="_blank" rel="noopener noreferrer">BrunoGuillard.com ↗</a></footer>
 </div>
 <div id="detailOverlay" class="detail-overlay" hidden>
 <div class="overlay-backdrop" id="overlayBackdrop"></div>
 <article class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detailTitle" tabindex="-1">
 <div class="detail-top"><span class="detail-breadcrumb" id="detailBreadcrumb">BOS / GUIDE</span><div class="detail-controls"><button class="detail-action" id="shareBtn" title="Copier le lien" aria-label="Copier le lien">↗</button><button class="detail-action" id="favoriteBtn" title="Ajouter aux favoris" aria-label="Ajouter aux favoris">☆</button><button class="close-btn" id="closeDetail" aria-label="Fermer la fiche">×</button></div></div>
+<nav class="detail-stepper" id="detailStepper" aria-label="Naviguer entre les fiches"><button type="button" class="stepper-arrow" id="prevItem" aria-label="Fiche précédente" title="Fiche précédente (←)">←</button><div class="stepper-center"><span class="stepper-count" id="stepperCount">SITUATIONS</span><select id="itemJump" aria-label="Choisir une fiche" class="stepper-select"></select></div><button type="button" class="stepper-arrow" id="nextItem" aria-label="Fiche suivante" title="Fiche suivante (→)">→</button></nav>
 <div class="detail-scroll" id="detailScroll"></div>
 </article>
 </div>
@@ -89,6 +90,8 @@
 <script src="data-situations.js?v=1.0.0" defer></script>
 <script src="data-projecteurs.js?v=1.0.0" defer></script>
 <script src="data-accessoires.js?v=1.0.0" defer></script>
-<script src="app.js?v=1.0.0" defer></script>
+<script src="data-pro.js?v=1.1.0" defer></script>
+<script src="data-pro-extra.js?v=1.1.0" defer></script>
+<script src="app.js?v=1.1.0" defer></script>
 </body>
 </html>
