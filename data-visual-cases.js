@@ -443,28 +443,5 @@ window.BOS_VISUAL_CASES={
  "caveat": "Pas de plan de feu original publié. Le BTS documente le lieu et l'installation, mais le plan final n'est pas une photo prise pendant le BTS. Les positions fines ne peuvent être déduites au centimètre."
 }
  ],
- situationPriority:{
- "night-day-interior":["josh-bar-wide","grant-apartment"],
- "interior-night-studio":["josh-bar-wide","grant-apartment","hall-worldship"],
- "night-skin":["josh-bar-close","grant-apartment","hall-worldship"],
- "window-night":["grant-apartment"],
- "moving-pools":["grant-apartment","hall-times-square","hall-worldship"],
- "smoke":["grant-apartment","hall-worldship"],
- "table":["josh-bar-wide","josh-bar-close"],
- "dialogue":["josh-bar-close","grant-saloon","burum-classical"],
- "low-ceiling":["josh-bar-wide"],
- "window-sky":["grant-saloon"],
- "day-continuity":["grant-saloon","burum-classical"],
- "reverse-window":["grant-saloon"],
- "plan-sequence":["helenek-one-shot","hall-times-square"],
- "walk-and-talk":["helenek-one-shot"],
- "scene-360":["helenek-one-shot"],
- "moving-soft":["helenek-one-shot","grant-saloon"],
- "exterior-night":["hall-times-square"],
- "window-sun":["burum-classical"],
- "window-sun-sky":["burum-classical"],
- "studio-day":["burum-classical"],
- "interview":["grant-interview"],
- "car-night":["kohfield-rain-car"]
- }
+ situationPriority: {}
 };
