@@ -235,6 +235,74 @@ window.BOS_VISUAL_CASES={
  ],
  "takeaway": "On peut éclairer un décor gigantesque et garder une nuit profonde : une très grande ambiance douce sous key, des accents motivés et une solution spéciale pour la lecture des visages.",
  "caveat": "La BTS et l'image finale proviennent de la même scène mais ne représentent pas nécessairement une prise identique ; données et légendes d'après l'entretien de Jess Hall dans ASC."
+},
+{
+ "id": "burum-classical",
+ "title": "Stephen H. Burum ASC — soleil de studio et ratios de fill",
+ "author": "Stephen H. Burum ASC — atelier 35 mm documenté par l'ASC",
+ "production": "Démonstration de lumière Fresnel sur un plateau UCLA",
+ "year": "Article ASC 2019 (atelier antérieur)",
+ "match": "partiel",
+ "relevance": [
+  "window-sun",
+  "window-sun-sky",
+  "studio-day",
+  "dialogue",
+  "day-continuity"
+ ],
+ "context": "Burum éclaire un intérieur construit avec plusieurs Fresnel, deux inside cross-keys, un 10K qui dessine des ombres de persiennes et un fill de trois 2K dirigés vers une surface blanche derrière la caméra. Il montre le même plan avec des niveaux de fill différents.",
+ "source": "https://theasc.com/article/lighting-a-set/",
+ "media": [
+  {
+   "role": "plan",
+   "title": "Plan lumière de Stephen H. Burum",
+   "url": "https://theasc.com/wp-content/uploads/2026/04/Burum-Lighting-Diagram.jpg",
+   "caption": "Schéma original utilisé dans l'article de l'American Society of Cinematographers.",
+   "relation": "atelier original / plan d'éclairage"
+  },
+  {
+   "role": "bts",
+   "title": "Image témoin : sans fill",
+   "url": "https://theasc.com/wp-content/uploads/2026/04/Classical-Lighting-Burum-image-A-no-fill.jpg",
+   "caption": "Photogramme du workshop filmé sans fill, et NON une photo BTS de l'installation.",
+   "relation": "même atelier / photogramme comparatif"
+  },
+  {
+   "role": "frame",
+   "title": "Image témoin : fill 3:1",
+   "url": "https://theasc.com/wp-content/uploads/2026/04/Classical-Lighting-Burum-image-C-3-to-1-key-to-fill-ratio.jpg",
+   "caption": "Photogramme du même atelier avec fill plus présent ; rapport de mesures key/fill cité par le DP.",
+   "relation": "même atelier / autre réglage"
+  }
+ ],
+ "positions": [
+  {
+   "name": "A · 10K set light",
+   "where": "À distance du mur, derrière les persiennes, optique en configuration ouverte selon l'article.",
+   "purpose": "Projeter un réseau de traits de soleil rasant sur les fonds du décor.",
+   "consequence": "Le dessin des murs et les plans lumineux donnent immédiatement l'heure du jour. La finesse de l'ombre dépend de taille apparente et géométrie des stores."
+  },
+  {
+   "name": "B · Inside cross-keys 1K / 2K",
+   "where": "Chacun vient de l'autre côté de l'axe caméra-personnage, au-delà de 90°.",
+   "purpose": "Conserver des visages modelés avec une lumière qui fait aussi un léger contour.",
+   "consequence": "Burum explique que les deux keys guident l'attention vers le centre du cadre, en laissant les bords plus sombres."
+  },
+  {
+   "name": "C · 2K backlight",
+   "where": "Source arrière au-delà du duo.",
+   "purpose": "Détacher les comédiens du fond sombre.",
+   "consequence": "Si trop brillante, elle fait un liseré disproportionné, surtout à proximité des hautes lumières de fenêtre."
+  },
+  {
+   "name": "D · Fill frontal par rebond",
+   "where": "Trois 2K sur une toile blanche derrière la caméra.",
+   "purpose": "Remonter les valeurs d'ombre sans créer de nouvelles ombres latérales nettes.",
+   "consequence": "La comparaison sans fill / 8:1 / 3:1 montre combien le ratio change le ton émotionnel. Les ratios sont ceux de l'atelier, pas des standards à appliquer systématiquement."
+  }
+ ],
+ "takeaway": "Une même image peut passer de dramatique à lumineuse uniquement en changeant la profondeur des ombres. Les keys et les ombres restent la structure ; le fill décide de l'atmosphère.",
+ "caveat": "La page de l'ASC montre des photogrammes comparatifs, et non une photographie BTS de l'installation. Elle concerne un atelier classique, dont les principes restent utilisables avec les LED actuelles."
 }
  ],
  situationPriority:{
@@ -246,15 +314,18 @@ window.BOS_VISUAL_CASES={
  "smoke":["grant-apartment","hall-worldship"],
  "practical":["josh-bar-wide","grant-apartment","hall-worldship"],
  "table":["josh-bar-wide","josh-bar-close"],
- "dialogue":["josh-bar-close","grant-saloon"],
+ "dialogue":["josh-bar-close","grant-saloon","burum-classical"],
  "low-ceiling":["josh-bar-wide"],
  "window-sky":["grant-saloon"],
- "day-continuity":["grant-saloon"],
+ "day-continuity":["grant-saloon","burum-classical"],
  "reverse-window":["grant-saloon"],
  "plan-sequence":["helenek-one-shot","hall-times-square"],
  "walk-and-talk":["helenek-one-shot"],
  "scene-360":["helenek-one-shot"],
  "moving-soft":["helenek-one-shot","grant-saloon"],
- "exterior-night":["hall-times-square"]
+ "exterior-night":["hall-times-square"],
+ "window-sun":["burum-classical"],
+ "window-sun-sky":["burum-classical"],
+ "studio-day":["burum-classical"]
  }
 };
