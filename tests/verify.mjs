@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
 
-const files=['data.js','data-techniques.js','data-situations.js','data-projecteurs.js','data-accessoires.js','data-pro.js','data-pro-extra.js','data-pro-final.js','data-pro-methods.js','data-visual-cases.js','app.js','sw.js'];
+const files=['data.js','data-techniques.js','data-situations.js','data-projecteurs.js','data-accessoires.js','data-pro.js','data-pro-extra.js','data-pro-final.js','data-pro-methods.js','data-visual-cases.js','data-shoots.js','app.js','sw.js'];
 for (const file of files) {
   const code=fs.readFileSync(file,'utf8');
   new vm.Script(code,{filename:file});
@@ -31,7 +31,7 @@ for(const [section,entries] of Object.entries(sections)){
 }
 const pro=context.window.BOS_PRO||{};
 const proSources=context.window.BOS_PRO_SOURCES||{};
-assert.equal(sections.situations.filter(x=>pro[x.id]).length,sections.situations.length,'Chaque situation doit avoir son dossier professionnel');
+assert.equal(sections.techniques.filter(x=>x.documentationType==='configuration'&&pro[x.id]).length,27,'Les 27 configurations type doivent rester disponibles dans Méthodes');
 assert(Object.keys(pro).length>=30,'Dossiers professionnels incomplets');
 for(const [id,dossier] of Object.entries(pro)){
   assert(ids.has(id),'Dossier sans fiche : '+id);
@@ -48,7 +48,27 @@ for(const [id,dossier] of Object.entries(pro)){
 console.log(Object.keys(pro).length+' dossiers DP vérifiés, dont '+sections.situations.length+' situations couvertes.');
 
 const cases=context.window.BOS_VISUAL_CASES;
-assert(cases?.cases?.length>=7,'Atlas de cas réels manquant');
+assert(cases?.cases?.length>=5,'Bibliothèque source de tournages manquante');
+assert.equal(sections.situations.length,5,'La section Situations doit compter cinq tournages distincts');
+const chosen=sections.situations;
+const chosenCases=new Set(),photoUrls=new Set();
+for(const item of chosen){
+  assert(item.study,'Situation sans tournage documenté : '+item.id);
+  assert(item.study.id&&item.study.source&&item.study.author,'Attribution manquante : '+item.id);
+  assert(!chosenCases.has(item.study.id),'Tournage affiché plusieurs fois : '+item.study.id);
+  chosenCases.add(item.study.id);
+  assert(item.study.media?.length===3,'Triptyque absent : '+item.id);
+  assert.deepEqual(item.study.media.map(p=>p.role).sort(),['bts','frame','plan'],'Documents mal classés : '+item.id);
+  for(const media of item.study.media){
+    assert(media.url?.startsWith('https://'),'Image externe manquante : '+item.id);
+    assert(!photoUrls.has(media.url),'Photo réutilisée dans plusieurs Situations : '+media.url);
+    photoUrls.add(media.url);
+  }
+  assert(item.study.positions?.length>=3,'Explication des sources insuffisante : '+item.id);
+}
+assert.equal(chosenCases.size,5);
+assert.equal(photoUrls.size,15);
+assert.equal(Object.keys(cases.situationPriority).length,0,'Anciennes associations qui provoquaient les doublons encore actives');
 const caseIds=new Set(cases.cases.map(x=>x.id));
 assert.equal(caseIds.size,cases.cases.length,'Cas visuels avec identifiant répété');
 for(const entry of cases.cases){
@@ -64,7 +84,7 @@ for(const [id,caseList] of Object.entries(cases.situationPriority)){
 }
 assert(fs.readFileSync('sw.js','utf8').includes('data-visual-cases.js'),'Atlas non mis en cache');
 assert(fs.readFileSync('app.js','utf8').includes('is-full-reader'),'Mode plein écran absent');
-console.log('Atlas vérifié : '+caseIds.size+' dossiers illustrés, '+Object.keys(cases.situationPriority).length+' situations référencées.');
+console.log('Situations vérifiées : 5 tournages uniques et 15 photos distinctes, aucune réutilisation.');
 
 for(const [key,media] of Object.entries(context.window.BOS_MEDIA)){
   assert(media.url.startsWith('https://'),'Média sans HTTPS : '+key);
