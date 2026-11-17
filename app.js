@@ -83,8 +83,11 @@ function openMethod(id,{fromHash=false}={}){
 }
 
 function card(item){
-const m=item.study?.media?.find(x=>x.role==="frame")||photoFor(item);const typeLabel=SECTIONS[item.type]||"Guide";
-return '<button class="guide-card" type="button" data-open="'+esc(item.id)+'" aria-label="Ouvrir '+esc(item.title)+'"><div class="card-graphic">'+(m?'<img class="card-photo" src="'+esc(m.url)+'" alt="Photographie réelle : '+esc(item.title)+'" loading="lazy" referrerpolicy="no-referrer">':cardSketch(item.diagram))+'<span class="graphic-corner">'+esc(typeLabel.toUpperCase())+'</span></div><div class="card-content"><div class="card-topline"><span class="card-category">'+esc(item.brand?item.brand+" · "+item.group:item.group)+'</span><span class="card-arrow">'+(favoriteIds.has(item.id)?"★":"↗")+'</span></div><h3>'+esc(item.title)+'</h3><p>'+esc(item.summary)+'</p><div class="card-tags"><span>'+(item.study?"Plan + plateau + image":window.BOS_PRO?.[item.id]?"Dossier DP approfondi":"Fiche de référence")+'</span>'+(item.study?'<span>3 documents du tournage</span>':item.type==="techniques"?'<span>Schéma en plan</span>':'<span>Documentation</span>')+'</div></div></button>';
+const isMethod=item.type==="techniques";
+const m=isMethod?(METHOD_PHOTOS.has(item.id)?photoFor(item):null):(item.study?.media?.find(x=>x.role==="frame")||photoFor(item));
+const typeLabel=SECTIONS[item.type]||"Guide";
+const graphic=m?'<img class="card-photo" src="'+esc(m.url)+'" alt="Photographie réelle : '+esc(item.title)+'" loading="lazy" referrerpolicy="no-referrer">':isMethod?'<div class="method-no-photo">Méthode de lumière</div>':cardSketch(item.diagram);
+return '<button class="guide-card" type="button" data-open="'+esc(item.id)+'" data-type="'+esc(item.type)+'" aria-label="Ouvrir '+esc(item.title)+'"><div class="card-graphic">'+graphic+'<span class="graphic-corner">'+esc(typeLabel.toUpperCase())+'</span></div><div class="card-content"><div class="card-topline"><span class="card-category">'+esc(item.brand?item.brand+" · "+item.group:item.group)+'</span><span class="card-arrow">'+(favoriteIds.has(item.id)?"★":"↗")+'</span></div><h3>'+esc(item.title)+'</h3><p>'+esc(item.summary)+'</p><div class="card-tags"><span>'+(item.study?"Plan + plateau + image":isMethod?"Fiche Méthode":"Fiche de référence")+'</span>'+(item.study?'<span>3 documents du tournage</span>':isMethod?'<span>Note technique</span>':'<span>Documentation</span>')+'</div></div></button>';
 }
 function render(){
 favoritesCount();const base=baseItems();
@@ -106,7 +109,10 @@ $("#cards").addEventListener("click",e=>{
 $("#cards").addEventListener("error",e=>{
  const img=e.target;
  if(img.matches("img.method-photo")){const link=img.closest("a");if(link){img.remove();const notice=document.createElement("span");notice.className="method-photo-error";notice.textContent="Photographie non affichable — ouvrir chez son auteur ↗";link.append(notice)}return}
- if(img.matches("img.card-photo"))img.replaceWith(document.createRange().createContextualFragment(cardSketch("direct")));
+ if(img.matches("img.card-photo")){
+ const method=!!img.closest('[data-type="techniques"]');
+ img.replaceWith(document.createRange().createContextualFragment(method?'<span class="method-image-fallback">Photographie non disponible</span>':cardSketch("direct")));
+}
 },true);
 const SVG_BASE=(contents)=>'<svg viewBox="0 0 640 390" role="img" aria-label="Schéma technique, vue du dessus, non à l’échelle" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="board" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#788a80" stroke-opacity=".16" stroke-width="1"/></pattern><marker id="arr" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#dfb98f" stroke-width="1.2"/></marker></defs><rect width="640" height="390" fill="#24302d"/><rect width="640" height="390" fill="url(#board)"/><rect x="45" y="30" width="550" height="316" fill="none" stroke="#7f9286" stroke-width="1.3"/>'+contents+'<text x="60" y="369" fill="#b0baaf" font-size="10" letter-spacing="1.8" font-family="sans-serif">SCHÉMA D’IMPLANTATION / VUE DE DESSUS</text><text x="580" y="369" fill="#b0baaf" text-anchor="end" font-size="10" font-family="sans-serif">NON À L’ÉCHELLE</text></svg>';
 const txt=(x,y,t,anchor="start")=>'<text x="'+x+'" y="'+y+'" fill="#bdc9bb" font-family="sans-serif" font-size="10.5" text-anchor="'+anchor+'" letter-spacing=".4">'+esc(t)+'</text>';
