@@ -36,7 +36,7 @@ $("#searchInput").addEventListener("input",e=>{query=e.target.value.trim();filte
 $("#clearSearch").addEventListener("click",()=>{query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();$("#searchInput").focus()});
 $("#resetBtn").addEventListener("click",()=>{query="";filter="Tous";$("#searchInput").value="";$("#clearSearch").hidden=true;render()});
 function baseItems(){if(query)return all;return tab==="favoris"?all.filter(x=>favoriteIds.has(x.id)):DATA[tab]||[]}
-function searchText(o){return normalize([o.title,o.group,o.brand,o.summary,o.principle,o.usage,o.tip,...list(o.steps),...list(o.related)].join(" "))}
+function searchText(o){const p=window.BOS_PRO?.[o.id];const extra=p?JSON.stringify(p):"";return normalize([o.title,o.group,o.brand,o.summary,o.principle,o.usage,o.tip,...list(o.steps),...list(o.related),extra].join(" "))}
 function renderFilters(items){const groups=[...new Set(items.map(x=>x.group).filter(Boolean))];if(!groups.includes(filter))filter="Tous";const filters=$("#filters");filters.innerHTML=["Tous",...groups].map(g=>'<button type="button" data-filter="'+esc(g)+'" class="'+(filter===g?"active":"")+'" aria-pressed="'+(filter===g)+'">'+esc(g)+'</button>').join("");$$("[data-filter]",filters).forEach(el=>el.addEventListener("click",()=>{filter=el.dataset.filter;render()}))}
 function cardSketch(type){
 const variant=({window:1,book:2,bounce:3,cove:3,negative:4,moving:5,top:6,cross:7,back:8,direct:9,diffuse:10,double:10,three:7,practical:8,side:9,under:9,cookie:1})[type]||9;
@@ -113,14 +113,80 @@ if(media)return '<figure class="detail-photo"><img src="'+esc(media.url)+'" alt=
 const search=encodeURIComponent(item.title+" film lighting");
 return '<div class="photo-status" id="dynamicPhoto"><b>Photographie documentaire</b><span class="photo-message">Recherche d’un fichier photographique sous licence libre…</span><div class="photo-actions"><a href="https://commons.wikimedia.org/w/index.php?search='+search+'&title=Special%3AMediaSearch&type=image" target="_blank" rel="noopener noreferrer">Chercher des photos réelles ↗</a>'+(item.type==="projecteurs"?'<a href="'+esc((SOURCES[list(item.sources)[0]]||SOURCES.arri).url)+'" target="_blank" rel="noopener noreferrer">Photos constructeur ↗</a>':"")+'</div></div>';
 }
+
+/* V1.1 — Carnet technique avancé */
+const PRO=window.BOS_PRO||{};
+const PRO_SOURCES=window.BOS_PRO_SOURCES||{};
+const proPara=text=>'<p>'+esc(text)+'</p>';
+const proList=entries=>'<ul class="pro-bullet-list">'+list(entries).map(v=>'<li>'+esc(v)+'</li>').join("")+'</ul>';
+function proAnchorNav(){
+const links=[["pro-configs","Configurations"],["pro-camera","Caméra"],["pro-color","Peaux / couleur"],["pro-traps","Pièges"],["pro-kit","Projecteurs"],["pro-checks","Contrôle"],["pro-evidence","Références"]];
+return '<nav class="pro-anchors" aria-label="Accès rapide aux chapitres">'+links.map(([id,label])=>'<button type="button" data-scroll="'+id+'">'+esc(label)+'</button>').join("")+'</nav>';
+}
+function proDiagram(item){
+if(!["day-for-night","night-skin","window-night","moonlight","exterior-night","night-day-interior","interior-night-studio","window-sun","window-sky","moving-soft"].includes(item.id))return"";
+const isWindow=/window|night-day-interior/.test(item.id);
+const isOutdoor=/moonlight|day-for-night|exterior-night/.test(item.id);
+const isMovement=item.id==="moving-soft";
+let svg;
+if(isMovement)svg=panel(140,70,16,232,"GRANDE SOURCE","#e6d5b3")+actor(360,137,"A")+actor(470,240,"B")+camera(420,312)+'<path d="M365 168Q385 210 450 231" fill="none" stroke="#dfb98f" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#arr)"/>'+txt(320,65,"PARCOURS DES ACTEURS");
+else if(isWindow)svg='<path d="M210 30V107M210 235V345" stroke="#a6b9ac" stroke-width="8"/><path d="M210 107V235" stroke="#d4e4d7" stroke-width="9" opacity=".9"/>'+txt(213,100,"FENÊTRE")+lamp(92,145,"SOURCE EXTÉRIEURE")+actor(412,164,"PERSONNAGE")+camera(411,300)+ray(115,145,378,164)+panel(509,103,10,152,"NEGATIVE FILL","#111816");
+else if(isOutdoor)svg=lamp(152,79,"LUNE / SOLEIL")+actor(350,196,"SUJET")+camera(350,313)+ray(176,99,328,175)+panel(462,128,12,120,"NEG / FLAG","#161b18")+'<path d="M45 270h550" stroke="#576a5e" stroke-width="2" stroke-dasharray="5 8"/>'+txt(70,288,"ARRIÈRE-PLAN");
+else svg=lamp(150,113,"KEY")+panel(274,91,11,167,"MODIFICATEUR")+actor(424,172)+camera(423,299)+ray(172,123,272,153)+ray(288,156,393,169);
+return '<div class="pro-diagram"><div class="pro-diagram-head"><b>PLAN DE PRINCIPE / 01</b><span>Vue de dessus · non à l’échelle</span></div>'+SVG_BASE(svg)+'<p>Schéma conceptuel : orientations et accessoires à adapter au cadre, aux dimensions, à la sécurité et à la lumière réellement mesurée.</p></div>';
+}
+function proEquip(item){
+return list(item.kit).map(ref=>{
+const target=find(ref.id);if(!target)return "";
+return '<article class="pro-equip"><div><strong>'+esc(target.brand||"MATÉRIEL")+'</strong><button type="button" data-related="'+esc(target.id)+'">'+esc(target.title)+' ↗</button><small>'+esc(ref.role||"")+'</small></div><p>'+esc(ref.reason||"")+'</p></article>';
+}).join("");
+}
+function proDetail(item){
+const p=PRO[item.id];if(!p)return"";
+const setups=list(p.variants).map((v,i)=>{
+const linked=list(v.kit).map(id=>find(id)).filter(Boolean);
+return '<article class="pro-setup"><div class="pro-setup-top"><span class="pro-number">'+String(i+1).padStart(2,"0")+'</span><h4>'+esc(v.title)+'</h4></div><p class="pro-when">'+esc(v.when||"")+'</p><div class="pro-setup-grid"><div><b>Implantation</b>'+proPara(v.setup||"")+'</div><div><b>Contrôle caméra</b>'+proPara(v.camera||"")+'</div></div><p class="pro-why"><b>Logique :</b> '+esc(v.why||"")+'</p>'+(linked.length?'<div class="pro-mini-kit"><span>Sources / accessoires</span>'+linked.map(o=>'<button type="button" data-related="'+esc(o.id)+'">'+esc(o.title)+' ↗</button>').join("")+'</div>':"")+'</article>';
+}).join("");
+const problems=list(p.traps).map(v=>'<article class="pro-issue"><div class="pro-issue-title"><span>PIÈGE</span><h4>'+esc(v.symptom||"")+'</h4></div><div><strong>Cause probable</strong><p>'+esc(v.cause||"")+'</p><strong>Diagnostic / correction</strong><p>'+esc(v.fix||"")+'</p></div></article>').join("");
+const citations=list(p.refs).map(id=>PRO_SOURCES[id]).filter(Boolean).map(v=>'<a target="_blank" rel="noopener noreferrer" href="'+esc(v.url)+'">'+esc(v.name)+' ↗</a>').join("");
+return '<div class="pro-intro"><span>FICHE DE TRAVAIL · '+esc(p.level||"CHEF OPÉRATEUR")+'</span><h3>'+esc(p.headline||"")+'</h3><p>'+esc(p.intent||"")+'</p></div>'+
+proAnchorNav()+proDiagram(item)+
+'<section id="pro-configs" class="pro-section"><div class="pro-chapter"><span>01</span><div><h3>Configurations de plateau</h3><p>Plusieurs réponses possibles à une même intention. Les implantations ne sont pas des prescriptions de matériel.</p></div></div><div class="pro-setups">'+setups+'</div></section>'+
+'<section id="pro-camera" class="pro-section"><div class="pro-chapter"><span>02</span><h3>Caméra, exposition & essais</h3></div>'+proList(p.camera)+'</section>'+
+'<section id="pro-color" class="pro-section"><div class="pro-chapter"><span>03</span><h3>Colorimétrie & carnation</h3></div>'+proList(p.color)+'</section>'+
+'<section id="pro-traps" class="pro-section"><div class="pro-chapter"><span>04</span><h3>Pièges et dépannage</h3></div><div class="pro-issues">'+problems+'</div></section>'+
+'<section id="pro-kit" class="pro-section"><div class="pro-chapter"><span>05</span><h3>Projecteurs adaptés / usages</h3></div><p class="pro-preface">Exemples d'appareils actuels ou encore courants dans les parcs, à valider chez le loueur. Les puissances ne remplacent pas les photométries avec l'optique retenue.</p><div class="pro-equips">'+proEquip(item)+'</div></section>'+
+'<section id="pro-checks" class="pro-section"><div class="pro-chapter"><span>06</span><h3>Contrôles avant prise</h3></div><ul class="pro-checklist">'+list(p.controls).map(x=>'<li><span aria-hidden="true">□</span>'+esc(x)+'</li>').join("")+'</ul></section>'+
+'<section id="pro-evidence" class="pro-section"><div class="pro-chapter"><span>07</span><h3>Références professionnelles</h3></div><div class="pro-ref-list">'+citations+'</div><p class="pro-disclaimer">Les exemples de configuration sont des propositions éditoriales BASÉES sur les principes documentés, et non des plans de tournage attribués aux professionnels cités. Contrôler les spécifications et la documentation de sécurité du matériel réel.</p></section>';
+}
+function updateStepper(item){
+const members=DATA[item.type]||[],index=members.findIndex(x=>x.id===item.id),n=members.length;
+$("#stepperCount").textContent=(SECTIONS[item.type]||"GUIDE").toUpperCase()+" · "+(index+1)+" / "+n;
+const groups=[...new Set(members.map(v=>v.group))];
+$("#itemJump").innerHTML=groups.map(g=>'<optgroup label="'+esc(g)+'">'+members.filter(v=>v.group===g).map(v=>'<option value="'+esc(v.id)+'"'+(v.id===item.id?" selected":"")+'>'+esc(v.title)+'</option>').join("")+'</optgroup>').join("");
+$("#itemJump").value=item.id;
+$("#prevItem").disabled=index<=0;
+$("#nextItem").disabled=index<0||index>=n-1;
+}
+function stepMove(delta){
+if(!current)return;const item=find(current);if(!item)return;const members=DATA[item.type]||[];
+const index=members.findIndex(v=>v.id===item.id);const next=members[index+delta];
+if(next)openItem(next.id);
+}
+$("#prevItem").addEventListener("click",()=>stepMove(-1));
+$("#nextItem").addEventListener("click",()=>stepMove(1));
+$("#itemJump").addEventListener("change",e=>{if(find(e.target.value))openItem(e.target.value)});
+
 function detailHTML(item){
 let isTech=item.type==="techniques"||item.type==="situations";
-return '<div class="detail-kicker">'+esc(SECTIONS[item.type])+' / '+esc(item.group)+'</div><h2 class="detail-title" id="detailTitle">'+esc(item.title)+'</h2><p class="detail-summary">'+esc(item.summary)+'</p><div class="detail-labels">'+(item.brand?'<span>'+esc(item.brand)+'</span>':"")+'<span>'+esc(item.group)+'</span><span>'+(isTech?"Installation illustrée":"Référence de plateau")+'</span></div>'+showPhotograph(item)+(isTech?diagram(item.diagram):"")+mainDetails(item)+materialSpecs(item)+(isTech?"":diagram(item.diagram))+related(item)+sourceList(item);
+const advanced=!!PRO[item.id];
+return '<div class="detail-kicker">'+esc(SECTIONS[item.type])+' / '+esc(item.group)+'</div><h2 class="detail-title" id="detailTitle">'+esc(item.title)+'</h2><p class="detail-summary">'+esc(item.summary)+'</p><div class="detail-labels">'+(item.brand?'<span>'+esc(item.brand)+'</span>':"")+'<span>'+esc(item.group)+'</span><span>'+(advanced?"Carnet DP · dossier technique":isTech?"Installation illustrée":"Référence de plateau")+'</span></div>'+(advanced?proDetail(item)+'<details class="pro-legacy"><summary>Fiche synthétique & photographie documentaire</summary>'+showPhotograph(item)+mainDetails(item)+(isTech?diagram(item.diagram):"")+'</details>':showPhotograph(item)+(isTech?diagram(item.diagram):"")+mainDetails(item)+materialSpecs(item)+(isTech?"":diagram(item.diagram)))+related(item)+sourceList(item);
 }
 function openItem(id,{fromHash=false}={}){
 const item=find(id);if(!item)return;previousFocus=document.activeElement;current=id;loadingMedia++;
 $("#detailBreadcrumb").textContent="BOS / "+SECTIONS[item.type].toUpperCase()+" / FICHE";
 $("#detailScroll").innerHTML=detailHTML(item);
+updateStepper(item);
 $("#detailOverlay").hidden=false;document.body.classList.add("modal-open");$("#favoriteBtn").textContent=favoriteIds.has(id)?"★":"☆";$("#favoriteBtn").classList.toggle("is-fav",favoriteIds.has(id));
 $("#detailScroll").scrollTop=0;$(".detail-panel").focus();
 if(!fromHash)history.pushState(null,"","#fiche/"+encodeURIComponent(id));
@@ -134,8 +200,8 @@ $("#detailOverlay").hidden=true;document.body.classList.remove("modal-open");cur
 }
 $("#closeDetail").addEventListener("click",()=>closeItem());
 $("#overlayBackdrop").addEventListener("click",()=>closeItem());
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&current)closeItem();if(current&&e.key==="Tab"){const focusable=$$('button,a[href],input',$(".detail-panel")).filter(x=>!x.disabled&&x.getClientRects().length);if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
-$("#detailScroll").addEventListener("click",e=>{const btn=e.target.closest("[data-related]");if(btn)openItem(btn.dataset.related)});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&current)closeItem();if(current&&(e.key==="ArrowLeft"||e.key==="ArrowRight")&&!["INPUT","SELECT","TEXTAREA"].includes(document.activeElement?.tagName)){e.preventDefault();stepMove(e.key==="ArrowRight"?1:-1)}if(current&&e.key==="Tab"){const focusable=$$('button,a[href],input',$(".detail-panel")).filter(x=>!x.disabled&&x.getClientRects().length);if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+$("#detailScroll").addEventListener("click",e=>{const btn=e.target.closest("[data-related]");if(btn){openItem(btn.dataset.related);return}const jump=e.target.closest("[data-scroll]");if(jump){const target=document.getElementById(jump.dataset.scroll);if(target)target.scrollIntoView({behavior:"smooth",block:"start"})}});
 $("#favoriteBtn").addEventListener("click",()=>{if(!current)return;if(favoriteIds.has(current))favoriteIds.delete(current);else favoriteIds.add(current);persist();const fav=favoriteIds.has(current);$("#favoriteBtn").textContent=fav?"★":"☆";$("#favoriteBtn").classList.toggle("is-fav",fav);render();toast(fav?"Ajouté aux favoris":"Retiré des favoris")});
 $("#shareBtn").addEventListener("click",async()=>{if(!current)return;const url=location.origin+location.pathname+"#fiche/"+encodeURIComponent(current);try{await navigator.clipboard.writeText(url);toast("Lien copié")}catch{toast("Lien : "+url)}});
 function syncHash(){const match=decodeURIComponent(location.hash).match(/^#fiche\/(.+)$/);if(match){if(match[1]!==current)openItem(match[1],{fromHash:true})}else if(current)closeItem({fromHash:true})}
