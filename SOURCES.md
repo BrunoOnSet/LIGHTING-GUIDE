@@ -96,7 +96,30 @@ La V1.1 ajoute des dossiers techniques (fichiers data-pro-xxx.js) comprenant plu
 
 
 
-## Atlas des Situations — V1.2 (photographies et plans de tournages)
+## Situations V1.3 — cinq tournages indépendants
+
+L'ancienne interface associait parfois la même production à plusieurs thèmes techniques, ce qui répétait les photographies. Le problème est corrigé à la source : un **cas de tournage correspond à une seule fiche Situation** et chaque fiche affiche exactement trois documents d'un seul tournage : plan de feu, photo de plateau et photogramme.
+
+Sélection affichée :
+1. Josh White — *The Bar* (bar nocturne).
+2. Grant MacAllister — *Nights Crawling* (appartement).
+3. Jess Hall ASC — *The Fantastic Four: First Steps*, Times Square scène 54.
+4. Jess Hall ASC — *The Fantastic Four: First Steps*, Worldship scène 83 (autre plateau).
+5. Grant MacAllister — *Gibson Songbook: Fantastic Negrito* (interview).
+
+**Contrôle automatisé :** cinq identifiants de tournage distincts, quinze URL d'images principales distinctes, un plan publié, une photo de plateau et une image tournée par étude. Les détails des scènes doivent être validés en consultant les sources originales ; deux documents d'un même tournage ne sont pas nécessairement capturés sur la même prise.
+
+Les 27 autres configurations (faux jour, nuit américaine, dialogue, etc.) sont dorénavant rangées dans **Méthodes** et n'héritent plus des photos de ces cinq tournages. Les sources d'autres configurations repérées lors des recherches restent disponibles dans le code documentaire, sans attribution multiple dans l'interface.
+
+### Source et droits
+
+Ces photos sont liées depuis le site de leurs auteurs, non copiées dans le dépôt. Le chargement direct peut être bloqué ; un lien de consultation sur le site d'origine est proposé. Le hotlink n'établit pas de licence d'exploitation. Pour diffuser l'application et ces images publiquement de façon pérenne, obtenir les autorisations appropriées ou substituer des fichiers licenciés.
+
+### Archives des autres références V1.2
+
+Les études ci-dessous restent des pistes documentaires mais ne sont plus transformées automatiquement en Situations supplémentaires. Certaines ne possèdent pas les trois documents authentifiés.
+
+
 
 **Règle de provenance :** on n'associe jamais un plan de feu, un BTS et un photogramme appartenant à trois productions différentes comme s'ils appartenaient au même tournage. Pour chaque étude, le lecteur distingue les pièces réellement publiées par un directeur photo, les vues du même décor mais d'une autre prise et, lorsque nécessaire, un **schéma pédagogique BOS explicitement signalé**. La description de la position et de l'impact des sources est une analyse éditoriale fondée sur les explications et le plan publiés ; aucun lux ni distance inconnue ne sont inventés.
 
