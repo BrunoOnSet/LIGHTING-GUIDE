@@ -335,9 +335,9 @@ window.BOS_VISUAL_CASES={
   },
   {
    "role": "frame",
-   "title": "Image filmée — caméra A",
-   "url": "https://images.squarespace-cdn.com/content/v1/658dd67376183e0399b95ec5/1710796120070-2SFFBL6PL02G01CV06HO/Interview_A_Cam.png",
-   "caption": "Photogramme de l'interview du musicien, publié par l'auteur.",
+   "title": "Image filmée — caméra D",
+   "url": "https://images.squarespace-cdn.com/content/v1/658dd67376183e0399b95ec5/1710796202903-D1IZ5Z3369I4F8I3UUO6/Interview_D_Cam.png",
+   "caption": "Gros plan caméra D de la même interview, publié par le DP. Valeur de cadre différente de la prévisualisation.",
    "relation": "même tournage / image caméra"
   }
  ],
