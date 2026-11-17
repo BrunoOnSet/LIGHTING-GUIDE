@@ -241,3 +241,8 @@
 .case-takeaway p{font-size:13px}
 .case-disclosure{padding:0 15px 22px}
 }
+
+
+.case-photo-failed{display:flex;align-items:center;justify-content:center;padding:18px;background:var(--soft);color:var(--accent);text-decoration:none;text-align:center}
+.case-photo-error{font-size:12px;font-weight:750;line-height:1.6}
+.case-photo-failed .case-zoom{display:none}
