@@ -97,3 +97,11 @@
 .pro-anchors{margin-bottom:5px}
 .pro-mini-kit button{font-size:9px}
 }
+
+
+.quick-access{display:flex;align-items:center;gap:19px;margin-top:23px;padding:17px 0 6px;border-top:1px solid var(--line)}
+.quick-access>span{font-size:9px;color:var(--accent);font-weight:800;letter-spacing:.09em;white-space:nowrap}
+.quick-items{display:flex;flex-wrap:wrap;gap:7px}
+.quick-items button{font-size:10px;padding:7px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-weight:700}
+.quick-items button:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:700px){.quick-access{display:block}.quick-access>span{display:block;margin-bottom:12px}.quick-items{gap:6px}}
