@@ -58,7 +58,7 @@ for(const item of chosen){
   assert(!chosenCases.has(item.study.id),'Tournage affiché plusieurs fois : '+item.study.id);
   chosenCases.add(item.study.id);
   assert(item.study.media?.length===3,'Triptyque absent : '+item.id);
-  assert.deepEqual(item.study.media.map(p=>p.role).sort(),['bts','frame','plan'],'Documents mal classés : '+item.id);
+  assert.equal(item.study.media.map(p=>p.role).sort().join(','),'bts,frame,plan','Documents mal classés : '+item.id);
   for(const media of item.study.media){
     assert(media.url?.startsWith('https://'),'Image externe manquante : '+item.id);
     assert(!photoUrls.has(media.url),'Photo réutilisée dans plusieurs Situations : '+media.url);
