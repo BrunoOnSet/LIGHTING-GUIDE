@@ -1,74 +1,56 @@
-# BOS — LIGHTING GUIDE
+# BOS — LIGHTING GUIDE V2
 
-Carnet technique personnel de directeur de la photographie, avec dossiers de mise en lumière, diagnostics, sources et choix de projecteurs, rattaché à Bruno OnSet.
+Carnet personnel de révision pour directeur de la photographie expérimenté. La V2 ne cherche plus à enseigner les bases de l’éclairage : elle sert à réactiver des principes précis, du vocabulaire de plateau et des alternatives de mise en lumière avant un tournage.
 
 ## Déploiement
 
-Le dépôt est une application statique sans compilation, sans framework ni serveur.
+Application statique sans compilation.
 
-- **Cloudflare Pages** → connexion au dépôt `BrunoOnSet/LIGHTING-GUIDE`.
-- **Build command** : laisser vide.
-- **Build output directory** : `/` (racine du dépôt). Selon l'interface Cloudflare, laisser ce champ vide pour un site statique directement à la racine.
-- **Production branch** : `main`.
+- **Cloudflare Pages** : dépôt `BrunoOnSet/LIGHTING-GUIDE`
+- **Production branch** : `main`
+- **Build command** : vide
+- **Build output directory** : racine du dépôt
 
-En prévisualisation locale, servir le dossier par HTTP : `python3 -m http.server 8000`, puis ouvrir http://localhost:8000/. Le simple mode `file://` peut limiter la recherche d'images externes et le service worker.
+Une modification de `main` déclenche donc le redéploiement si la connexion Cloudflare Pages reste active.
 
-## Fichiers
+## V2 — structure affichée
 
-- `index.html` : interface
-- `style.css` : design BOS responsive
-- `data.js` : sources documentaires et index des photographies
-- `data-techniques.js`, `data-situations.js`, `data-projecteurs.js`, `data-accessoires.js` : référentiel de fiches
-- `data-pro.js`, `data-pro-extra.js`, `data-pro-final.js`, `data-pro-methods.js` : dossiers professionnels, configurations alternatives, colorimétrie, pièges, contrôles et liens matériel
-- `data-method-tips.js` : conseils de chefs opérateurs attribués et sources originales
-- `app.js` : recherche, filtres, favoris, bulles Méthodes et fiches Situations
-- `manifest.webmanifest`, `sw.js`, `icon.svg` : PWA
-- `SOURCES.md` : sources, droits d'image et limites
+La page publique ne charge plus les anciens catalogues V1. Elle utilise :
 
-## Méthodes V1.4 — consultation rapide
+- **Principes** : phénomènes séparés des recettes — taille angulaire, fall-off, shadow transfer, ambient floor, spectre, réponse spéculaire, exposition.
+- **Méthodes** : book light, bounce, negative/passive fill, CRLS, far-side key, overhead base, zone lighting, practical augmentation, cross-key, soustraction en extérieur, etc.
+- **Situations** : cinq tournages documentés avec plan de feu, BTS, image finale et lecture source par source.
+- **Cas de plateau** : contraintes à résoudre avant d’ouvrir trois pistes de travail et leurs compromis.
+- **Vocabulaire** : termes lumière, grip, staging et colorimétrie utilisés sur les plateaux.
+- **Matériel** : surfaces et outils décrits par leur effet réel dans le trajet lumineux.
 
-Les **62 fiches Méthodes** s'affichent verticalement en **bulles repliables**, fermées par défaut et indépendantes les unes des autres. Filtres : Toutes, Méthodes, Configurations types.
+Les fiches sont verticales et repliables. Le bouton **Fiche au hasard** permet de feuilleter l’application comme un carnet de révision.
 
-Chaque bulle ouverte présente une seule indication pratique, puis les conseils professionnels réellement retrouvés, avec nom et lien vers l'auteur. Lorsque la fiche dispose d'une vraie photographie documentaire, elle reste visible avec son crédit et son lien source. **Aucun schéma généré par BOS, aucune image de substitution ni longue liste numérotée ne figure dans Méthodes.**
+## Règle éditoriale
 
-Au démarrage, **35 conseils sourcés** concernent **33 méthodes**. Ce sont des synthèses éditoriales françaises, pas des citations. Lorsque la provenance d'un conseil n'est pas vérifiable, aucun nom de chef opérateur n'est attribué.
+Une fiche doit apporter au moins une des choses suivantes :
 
-Les favoris fonctionnent dans les bulles. Les raccourcis et liens de méthode utilisent des adresses `#methode/<id>` et ouvrent directement la bonne bulle, sans passer par les anciennes fiches à schéma.
+1. une nuance technique facile à oublier ;
+2. un terme professionnel à garder actif ;
+3. une méthode ou un dispositif réellement exploitable ;
+4. une autre manière de penser le blocking, le décor ou le contraste.
 
-Le module `data-method-tips.js` conserve les notes et les URL de référence. Les quatre photographies existantes sont hébergées par leurs auteurs ; leur affichage et réutilisation publique dépendent des sites sources et des droits applicables.
-## Parcours
+Les Méthodes ne contiennent **aucun schéma BOS inventé**. Les visuels des Situations proviennent uniquement de tournages documentés et restent chargés depuis leurs publications d’origine.
 
-La recherche croise les quatre rubriques dès qu'un terme est saisi ; les filtres de catégories agissent sur les résultats. Les favoris sont locaux. Les fiches de situation détaillent une séquence de mise en place, les projecteurs décrivent leurs usages, les accessoires sont expliqués en terminologie FR/EN et les schémas représentent le principe en plan, non des implantations constructibles au centimètre.
+## Fichiers V2
 
+- `index.html` : interface et six rubriques
+- `style.css` : UI responsive
+- `data-v2.js` : contenu éditorial V2
+- `data-visual-cases.js` : archive des vrais tournages, plans et BTS
+- `app.js` : recherche globale, accordéons, cas de plateau, tirage aléatoire
+- `sw.js`, `manifest.webmanifest` : PWA / cache
+- `tests/verify.mjs` : contrôle de la structure V2 et des 15 visuels distincts
 
-## V1.3 — Situations réelles, une seule fois
+Les anciens fichiers V1 restent présents dans le dépôt comme archive de travail, mais ne sont plus chargés par `index.html`.
 
-**Situations** contient cinq études de tournages réels. Chaque carte correspond à un **dispositif distinct**, avec un **plan d'éclairage publié par son auteur**, une **photo du plateau du même tournage**, une **image tournée**, et une lecture claire de chaque source : emplacement, fonction et conséquence sur le rendu.
+## Sources principales
 
-Les cinq études retenues sont :
+Le contenu V2 renvoie notamment vers American Cinematographer, ARRI et Lightbridge lorsque la fiche dépend d’un terme, d’un test ou d’une méthode documentée. Les liens sont affichés directement dans les fiches concernées.
 
-- *The Bar* — Josh White (plan large, intérieur nuit).
-- *Nights Crawling* — Grant MacAllister (appartement dystopique).
-- *The Fantastic Four: First Steps* — Jess Hall ASC, Times Square (scène 54).
-- *The Fantastic Four: First Steps* — Jess Hall ASC, Worldship (scène 83, autre décor / photos distinctes).
-- *Gibson Songbook: Fantastic Negrito* — Grant MacAllister (interview).
-
-**Aucune photographie du triptyque principal n'est répétée entre deux Situations.** Le plan large et le gros plan de *The Bar* sont regroupés dans une même étude, plutôt que comptés comme deux situations. Les schémas ne sont jamais attribués à un autre tournage.
-
-La rubrique **Méthodes** conserve les 35 principes d'éclairage et les **27 anciennes configurations types**, classées ici comme connaissances techniques (faux jour, nuit américaine, mouvement d'acteurs, etc.). Leurs dossiers professionnels restent accessibles, mais ils ne réutilisent plus les photos des tournages de Situations. Ce sont des configurations possibles, pas des plans de production attribués à un auteur.
-
-La navigation précédente / suivante et le sélecteur sont maintenus. Les photos sont hébergées par leurs auteurs ; l'affichage sur une page publique reste soumis aux conditions des droits photographiques et aux éventuelles protections contre le chargement distant.
-
-## Organisation technique
-
-- `data-shoots.js` sélectionne cinq études distinctes dans l'archive documentaire, puis déplace les configurations génériques vers Méthodes.
-- `data-visual-cases.js` conserve les sources et notes d'archive, **sans aucune association automatique d'un même tournage à plusieurs situations**.
-- `app.js` construit la page courte : contexte, trois visuels, sources analysées poste par poste et point à retenir.
-- `tests/verify.mjs` contrôle notamment qu'il existe cinq situations, 15 images distinctes, un plan de feu + une photo de plateau + un résultat par fiche, et aucun doublon d'URL.
-- `sw.js` assure la consultation hors ligne de l'interface et des textes. Les photographies hébergées ailleurs requièrent une connexion Internet.
-
-## Conditions d'utilisation
-
-Voir [SOURCES.md](SOURCES.md) pour les sources, les licences visuelles, les limites des fiches et la sécurité. Toutes les images intégrées sont des références externes, sans fichiers de photos copiés dans le dépôt. L'utilisation publique des images soumises au droit d'auteur reste à autoriser.
-
-© Bruno OnSet — contenus éditoriaux et interface.
+© Bruno OnSet
