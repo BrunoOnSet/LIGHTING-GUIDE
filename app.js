@@ -151,14 +151,14 @@ return '<article class="pro-setup"><div class="pro-setup-top"><span class="pro-n
 const problems=list(p.traps).map(v=>'<article class="pro-issue"><div class="pro-issue-title"><span>PIÈGE</span><h4>'+esc(v.symptom||"")+'</h4></div><div><strong>Cause probable</strong><p>'+esc(v.cause||"")+'</p><strong>Diagnostic / correction</strong><p>'+esc(v.fix||"")+'</p></div></article>').join("");
 const citations=list(p.refs).map(id=>PRO_SOURCES[id]).filter(Boolean).map(v=>'<a target="_blank" rel="noopener noreferrer" href="'+esc(v.url)+'">'+esc(v.name)+' ↗</a>').join("");
 return '<div class="pro-intro"><span>FICHE DE TRAVAIL · '+esc(p.level||"CHEF OPÉRATEUR")+'</span><h3>'+esc(p.headline||"")+'</h3><p>'+esc(p.intent||"")+'</p></div>'+
-proAnchorNav()+proDiagram(item)+
+proAnchorNav()+(photoFor(item)?showPhotograph(item):"")+proDiagram(item)+
 '<section id="pro-configs" class="pro-section"><div class="pro-chapter"><span>01</span><div><h3>Configurations de plateau</h3><p>Plusieurs réponses possibles à une même intention. Les implantations ne sont pas des prescriptions de matériel.</p></div></div><div class="pro-setups">'+setups+'</div></section>'+
 '<section id="pro-camera" class="pro-section"><div class="pro-chapter"><span>02</span><h3>Caméra, exposition & essais</h3></div>'+proList(p.camera)+'</section>'+
 '<section id="pro-color" class="pro-section"><div class="pro-chapter"><span>03</span><h3>Colorimétrie & carnation</h3></div>'+proList(p.color)+'</section>'+
 '<section id="pro-traps" class="pro-section"><div class="pro-chapter"><span>04</span><h3>Pièges et dépannage</h3></div><div class="pro-issues">'+problems+'</div></section>'+
 '<section id="pro-kit" class="pro-section"><div class="pro-chapter"><span>05</span><h3>Projecteurs adaptés / usages</h3></div><p class="pro-preface">Exemples de projecteurs actuels ou encore présents dans les parcs, à valider chez le loueur. Les puissances ne remplacent pas les photométries correspondant aux optiques choisies.</p><div class="pro-equips">'+proEquip(item)+'</div></section>'+
 '<section id="pro-checks" class="pro-section"><div class="pro-chapter"><span>06</span><h3>Contrôles avant prise</h3></div><ul class="pro-checklist">'+list(p.controls).map(x=>'<li><span aria-hidden="true">□</span>'+esc(x)+'</li>').join("")+'</ul></section>'+
-'<section id="pro-evidence" class="pro-section"><div class="pro-chapter"><span>07</span><h3>Références professionnelles</h3></div><div class="pro-ref-list">'+citations+'</div><p class="pro-disclaimer">Les exemples de configuration sont des propositions éditoriales BASÉES sur les principes documentés, et non des plans de tournage attribués aux professionnels cités. Contrôler les spécifications et la documentation de sécurité du matériel réel.</p></section>';
+'<section id="pro-evidence" class="pro-section"><div class="pro-chapter"><span>07</span><h3>Références professionnelles</h3></div><div class="pro-ref-list">'+citations+'</div><p class="pro-disclaimer">Les exemples de configuration sont des propositions éditoriales basées sur les principes documentés, et non des plans de tournage attribués aux professionnels cités. Contrôler les spécifications et la documentation de sécurité du matériel réel.</p></section>';
 }
 function updateStepper(item){
 const members=DATA[item.type]||[],index=members.findIndex(x=>x.id===item.id),n=members.length;
@@ -181,10 +181,10 @@ $("#itemJump").addEventListener("change",e=>{if(find(e.target.value))openItem(e.
 function detailHTML(item){
 let isTech=item.type==="techniques"||item.type==="situations";
 const advanced=!!PRO[item.id];
-return '<div class="detail-kicker">'+esc(SECTIONS[item.type])+' / '+esc(item.group)+'</div><h2 class="detail-title" id="detailTitle">'+esc(item.title)+'</h2><p class="detail-summary">'+esc(item.summary)+'</p><div class="detail-labels">'+(item.brand?'<span>'+esc(item.brand)+'</span>':"")+'<span>'+esc(item.group)+'</span><span>'+(advanced?"Carnet DP · dossier technique":isTech?"Installation illustrée":"Référence de plateau")+'</span></div>'+(advanced?proDetail(item)+'<details class="pro-legacy"><summary>Fiche synthétique & photographie documentaire</summary>'+showPhotograph(item)+mainDetails(item)+(isTech?diagram(item.diagram):"")+'</details>':showPhotograph(item)+(isTech?diagram(item.diagram):"")+mainDetails(item)+materialSpecs(item)+(isTech?"":diagram(item.diagram)))+related(item)+sourceList(item);
+return '<div class="detail-kicker">'+esc(SECTIONS[item.type])+' / '+esc(item.group)+'</div><h2 class="detail-title" id="detailTitle">'+esc(item.title)+'</h2><p class="detail-summary">'+esc(item.summary)+'</p><div class="detail-labels">'+(item.brand?'<span>'+esc(item.brand)+'</span>':"")+'<span>'+esc(item.group)+'</span><span>'+(advanced?"Carnet DP · dossier technique":isTech?"Installation illustrée":"Référence de plateau")+'</span></div>'+(advanced?proDetail(item)+'<details class="pro-legacy"><summary>Fiche synthétique & photographie documentaire</summary>'+(photoFor(item)?"":showPhotograph(item))+mainDetails(item)+(isTech?diagram(item.diagram):"")+'</details>':showPhotograph(item)+(isTech?diagram(item.diagram):"")+mainDetails(item)+materialSpecs(item)+(isTech?"":diagram(item.diagram)))+related(item)+sourceList(item);
 }
 function openItem(id,{fromHash=false}={}){
-const item=find(id);if(!item)return;previousFocus=document.activeElement;current=id;loadingMedia++;
+const item=find(id);if(!item)return;if(!current)previousFocus=document.activeElement;current=id;loadingMedia++;
 $("#detailBreadcrumb").textContent="BOS / "+SECTIONS[item.type].toUpperCase()+" / FICHE";
 $("#detailScroll").innerHTML=detailHTML(item);
 updateStepper(item);
