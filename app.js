@@ -152,7 +152,7 @@ const shortlist=VISUAL.situationPriority?.[id]||[];
 return shortlist.map(key=>CASES.get(key)).filter(Boolean);
 }
 function mediaFigure(img,source){
-const label={plan:"01 / PLAN DE FEU",bts:"02 / PHOTO DU PLATEAU",frame:img.relation?.includes("pas image finale")?"03 / AUTRE PHOTO DU SET":"03 / IMAGE / RÉSULTAT"}[img.role]||"PHOTO DOCUMENTAIRE";
+const label={plan:"01 / PLAN DE FEU",bts:img.relation?.includes("photogramme")?"02 / IMAGE TÉMOIN":"02 / PHOTO DU PLATEAU",frame:img.relation?.includes("pas image finale")?"03 / AUTRE PHOTO DU SET":"03 / IMAGE / RÉSULTAT"}[img.role]||"PHOTO DOCUMENTAIRE";
 const image=img.url?'<a class="case-photo-link" href="'+esc(img.url)+'" target="_blank" rel="noopener noreferrer" title="Ouvrir l’image à sa taille originale"><img class="case-photo" src="'+esc(img.url)+'" alt="'+esc(img.title)+'" loading="lazy" referrerpolicy="no-referrer"><span class="case-zoom" aria-hidden="true">Agrandir ↗</span></a>':'<div class="case-unavailable"><strong>Plan de feu original non publié</strong><p>Le plan pédagogique BOS de cette fiche n’est pas une photographie du plan de production.</p></div>';
 return '<figure class="case-photo-item"><div class="case-photo-heading"><b>'+label+'</b><span>'+esc(img.relation||"")+'</span></div>'+image+'<figcaption><strong>'+esc(img.title)+'</strong><span>'+esc(img.caption)+'</span></figcaption></figure>';
 }
