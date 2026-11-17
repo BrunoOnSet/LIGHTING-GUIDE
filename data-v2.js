@@ -11,8 +11,8 @@ window.BOS_V2={
       kicker:"GEOMETRIE DE SOURCE",
       summary:"La dureté ne dépend pas d’une catégorie de projecteur mais de la taille apparente de la source depuis le sujet.",
       bullets:[
-        "Une petite source physique peut être dure même proche. Une grande source devient plus dure lorsqu’on l’éloigne suffisamment parce que sa taille angulaire diminue.",
-        "La variable à lire est l’angle sous lequel le sujet voit la surface émettrice, pas simplement la distance lampe–sujet.",
+        "Même près du sujet, une petite source peut produire des ombres nettes. Éloigner une grande source peut au contraire durcir ses ombres, car sa taille apparente diminue.",
+        "Ce qui compte, c’est la taille apparente de la surface lumineuse vue depuis le sujet, et pas seulement la distance au projecteur.",
         "Une source peut être douce et très directionnelle : douceur et direction ne sont pas des synonymes."
       ],
       watch:["Ne pas confondre durcir une source avec augmenter son contraste global.","Évaluer le bord d’ombre sur le visage et sur le décor, pas uniquement la sensation générale du plan."],
@@ -24,21 +24,21 @@ window.BOS_V2={
       kicker:"INVERSE SQUARE",
       summary:"Rapprocher une source augmente le gradient d’exposition dans l’espace ; cela ne la rend pas automatiquement plus dure.",
       bullets:[
-        "À taille physique constante, rapprocher la source la rend généralement plus grande angulairement donc plus douce, tout en augmentant le fall-off entre deux distances sujet.",
+        "À taille physique constante, rapprocher la source adoucit généralement les ombres, mais augmente aussi l’écart d’éclairement entre un acteur proche et un acteur plus éloigné.",
         "Éloigner une source homogénéise davantage une zone de jeu ; si sa taille apparente devient faible, l’ombre peut simultanément se durcir.",
-        "Pour un travelling ou deux acteurs à des distances différentes, penser ratio de distances avant de penser puissance."
+        "Pour un travelling ou deux acteurs à des distances différentes, comparer d’abord leurs distances à la source avant d’augmenter sa puissance."
       ],
       watch:["Une grande source proche peut donner un visage très doux et pourtant un fond qui tombe très vite.","Un niveau photométrique identique sur une marque ne garantit pas le même gradient sur le mouvement."],
       tags:["fall-off","inverse square","blocking","distance"]
     },
     {
       id:"filled-frame",
-      title:"La diffusion n’est une grande source que si elle est remplie",
+      title:"Un grand cadre de diffusion doit être correctement éclairé",
       kicker:"SOURCE EFFECTIVE",
-      summary:"Un 12×12 n’est pas automatiquement une source 12×12. La surface utile est celle réellement excitée et visible depuis le sujet.",
+      summary:"Un cadre de diffusion de 12 × 12 pieds ne produit pas forcément une source lumineuse de cette taille : seule la surface réellement éclairée compte.",
       bullets:[
-        "Un COB trop proche derrière un grand cadre peut créer un hotspot : la source effective reste plus petite que le cadre.",
-        "Reculer, ouvrir l’optique, doubler les têtes ou bouncer avant le cadre peut augmenter l’uniformité de la surface émettrice.",
+        "Un COB placé trop près d’un grand cadre peut créer un point chaud au centre : la surface lumineuse utile reste alors plus petite que le cadre.",
+        "Reculer le projecteur, élargir le faisceau, utiliser plusieurs sources ou faire un rebond avant le cadre permet de mieux répartir la lumière.",
         "Depuis la position du sujet, regarder la diffusion elle-même est souvent plus instructif que regarder le projecteur."
       ],
       watch:["Contrôler les fuites de lumière directe en bord de cadre.","Une grille sur softbox augmente le contrôle du spill mais ne change pas magiquement la taille physique de la source."],
@@ -47,11 +47,11 @@ window.BOS_V2={
     },
     {
       id:"shadow-transfer",
-      title:"Shadow transfer : lire umbra, penumbra et densité",
+      title:"Lire les transitions et la densité des ombres",
       kicker:"QUALITE D’OMBRE",
       summary:"Deux sources peuvent sembler également ‘soft’ tout en produisant des transitions et des densités d’ombre différentes.",
       bullets:[
-        "La longueur de la pénombre renseigne sur la taille apparente ; la densité de l’umbra dépend aussi du fill ambiant et des réflexions du décor.",
+        "La largeur de la pénombre renseigne sur la taille apparente de la source. La densité de l’ombre dépend aussi de la lumière d’appoint et des réflexions du décor.",
         "Bounce, diffusion et book light ne donnent pas nécessairement la même structure d’ombre même à surface comparable.",
         "Pour juger la lumière sur un visage, observer les ombres du nez, de la mâchoire et des orbites est plus précis que de simplement dire « c’est doux »."
       ],
@@ -61,12 +61,12 @@ window.BOS_V2={
     },
     {
       id:"direction-vs-softness",
-      title:"Direction ≠ douceur",
+      title:"Direction et douceur sont deux réglages différents",
       kicker:"VECTOR DE LUMIERE",
       summary:"Une source très large peut conserver une direction de key très lisible si son centre photométrique et son contrôle sont bien placés.",
       bullets:[
         "Un book light latéral peut être extrêmement doux et rester clairement far-side.",
-        "La direction se lit par la géographie des valeurs et des ombres ; la douceur par la transition.",
+        "La direction se lit dans la répartition des zones éclairées et des ombres. La douceur se juge à la largeur des transitions.",
         "Les grids, skirts, flags et négatifs travaillent souvent la direction plus que la douceur."
       ],
       watch:["Éviter de ‘ramollir’ une source en ajoutant du fill caméra : cela réduit surtout le modelé.","Séparer la question ‘où vient la lumière ?’ de ‘quelle est la transition d’ombre ?’."],
