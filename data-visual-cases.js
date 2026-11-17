@@ -303,6 +303,78 @@ window.BOS_VISUAL_CASES={
  ],
  "takeaway": "Une même image peut passer de dramatique à lumineuse uniquement en changeant la profondeur des ombres. Les keys et les ombres restent la structure ; le fill décide de l'atmosphère.",
  "caveat": "La page de l'ASC montre des photogrammes comparatifs, et non une photographie BTS de l'installation. Elle concerne un atelier classique, dont les principes restent utilisables avec les LED actuelles."
+},
+{
+ "id": "grant-interview",
+ "title": "Entretien au bar — key douce, accent froid et profondeur",
+ "author": "Grant MacAllister, directeur de la photographie",
+ "production": "Gibson Songbook • Fantastic Negrito",
+ "year": "Breakdown de 2023",
+ "match": "documente",
+ "relevance": [
+  "interview",
+  "low-ceiling",
+  "practical"
+ ],
+ "context": "Grant MacAllister explique son interview dans un bar à tonalité chaude. Prévisualisation 3D de l'implantation, BTS avec les panneaux et cadre de tournage. Il limite volontairement les ampoules visibles à l'avant et utilise trois familles de sources aux fonctions différentes.",
+ "source": "https://www.grantmacallister.com/blog/2023/05/05/cinematography-breakdown-songbook",
+ "media": [
+  {
+   "role": "plan",
+   "title": "Prévisualisation de l'éclairage",
+   "url": "https://images.squarespace-cdn.com/content/v1/658dd67376183e0399b95ec5/109bb2c1-7c7e-4fcd-bb9c-b4f19be03ef6/GD_BAR_092222.jpg",
+   "caption": "Prévisualisation Set.A.Light publiée par le DP, avec placement des sources et de la caméra.",
+   "relation": "même scène / prévisualisation originale"
+  },
+  {
+   "role": "bts",
+   "title": "BTS de l'interview au bar",
+   "url": "https://images.squarespace-cdn.com/content/v1/658dd67376183e0399b95ec5/1710796196579-C5ABN090XOL5NZF6OS6G/IMG_0411.jpg",
+   "caption": "Plan de plateau réel : sources, caméra et décor du bar.",
+   "relation": "même tournage / BTS"
+  },
+  {
+   "role": "frame",
+   "title": "Image filmée — caméra A",
+   "url": "https://images.squarespace-cdn.com/content/v1/658dd67376183e0399b95ec5/1710796120070-2SFFBL6PL02G01CV06HO/Interview_A_Cam.png",
+   "caption": "Photogramme de l'interview du musicien, publié par l'auteur.",
+   "relation": "même tournage / image caméra"
+  }
+ ],
+ "positions": [
+  {
+   "name": "A · LiteMat 4 + Snapgrid",
+   "where": "Hors champ, sur un côté du sujet pour la key.",
+   "purpose": "Créer un enveloppement doux mais contrôlé grâce à la grille ; la peau reste modelée.",
+   "consequence": "Le grid réduit les fuites sur les bouteilles et le décor tout en gardant la grande surface diffuse du LiteMat."
+  },
+  {
+   "name": "B · Aputure 300x plus froid",
+   "where": "Second axe de key, légèrement plus dur et plus froid.",
+   "purpose": "Apporter un accent de volume sur le corps et une texture différente de la grande key.",
+   "consequence": "L'opposition des tailles apparentes évite un key trop uniforme ; trop de puissance créerait une seconde ombre contradictoire."
+  },
+  {
+   "name": "C · Aputure Nova P300C en back edge",
+   "where": "Source de détachement derrière le sujet ; réglage finalement plus froid que prévu.",
+   "purpose": "Séparer le personnage du bar chaud et renforcer la profondeur.",
+   "consequence": "Le changement de couleur, décrit par le DP, est une décision de tournage : les plans de prévisualisation ne figent pas chaque teinte."
+  },
+  {
+   "name": "D · Practicals abaissées + ampoules retirées",
+   "where": "Lampes du bar, particulièrement celles devant le sujet.",
+   "purpose": "Préserver l'ambiance du lieu tout en supprimant un fill avant qui aplatirait la face.",
+   "consequence": "La lumière visible sert de motivation et de profondeur ; elle n'a pas à devenir la key."
+  },
+  {
+   "name": "E · Haze léger et bougies au premier plan",
+   "where": "Décor et objets brillants devant et derrière le sujet.",
+   "purpose": "Ajouter des plans de profondeur et des bokehs sans multiplier les projecteurs.",
+   "consequence": "Le haze lave les noirs s'il est trop dense ; les bougies sont des points visuels, pas la source principale de la peau."
+  }
+ ],
+ "takeaway": "Sur une interview, mélanger une grande key juponnée/grillée, un accent plus net et un rim froid peut créer du relief tout en conservant le fond chaud du lieu.",
+ "caveat": "Le schéma correspond à la prévisualisation de ce décor ; les réglages ont été ajustés sur le plateau. L'image caméra provient du même tournage, sans garantie d'une prise identique à la BTS."
 }
  ],
  situationPriority:{
@@ -326,6 +398,7 @@ window.BOS_VISUAL_CASES={
  "exterior-night":["hall-times-square"],
  "window-sun":["burum-classical"],
  "window-sun-sky":["burum-classical"],
- "studio-day":["burum-classical"]
+ "studio-day":["burum-classical"],
+ "interview":["grant-interview"]
  }
 };
