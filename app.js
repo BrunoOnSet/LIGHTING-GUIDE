@@ -152,7 +152,7 @@ const shortlist=VISUAL.situationPriority?.[id]||[];
 return shortlist.map(key=>CASES.get(key)).filter(Boolean);
 }
 function mediaFigure(img,source){
-const label={plan:"01 / PLAN DE FEU",bts:"02 / PHOTO DU PLATEAU",frame:"03 / IMAGE / RÉSULTAT"}[img.role]||"PHOTO DOCUMENTAIRE";
+const label={plan:"01 / PLAN DE FEU",bts:"02 / PHOTO DU PLATEAU",frame:img.relation?.includes("pas image finale")?"03 / AUTRE PHOTO DU SET":"03 / IMAGE / RÉSULTAT"}[img.role]||"PHOTO DOCUMENTAIRE";
 const image=img.url?'<a class="case-photo-link" href="'+esc(img.url)+'" target="_blank" rel="noopener noreferrer" title="Ouvrir l’image à sa taille originale"><img class="case-photo" src="'+esc(img.url)+'" alt="'+esc(img.title)+'" loading="lazy" referrerpolicy="no-referrer"><span class="case-zoom" aria-hidden="true">Agrandir ↗</span></a>':'<div class="case-unavailable"><strong>Plan de feu original non publié</strong><p>Le plan pédagogique BOS de cette fiche n’est pas une photographie du plan de production.</p></div>';
 return '<figure class="case-photo-item"><div class="case-photo-heading"><b>'+label+'</b><span>'+esc(img.relation||"")+'</span></div>'+image+'<figcaption><strong>'+esc(img.title)+'</strong><span>'+esc(img.caption)+'</span></figcaption></figure>';
 }
@@ -269,6 +269,11 @@ $("#detailOverlay").hidden=true;$("#detailOverlay").classList.remove("is-full-re
 $("#closeDetail").addEventListener("click",()=>closeItem());
 $("#overlayBackdrop").addEventListener("click",()=>closeItem());
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&current)closeItem();if(current&&(e.key==="ArrowLeft"||e.key==="ArrowRight")&&!["INPUT","SELECT","TEXTAREA"].includes(document.activeElement?.tagName)){e.preventDefault();stepMove(e.key==="ArrowRight"?1:-1)}if(current&&e.key==="Tab"){const focusable=$$('button,a[href],input',$(".detail-panel")).filter(x=>!x.disabled&&x.getClientRects().length);if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+$("#detailScroll").addEventListener("error",e=>{
+const img=e.target;if(!img||!img.matches||!img.matches(".case-photo, .case-extra-photo img"))return;
+const target=img.closest(".case-photo-link, .case-extra-photo a");
+if(target){target.classList.add("case-photo-failed");img.remove();const note=document.createElement("span");note.className="case-photo-error";note.textContent="Photo non chargée · consulter l’image chez l’auteur ↗";target.append(note)}
+},true);
 $("#detailScroll").addEventListener("click",e=>{const btn=e.target.closest("[data-related]");if(btn){openItem(btn.dataset.related);return}const jump=e.target.closest("[data-scroll]");if(jump){const target=document.getElementById(jump.dataset.scroll);if(target)target.scrollIntoView({behavior:"smooth",block:"start"})}});
 $("#favoriteBtn").addEventListener("click",()=>{if(!current)return;if(favoriteIds.has(current))favoriteIds.delete(current);else favoriteIds.add(current);persist();const fav=favoriteIds.has(current);$("#favoriteBtn").textContent=fav?"★":"☆";$("#favoriteBtn").classList.toggle("is-fav",fav);render();toast(fav?"Ajouté aux favoris":"Retiré des favoris")});
 $("#shareBtn").addEventListener("click",async()=>{if(!current)return;const url=location.origin+location.pathname+"#fiche/"+encodeURIComponent(current);try{await navigator.clipboard.writeText(url);toast("Lien copié")}catch{toast("Lien : "+url)}});
