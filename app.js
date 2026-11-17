@@ -18,7 +18,7 @@ const storage=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))?
 let favoriteIds=new Set(storage("bos-guide-favs-v1",[]));
 function persist(){try{localStorage.setItem("bos-guide-favs-v1",JSON.stringify([...favoriteIds]))}catch{}}
 function toast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("show");clearTimeout(toast._timer);toast._timer=setTimeout(()=>el.classList.remove("show"),2300)}
-function theme(mode){document.documentElement.dataset.theme=mode;document.querySelector('meta[name="theme-color"]').content=mode==="dark"?"#171d1b":"#f3f4f2";$("#themeBtn").setAttribute("aria-label",mode==="dark"?"Passer au thème clair":"Passer au thème sombre");try{localStorage.setItem("bos-guide-theme",mode)}catch{}}
+function theme(mode){document.documentElement.dataset.theme=mode;document.querySelector('meta[name="theme-color"]').content=mode==="dark"?"#171d1b":"#f3f4f2";$("#themeBtn").setAttribute("aria-label",mode==="dark"?"Passer au thème clair":"Passer au thème sombre");try{localStorage.setItem("bos-guide-theme",JSON.stringify(mode))}catch{}}
 theme(storage("bos-guide-theme","light"));
 $("#themeBtn").addEventListener("click",()=>theme(document.documentElement.dataset.theme==="light"?"dark":"light"));
 Object.keys(DATA).forEach(k=>{const n=$('[data-count="'+k+'"]');if(n)n.textContent=DATA[k].length+" fiches"});
