@@ -5,12 +5,12 @@ Dernière vérification documentaire : **17 novembre 2026**.
 ## Philosophie
 
 L'application distingue :
-1. **Méthodes** : qualités, directions et dispositifs de lumière (direct, bounce, book light, cove, fill, contrôle).
-2. **Situations** : problèmes concrets de mise en scène (faux jour, déplacements, nuit, voiture, 360°, plan-séquence).
+1. **Méthodes** : qualités, directions et configurations types de lumière (dont faux jour, nuit américaine, mouvements), sous forme de bulles repliables et de conseils professionnels attribués.
+2. **Situations** : études de tournage réelles, distinctes, avec plan publié, BTS et image tournée du même décor.
 3. **Projecteurs** : familles et références des parcs de cinéma, pas seulement matériel acheté neuf.
 4. **Accessoires** : vocabulaire professionnel français / anglais, fonctions et précautions.
 
-Les schémas sont des **dessins SVG originaux, pédagogiques, vus de dessus, non à l'échelle**. Ils ne simulent ni lux, ni effets photométriques, ni distances de sécurité. Les mots « classique » et « historique » permettent de distinguer des générations de matériel toujours rencontrées des sorties récentes sans prétendre que tous les modèles sont encore vendus neufs.
+La rubrique **Méthodes n'affiche aucun schéma BOS** : seules les photographies documentaires déjà identifiées, créditées et liées à leur source y sont proposées. Les autres parties de l'application peuvent contenir des diagrammes de principe non photométriques. Aucun schéma ne remplace une photographie de véritable plateau. Les mots « classique » et « historique » permettent de distinguer des générations de matériel toujours rencontrées des sorties récentes sans prétendre que tous les modèles sont encore vendus neufs.
 
 ## Fabricants et sources primaires
 
@@ -141,4 +141,24 @@ Les images distantes sont affichées avec crédits et liens vers les documents d
 
 En cas de hotlink bloqué, l'application affiche un lien vers l'image chez son auteur. Un plan reconstruit est **un schéma original** et doit toujours être identifié comme tel, pas présenté comme le plan de feu d'une production.
 
-Les Situations sans véritable ensemble documentaire complet conservent leur fiche technique et leurs schémas BOS, accompagnés d'un avertissement explicite. L'absence d'une vraie photo ne doit jamais être dissimulée avec une image IA ou une photo de plateau sans rapport.
+Les anciennes configurations génériques sont consultables dans **Méthodes**, sans schéma BOS et sans photo de plateau d'un film non relié. La rubrique Situations ne présente que cinq tournages distincts avec leurs propres documents.
+
+## Conseils professionnels attribués — Méthodes V1.4
+
+Les notes figurant dans les bulles Méthodes proviennent de **sources identifiées** et sont reformulées en français, sans emprunt textuel prolongé ni prétention à reproduire intégralement le travail des auteurs. Le module `data-method-tips.js` précise l'auteur et l'URL exacte de chaque conseil.
+
+Références professionnelles principales :
+
+- [Roger Deakins ASC, BSC — Cove lighting](https://www.rogerdeakins.com/forums/topic/cove-lightning/) : distance, chute, formes du rebond, équilibre des températures.
+- [Roger Deakins ASC, BSC — Cove light considerations](https://www.rogerdeakins.com/forums/reply/216988/) : préparer le plan large avant le serré.
+- [Roger Deakins ASC, BSC — Control on Empire of Light](https://www.rogerdeakins.com/forums/topic/the-soft-light-control-in-empire-of-light/) : drapeaux verticaux pour contenir le spill.
+- [Roger Deakins ASC, BSC — Sicario](https://theasc.com/post/the-film-book/sicario-interview-with-roger-deakins-asc-bsc/) : sources hors fenêtres, rebonds modulables, contrôle de la continuité.
+- [Stephen H. Burum ASC — Lighting a Set](https://theasc.com/article/lighting-a-set/) : placement du fill sur l'axe, maîtrise des ombres, cross-keys et place du boom.
+- [Jon Joffin ASC — Remote-Location Lighting](https://theasc.com/article/shot-craft-remote-location-lighting-with-jon-joffin-asc/) : negative fill et coupe du ciel même par temps couvert.
+- [Shane Hurlbut ASC — Book light](https://nofilmschool.com/2012/11/build-book-light-shane-hurlbut) : rebond puis diffusion et position du dernier cadre.
+- [Matt Porwoll — Diffusion & Bounce Test](https://www.mattporwoll.com/the-ultimate-diffusion-bounce-test) : comparaison des tailles et distances contrôlées.
+- [Janusz Kamiński ASC — Saving Private Ryan](https://theasc.com/article/saving-private-ryan-cinematography-kaminski/) : scène à la bougie et key stable face au fill scintillant.
+- [David Mullen ASC — Shooting Day for Night](https://www.rogerdeakins.com/forums/topic/shooting-day-for-night/) : nuit américaine et limites des lumières de décor en plein jour.
+- [Niki Waltl AAC — Capturing Navalny](https://theasc.com/article/capturing-navalny/) : SkyPanel, rebond muslin 1 × 1 m et practicals dans l'interview.
+
+**Photographies utilisées dans Méthodes** : quatre documents externes déjà présents dans le catalogue image (`book`, `bounce`, `cove`, `window`), avec crédits et pages sources dans `data.js`. Une photo inaccessible n'est pas remplacée par un SVG. La présentation des images et leur réutilisation publique sont soumises aux conditions des auteurs ; l'intégration en lien direct n'octroie pas de licence.
