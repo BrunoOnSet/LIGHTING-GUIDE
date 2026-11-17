@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
 
-const files=['data.js','data-techniques.js','data-situations.js','data-projecteurs.js','data-accessoires.js','data-pro.js','data-pro-extra.js','data-pro-final.js','data-pro-methods.js','data-visual-cases.js','data-shoots.js','app.js','sw.js'];
+const files=['data.js','data-techniques.js','data-situations.js','data-projecteurs.js','data-accessoires.js','data-pro.js','data-pro-extra.js','data-pro-final.js','data-pro-methods.js','data-visual-cases.js','data-shoots.js','data-method-tips.js','app.js','sw.js'];
 for (const file of files) {
   const code=fs.readFileSync(file,'utf8');
   new vm.Script(code,{filename:file});
@@ -85,6 +85,26 @@ for(const [id,caseList] of Object.entries(cases.situationPriority)){
 assert(fs.readFileSync('sw.js','utf8').includes('data-visual-cases.js'),'Atlas non mis en cache');
 assert(fs.readFileSync('app.js','utf8').includes('is-full-reader'),'Mode plein écran absent');
 console.log('Situations vérifiées : 5 tournages uniques et 15 photos distinctes, aucune réutilisation.');
+
+
+// Notes de chef op : pas de conseil non sourcé, ni de schéma généré dans les Méthodes.
+const dpTips=context.window.BOS_METHOD_TIPS||{};
+assert(Object.keys(dpTips).length>=25,'Pas assez de méthodes avec conseil de chef op sourcé');
+for(const [id,notes] of Object.entries(dpTips)){
+  assert(sections.techniques.some(x=>x.id===id),'Conseil attaché à une méthode inconnue : '+id);
+  assert(Array.isArray(notes)&&notes.length>0,'Conseils vides : '+id);
+  for(const note of notes){
+    assert(note.by&&note.text&&note.url?.startsWith('https://'),'Conseil non attribué ou source absente : '+id);
+    assert(note.text.length<500,'Conseil trop long : '+id);
+  }
+}
+const methodsJs=fs.readFileSync('app.js','utf8');
+assert(methodsJs.includes('function methodCard(item)'),'Bulles Méthodes non implémentées');
+assert(methodsJs.includes('class="method-bubble"'),'Accordéons Méthodes absents');
+assert(methodsJs.includes('if(item.type==="techniques"){openMethod(id,{fromHash});return}'),'Les Méthodes ne doivent plus s’ouvrir dans le panneau qui contient les schémas originaux');
+const styles=fs.readFileSync('style.css','utf8');
+assert(styles.includes('#cards.methods-list'),'Layout Méthodes vertical absent');
+console.log(Object.keys(dpTips).length+' Méthodes reçoivent des conseils DP avec liens sources, et les schémas sont exclus des bulles.');
 
 for(const [key,media] of Object.entries(context.window.BOS_MEDIA)){
   assert(media.url.startsWith('https://'),'Média sans HTTPS : '+key);
