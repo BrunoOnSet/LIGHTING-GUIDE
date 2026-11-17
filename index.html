@@ -3,101 +3,85 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f3f4f3">
-<meta name="description" content="BOS LIGHTING GUIDE — carnet technique de chef opérateur : configurations, pièges, projecteurs et colorimétrie de plateau.">
+<meta name="theme-color" content="#0e1110">
+<meta name="description" content="BOS LIGHTING GUIDE — carnet de révision professionnel pour directeur de la photographie : principes, méthodes, cas de plateau, vocabulaire et études réelles.">
 <title>BOS — LIGHTING GUIDE</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=1.4.0">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=2.0.0">
 </head>
 <body>
-<div class="app-shell">
+<div class="shell">
 <header class="topbar">
-<a class="brand" href="#accueil" aria-label="BOS — Accueil"><span class="brand-mark" aria-hidden="true"><img class="brand-logo" src="assets/logo-bos-header.jpg" alt=""></span><span class="brand-text"><small>Bruno OnSet</small><strong>LIGHTING GUIDE</strong></span></a>
-<div class="top-actions">
-<button class="icon-button" id="themeBtn" aria-label="Changer de thème" title="Mode sombre/clair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 15.2A8 8 0 018.8 4 8.2 8.2 0 1020 15.2Z"/></svg></button>
-<button class="install-btn" id="installBtn" hidden>Installer <span>↓</span></button>
-</div>
+  <a class="brand" href="#top" aria-label="BOS Lighting Guide">
+    <img src="assets/logo-bos-header.jpg" alt="" class="logo">
+    <span><small>Bruno OnSet</small><strong>LIGHTING GUIDE</strong></span>
+  </a>
+  <div class="top-actions">
+    <button id="randomBtn" class="ghost-btn" type="button">Fiche au hasard</button>
+    <button id="themeBtn" class="icon-btn" type="button" aria-label="Changer de thème">◐</button>
+    <button id="installBtn" class="ghost-btn" type="button" hidden>Installer</button>
+  </div>
 </header>
-<main id="main">
-<section class="hero" id="accueil">
-<div class="hero-content">
-<div class="eyebrow"><span class="eyebrow-dot"></span> CARNET DE CHEF OPÉRATEUR <span class="version">V1.4</span></div>
-<h1>La lumière,<br><em>sans approximation.</em></h1>
-<p class="hero-lead">Un carnet personnel d’implantations, d’options de projecteurs, de diagnostics colorimétriques et de solutions éprouvées sur un plateau de cinéma.</p>
-<div class="hero-actions"><button class="primary-button" id="exploreBtn">Explorer le guide <span>↗</span></button><span class="hero-note">Méthodes utiles · conseils de DP sourcés · tournages réels</span></div>
-</div>
-<div class="hero-visual" aria-hidden="true">
-<svg viewBox="0 0 580 360" class="hero-drawing">
-<defs><linearGradient id="beamGlow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dbaf76" stop-opacity=".30"/><stop offset="1" stop-color="#dbaf76" stop-opacity=".015"/></linearGradient><pattern id="heroGrid" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#89918c" opacity=".14" stroke-width=".6"/></pattern></defs>
-<rect width="580" height="360" rx="22" fill="url(#heroGrid)"/>
-<path d="M55 43H510V316H55Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".22"/>
-<path d="M55 170v-62" stroke="#f4f5f0" stroke-width="7" opacity=".78"/>
-<path d="M15 130L300 65 330 275 15 200Z" fill="url(#beamGlow)" />
-<path d="M30 164L290 117M30 164L300 245" stroke="#d9a46b" stroke-width="1.2" stroke-dasharray="6 7" opacity=".8"/>
-<path d="M135 65V272" stroke="#e3c8a7" stroke-width="4" stroke-linecap="round" stroke-dasharray="9 7"/>
-<rect x="254" y="120" width="80" height="126" rx="8" fill="#c1c9c3" opacity=".09" stroke="#a6aca5" stroke-width="1"/>
-<ellipse cx="293" cy="174" rx="23" ry="28" fill="#c5d0c7" opacity=".7"/>
-<path d="M269 204q23-12 47 0v27h-47Z" fill="#c5d0c7" opacity=".5"/>
-<path d="M293 243v45" stroke="#c5d0c7" stroke-width="2" opacity=".6"/>
-<rect x="405" y="73" width="13" height="216" rx="4" fill="#323b38" stroke="#a7b0aa" stroke-width="1.2"/>
-<path d="M419 76h54M419 288h54" stroke="#a7b0aa" stroke-width="1.1" opacity=".55"/>
-<g transform="translate(296 309)"><rect x="-22" y="-9" width="44" height="16" rx="4" fill="#e0ad6c"/><path d="M-8-9v-15h16v15M-8-24l-12-9M8-24l12-9" stroke="#e0ad6c" stroke-width="3" fill="none"/></g>
-<g transform="translate(30 164)"><circle r="19" fill="#d9ad73"/><circle r="7" fill="#f9e7c3"/><path d="M-21-15l-12-8v46l12-8" fill="#d9ad73"/></g>
-<g fill="#acb3ac" font-size="10" font-family="Instrument Sans, sans-serif" letter-spacing="2"><text x="77" y="45">SOURCE</text><text x="147" y="49">DIFFUSION</text><text x="367" y="45">NEGATIVE FILL</text><text x="265" y="107">SUJET</text><text x="325" y="331">CAMÉRA</text></g>
-</svg><div class="hero-visual-caption"><span class="signal"></span> EXEMPLE D'IMPLANTATION / VUE DE DESSUS <span>01 / 04</span></div>
-</div>
+
+<main id="top">
+<section class="hero">
+  <div class="eyebrow">DP REVIEW / V2.0</div>
+  <h1>Réviser les principes.<br><em>Déplacer ses automatismes.</em></h1>
+  <p class="hero-copy">Pas un cours d’éclairage. Un carnet de travail pour chef opérateur expérimenté : phénomènes précis, vocabulaire de plateau, méthodes contemporaines, études réelles et cas à résoudre avant d’ouvrir les pistes.</p>
+  <div class="hero-meta">
+    <span>Principes physiques séparés des recettes</span>
+    <span>Terminologie cinéma / grip / color actuelle</span>
+    <span>Vrais plans de feu et BTS uniquement</span>
+  </div>
 </section>
-<section class="overview" aria-label="Rubriques">
-<button class="overview-card" data-section="techniques"><span class="overview-top"><b>01</b><span class="round-arrow">↗</span></span><strong>Méthodes</strong><p>Notes courtes et conseils de chefs opérateurs.</p><span class="overview-count" data-count="techniques"></span></button>
-<button class="overview-card" data-section="situations"><span class="overview-top"><b>02</b><span class="round-arrow">↗</span></span><strong>Situations</strong><p>Un tournage réel, un plan de feu et son rendu.</p><span class="overview-count" data-count="situations"></span></button>
-<button class="overview-card" data-section="projecteurs"><span class="overview-top"><b>03</b><span class="round-arrow">↗</span></span><strong>Projecteurs</strong><p>Comprendre et choisir les sources.</p><span class="overview-count" data-count="projecteurs"></span></button>
-<button class="overview-card" data-section="accessoires"><span class="overview-top"><b>04</b><span class="round-arrow">↗</span></span><strong>Accessoires</strong><p>Diffuser, réfléchir, découper, accrocher.</p><span class="overview-count" data-count="accessoires"></span></button>
+
+<section class="section-nav" aria-label="Rubriques">
+  <button data-section="principles" class="active"><b>01</b><span>Principes</span><small id="count-principles"></small></button>
+  <button data-section="methods"><b>02</b><span>Méthodes</span><small id="count-methods"></small></button>
+  <button data-section="situations"><b>03</b><span>Situations</span><small id="count-situations"></small></button>
+  <button data-section="cases"><b>04</b><span>Cas de plateau</span><small id="count-cases"></small></button>
+  <button data-section="vocabulary"><b>05</b><span>Vocabulaire</span><small id="count-vocabulary"></small></button>
+  <button data-section="materials"><b>06</b><span>Matériel</span><small id="count-materials"></small></button>
 </section>
-<section class="quick-access" aria-label="Accès directs aux dossiers techniques"><span>ACCÈS DIRECT / FICHES TECHNIQUES</span><div class="quick-items"><button type="button" data-quick="day-for-night">Nuit américaine ↗</button><button type="button" data-quick="night-skin">Peaux rouges / magenta ↗</button><button type="button" data-quick="window-night">Fausse nuit par fenêtre ↗</button><button type="button" data-quick="window-sun">Faux soleil ↗</button><button type="button" data-quick="moving-soft">Acteur en déplacement ↗</button></div></section>
-<section class="library" id="bibliotheque">
-<div class="library-heading"><div><span class="section-kicker">LE GUIDE / 01—04</span><h2>Bibliothèque</h2></div><p>Méthodes repliables et études de tournages documentés.</p></div>
-<div class="tabs" id="tabs" role="tablist" aria-label="Rubriques du guide">
-<button role="tab" aria-selected="true" data-tab="techniques" class="active">Méthodes</button>
-<button role="tab" aria-selected="false" data-tab="situations">Situations</button>
-<button role="tab" aria-selected="false" data-tab="projecteurs">Projecteurs</button>
-<button role="tab" aria-selected="false" data-tab="accessoires">Accessoires</button>
-<button role="tab" aria-selected="false" data-tab="favoris">Favoris <span id="favCounter"></span></button>
-</div>
-<div class="toolbar"><label class="search-field"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5 5"/></svg><input id="searchInput" type="search" placeholder="Rechercher une technique, un projecteur, un terme…" autocomplete="off" aria-label="Rechercher dans le guide"><kbd id="clearSearch" hidden>×</kbd></label><div class="list-count" id="resultCount"></div></div>
-<div class="filters" id="filters" aria-label="Filtres"></div>
-<div class="cards-grid" id="cards" aria-live="polite"></div>
-<div class="empty-state" id="emptyState" hidden><strong>Aucune fiche trouvée</strong><span>Essaie un autre terme ou supprime le filtre.</span><button id="resetBtn">Réinitialiser</button></div>
+
+<section class="workspace">
+  <div class="workspace-head">
+    <div>
+      <span class="section-kicker" id="sectionKicker">01 / PRINCIPES</span>
+      <h2 id="sectionTitle">Principes</h2>
+      <p id="sectionIntro">Révisions courtes de phénomènes qui conditionnent réellement le rendu.</p>
+    </div>
+    <label class="search">
+      <span aria-hidden="true">⌕</span>
+      <input id="searchInput" type="search" autocomplete="off" placeholder="Rechercher : Duv, far-side, fall-off, muslin…">
+      <button id="clearSearch" type="button" hidden>×</button>
+    </label>
+  </div>
+  <div id="searchNotice" class="search-notice" hidden></div>
+  <div id="content" class="content-list" aria-live="polite"></div>
 </section>
-<section class="reference" id="references"><div><span class="section-kicker">MÉTHODE DE TRAVAIL</span><h2>Un guide de terrain,<br>pas une recette universelle.</h2></div><div class="reference-copy"><p>Les Méthodes sont des notes courtes de plateau : un principe, une application, et des conseils attribués à leurs auteurs quand une source fiable est disponible. Les photographies renvoient à leur publication d’origine ; les Situations présentent séparément de vrais tournages documentés.</p><p>Les caractéristiques indiquées sont vérifiées sur les pages constructeurs quand elles sont chiffrées. Les exemples d’utilisation sont des pratiques possibles, pas des prescriptions des fabricants.</p><a href="SOURCES.md" target="_blank" rel="noopener">Sources, images et périmètre de la V1 ↗</a></div></section>
+
+<section class="editorial-note">
+  <span class="section-kicker">RÈGLE ÉDITORIALE</span>
+  <p>Une fiche reste uniquement si elle apporte une nuance technique, un terme à remettre en mémoire ou une autre manière de penser un plan. Les méthodes ne contiennent aucun schéma BOS inventé. Les études de tournage utilisent uniquement les visuels publiés par leurs auteurs ou sources documentaires.</p>
+</section>
 </main>
-<footer class="footer"><span><b>BOS</b> — LIGHTING GUIDE · V1.4</span><span>Bruno OnSet · Carnet personnel de chef opérateur</span><a href="https://brunoguillard.com" target="_blank" rel="noopener noreferrer">BrunoGuillard.com ↗</a></footer>
+
+<footer>
+  <span><b>BOS</b> — LIGHTING GUIDE · V2.0</span>
+  <span>Directeur de la photographie / carnet personnel</span>
+</footer>
 </div>
-<div id="detailOverlay" class="detail-overlay" hidden>
-<div class="overlay-backdrop" id="overlayBackdrop"></div>
-<article class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detailTitle" tabindex="-1">
-<div class="detail-top"><span class="detail-breadcrumb" id="detailBreadcrumb">BOS / GUIDE</span><div class="detail-controls"><button class="detail-action" id="shareBtn" title="Copier le lien" aria-label="Copier le lien">↗</button><button class="detail-action" id="favoriteBtn" title="Ajouter aux favoris" aria-label="Ajouter aux favoris">☆</button><button class="close-btn" id="closeDetail" aria-label="Fermer la fiche">×</button></div></div>
-<nav class="detail-stepper" id="detailStepper" aria-label="Naviguer entre les fiches"><button type="button" class="stepper-arrow" id="prevItem" aria-label="Fiche précédente" title="Fiche précédente (←)">←</button><div class="stepper-center"><span class="stepper-count" id="stepperCount">SITUATIONS</span><select id="itemJump" aria-label="Choisir une fiche" class="stepper-select"></select></div><button type="button" class="stepper-arrow" id="nextItem" aria-label="Fiche suivante" title="Fiche suivante (→)">→</button></nav>
-<div class="detail-scroll" id="detailScroll"></div>
-</article>
-</div>
-<div class="toast" role="status" id="toast" aria-live="polite"></div>
-<script src="data.js?v=1.4.0" defer></script>
-<script src="data-techniques.js?v=1.4.0" defer></script>
-<script src="data-situations.js?v=1.4.0" defer></script>
-<script src="data-projecteurs.js?v=1.4.0" defer></script>
-<script src="data-accessoires.js?v=1.4.0" defer></script>
-<script src="data-pro.js?v=1.4.0" defer></script>
-<script src="data-pro-extra.js?v=1.4.0" defer></script>
-<script src="data-pro-final.js?v=1.4.0" defer></script>
-<script src="data-pro-methods.js?v=1.4.0" defer></script>
-<script src="data-visual-cases.js?v=1.4.0" defer></script>
-<script src="data-shoots.js?v=1.4.0" defer></script>
-<script src="data-method-tips.js?v=1.4.0" defer></script>
-<script src="app.js?v=1.4.0" defer></script>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="data-visual-cases.js?v=2.0.0" defer></script>
+<script src="data-v2.js?v=2.0.0" defer></script>
+<script src="app.js?v=2.0.0" defer></script>
 </body>
 </html>
