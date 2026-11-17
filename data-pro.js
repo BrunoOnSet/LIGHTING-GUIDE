@@ -3,6 +3,8 @@
    Une configuration est une proposition possible, pas la reproduction d'un tournage particulier. */
 window.BOS_PRO = Object.create(null);
 window.BOS_PRO_SOURCES = {
+  fury:{name:"fxguide — Mad Max: Fury Road, John Seale et Eric Whipp : étude technique de nuit américaine",url:"https://www.fxguide.com/fxfeatured/a-graphic-tale-the-visual-effects-of-mad-max-fury-road/"},
+  furyGrade:{name:"FilmLight — Eric Whipp, retour coloriste sur les scènes Day for Night de Fury Road",url:"https://www.filmlight.ltd.uk/customers/meet-the-colourist/eric_whipp.php"},
   ascNight:{name:"American Cinematographer — Walking Dead : choix du clair de lune et des peaux",url:"https://theasc.com/article/walking-dead-and-loving-it-part-ii-of-ii/"},
   ascSkin:{name:"American Cinematographer — Color Fidelity in LED Volumes : rendu spectral de la peau",url:"https://theasc.com/article/color-fidelity-in-led-volumes/"},
   ascSkin2:{name:"American Cinematographer — Color Fidelity in LED Volumes, partie 2",url:"https://theasc.com/article/color-fidelity-in-led-volumes-part-two/"},
@@ -40,7 +42,8 @@ register("day-for-night",{
     "Surveiller highlight clipping sur les chemises blanches, les frontaux et les reflets spéculaires : si les informations ne sont plus enregistrées, l'étalonnage ne peut pas les reconstruire.",
     "Prévoir un monitoring night LOOK validé et enregistrer la prise dans un format suffisamment robuste. Une image de contrôle sombre n'implique pas de sacrifier le négatif numérique.",
     "ND : vérifier les dominantes IR sur tissus sombres et costume noir si la filtration est forte ; effectuer un test avec la vraie caméra et les vrais filtres.",
-    "Surveillance au waveform / false color, comparaison des positions, métadonnées de WB, ND, EI/ISO, filtre et exposition notées sur une référence."
+    "Surveillance au waveform / false color, comparaison des positions, métadonnées de WB, ND, EI/ISO, filtre et exposition notées sur une référence.",
+    "Exemple professionnel vérifié : sur Mad Max: Fury Road, John Seale et l’équipe VFX ont testé une exposition de capture plus haute, d’environ deux à trois stops pour certains plans de nuit américaine, puis Eric Whipp a fortement assombri l’image en étalonnage. C’était un choix validé par essais en ARRIRAW pour préserver les détails des ombres SANS cliper les hautes lumières, et non une recommandation universelle de surexposition."
   ],
   color:[
     "Le rouge du costume, du feuillage sec ou d'une peau chauffée par la balance globale peut devenir artificiellement lumineux dans une nuit froide. Désaturer ou réduire la luminance des rouges/oranges selon le plan ; ne pas effacer tous les tons chair.",
@@ -64,7 +67,7 @@ register("day-for-night",{
     {id:"arri-m18",role:"Option HMI historique",reason:"Pour reconstituer une direction si le plan le permet ; ne sert pas à transformer automatiquement tout un extérieur de jour en nuit."}
   ],
   controls:["Plan test avec peau claire ET peau foncée, cheveux, tissu rouge, blanc, noir et feuillage.","Plan large + gros plan, même LUT d'essai et même pipeline couleur.","Contrôle des ombres, du ciel et des surfaces blanches AVANT d'affiner les sources.","Un test de grade complet doit être validé avant d'engager une grosse journée de prises.","Noter la position du soleil et la progression de la journée pour les raccords."],
-  refs:["bhDay","kroll","krollSet","colorFinale","ascNight","ascSkin"]
+  refs:["bhDay","kroll","krollSet","colorFinale","ascNight","ascSkin","fury","furyGrade"]
 });
 register("night-skin",{
   headline:"Peau en lumière lunaire : maîtriser rouge, magenta et séparation chromatique",
