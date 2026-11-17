@@ -1,0 +1,23 @@
+{
+  "name": "BOS — LIGHTING GUIDE",
+  "short_name": "BOS GUIDE",
+  "description": "Bibliothèque pratique de l'éclairage cinéma : méthodes, situations, projecteurs et accessoires",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f4f2",
+  "theme_color": "#f3f4f2",
+  "categories": [
+    "education",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
