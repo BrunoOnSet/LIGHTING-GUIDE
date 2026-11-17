@@ -60,3 +60,36 @@ Les grands cadres au vent, accroches suspendues, élingues, alimentations de pui
 ## Pour enrichir
 
 Chaque fiche peut recevoir : photo officielle/licenciée, photo de montage plateau, rendu sur l'image, plan SVG plus spécifique, vidéo démonstrative autorisée, mesures sous conditions, et liens vers des configurations dans BOS PLAN.
+
+
+## Mise à jour V1.1 — dossiers DP et fausse nuit
+
+La V1.1 ajoute des dossiers techniques (fichiers data-pro-xxx.js) comprenant plusieurs configurations possibles, un contrôle caméra, des diagnostics de colorimétrie et des exemples de matériel. Ces implantations sont **des propositions techniques éditoriales**, pas des copies de plans de feu originaux ni des configurations attribuées sans preuve aux professionnels cités.
+
+### Sources complémentaires pour la nuit et les carnations
+
+- [American Cinematographer — Walking Dead and Loving It](https://theasc.com/article/walking-dead-and-loving-it-part-ii-of-ii/) : difficultés du contraste bleu lunaire / orange de feu et traitement des carnations.
+- [American Cinematographer — Color Fidelity in LED Volumes, part 1](https://theasc.com/article/color-fidelity-in-led-volumes/) et [part 2](https://theasc.com/article/color-fidelity-in-led-volumes-part-two/) : spectres des LEDs, rendu de peau et erreurs métamériques dans certaines conditions. Ne pas extrapoler directement aux moteurs LED modernes à spectre plus complet.
+- [American Cinematographer — Outlander, Love is a Battlefield](https://theasc.com/article/outlander-love-is-a-battlefield/) : rendu de peau en nuit intérieure, sources de décor et clair de lune.
+- [B&H — Day for Night](https://www.bhphotovideo.com/explora/video/tips-and-solutions/lighting-tips-the-basics-of-day-for-night-cinematography) : ciel, ombres, balance des blancs et exposition.
+- [Noam Kroll — Creating a Day for Night Look](https://noamkroll.com/color-grading-tutorial-creating-a-day-for-night-look/) et [5 Easy Tips For Achieving Excellent Day For Night Shots](https://noamkroll.com/5-easy-tips-for-achieving-excellent-day-for-night-shots-on-set-and-in-post/) : articulation tournage et étalonnage.
+- [Color Finale — Day into night](https://www.api.colorfinale.com/blog/post/cf-day-into-night-08-25) : développement du look en postproduction.
+- [ARRI — SkyPanel X : Applications](https://www.arri.com/en/lighting/led-panel-lights/skypanel-x/applications) : éclairage extérieur nuit, fenêtres et différents montages hard / soft.
+- [ARRI — Thomas Garreau : Emilia Pérez et SkyPanel X](https://www.arri.com/news-fr/gaffer-thomas-garreau-lights-up-emilia-perez-with-arri) : retour professionnel sur éclairage de façade de nuit et entrant de soleil.
+- [ARRI — Guillaume Lemerle](https://www.arri.com/news-en/gaffer-guillaume-lemerle-passion-for-lighting-with-arri-tools) : sources couleur et découpes pour créer de la nuit.
+- [ARRI — Victoria Panero et Orbiter](https://www.arri.com/news-en/dp-victoria-panero-working-with-arri-orbiter) : construction d'une ambiance lunaire diffuse.
+- [ARRI — Modes de rendu capteur](https://www.arri.com/en/learn/lighting/arri-alexa-modes) : moteur de couleur et mélanges de sources.
+- [Aputure — STORM XT52](https://aputure.com/en-US/products/storm-xt52) et [STORM CS32](https://aputure.com/en-US/products/storm-cs32) : caractéristiques et accessoires à vérifier sur les références exactes.
+
+### À ne pas confondre
+
+**Day for night** = tourner de jour pour produire une nuit à l'image. **Nuit filmée réellement de nuit** = éclairer un décor sombre à la prise de vues. **Nuit intérieure recréée en journée** = occulter les entrées de jour puis fabriquer des sources nocturnes. Les contraintes de lumière, de peau et de postproduction sont différentes.
+
+**Rouge / magenta sur les peaux** : diagnostic plurifactoriel, jamais attribué par défaut à un Kelvin incorrect. Évaluer les sources une par une, le mode de l'appareil, le rendu spectral, le mélange des couleurs, les peaux dans une LUT de monitoring, les canaux RGB, les costumes et les corrections de postproduction.
+
+### Interprétation des données matériel
+
+- La puissance électrique d'un projecteur ne doit pas être assimilée à sa sortie LED ni à ses lux.
+- Une valeur photométrique n'est comparable qu'à **même distance, angle, optique, CCT et mode**.
+- Un exemple de projecteur sur une configuration montre son **usage possible**, pas une recommandation exclusive ni une preuve qu'il a été employé sur un film précis.
+- Les caractéristiques peuvent changer avec une version, un firmware ou un accessoire. Toujours confirmer la documentation correspondant au matériel loué.
