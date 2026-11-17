@@ -110,6 +110,7 @@ La V1.1 ajoute des dossiers techniques (fichiers data-pro-xxx.js) comprenant plu
 - [American Cinematographer — Stephen Burum ASC, Lighting a Set](https://theasc.com/article/lighting-a-set/) : plan lumière et deux photogrammes de la même démonstration (sans fill / fill 3:1). **La deuxième image n'est pas un BTS.**
 - [Grant MacAllister, DP — Gibson Songbook / Fantastic Negrito](https://www.grantmacallister.com/blog/2023/05/05/cinematography-breakdown-songbook) : prévisualisation Set.A.Light, BTS et photogramme d'interview, avec modification des couleurs sur le tournage.
 - [Nathaniel Kohfield, DP — Lighting a Car Interior](https://nathanielkohfield.com/journal/2016/1/17/lighting-a-night-car-interior-scene) : voiture sous la pluie, T1 gélatiné et rebond 4x4 blanc, BTS et images finales. **Pas de plan de feu original publié**.
+- [fxguide — Mad Max: Fury Road, day-for-night](https://www.fxguide.com/fxfeatured/a-graphic-tale-the-visual-effects-of-mad-max-fury-road/) et [Eric Whipp — entretien FilmLight](https://www.filmlight.ltd.uk/customers/meet-the-colourist/eric_whipp.php) : John Seale et l'équipe ont testé un signal capturé plus exposé avant de l'assombrir très fortement en post ; les hautes lumières ne doivent pas être coupées. Étude citée dans la fiche Nuit américaine, sans prétendre disposer du plan lumière original.
 
 ### Droits / visibilité
 
