@@ -74,15 +74,15 @@ window.BOS_V2={
     },
     {
       id:"ambient-floor",
-      title:"Ambient floor : décider du niveau de base avant la key",
+      title:"Définir le niveau de lumière ambiante avant la key",
       kicker:"TONAL HIERARCHY",
       summary:"Dans beaucoup de décors, le contraste est déterminé par le niveau ambiant avant même l’ajout de la key.",
       bullets:[
         "Si les murs, plafond et sol créent un fill élevé, ajouter une key augmente le niveau sans forcément recréer de noirs.",
-        "On peut construire le plan en fixant d’abord le ‘floor’ ambiant : lumière existante, overhead, bounce général ou extinction.",
-        "Le négatif devient alors un outil de réduction locale du floor, pas seulement un panneau placé côté ombre."
+        "On peut commencer par régler le niveau ambiant : lumière existante, source au plafond, rebond général ou extinction de certains éclairages.",
+        "Le négatif permet ensuite de retirer localement de la lumière ambiante, plutôt que de placer systématiquement un panneau noir du côté sombre."
       ],
-      watch:["Mesurer ou comparer à exposition verrouillée avant/après négatif.","Un décor peint plus sombre peut résoudre plus proprement un problème de floor qu’une forêt de drapeaux."],
+      watch:["Mesurer ou comparer à exposition verrouillée avant/après négatif.","Assombrir une surface du décor peut parfois être plus efficace que multiplier les drapeaux pour réduire les retours lumineux."],
       source:{label:"ARRI — exemple de négatif et gestion de l’ambiance",url:"https://www.arri.com/news-en/shooting-and-grading-for-hdr-with-arri-alexa-35"},
       tags:["ambient floor","negative fill","contrast","production design"]
     },
@@ -128,20 +128,20 @@ window.BOS_V2={
     },
     {
       id:"highlight-budget",
-      title:"Highlight budget : réserver la marge avant d’ajouter",
+      title:"Préserver la marge dans les hautes lumières",
       kicker:"EXPOSURE PLACEMENT",
-      summary:"Une scène avec fenêtres, practicals et spéculaires gagne à être pensée en budget de hautes lumières plutôt qu’en simple niveau de key.",
+      summary:"Avec des fenêtres, des lampes de décor et des reflets, il faut réserver de la marge dans les hautes lumières avant de régler la key.",
       bullets:[
         "Décider quelles zones ont le droit de clipper ou de frôler le roll-off : ampoule, soleil fenêtre, chrome, peau.",
-        "La key visage est alors placée dans cet espace dynamique, pas indépendamment des hautes lumières du cadre.",
-        "Une source visible peut être baissée et doublée hors champ : motivation conservée, budget récupéré."
+        "Régler ensuite la key sur le visage en tenant compte des hautes lumières déjà présentes dans le cadre.",
+        "On peut réduire l’intensité d’une lampe visible et ajouter un renfort hors champ : la motivation reste crédible, sans saturer inutilement l’image."
       ],
       watch:["Comparer waveform et image : une belle valeur numérique n’est pas une hiérarchie esthétique.","Une caméra à grande latitude n’annule pas le besoin de hiérarchiser les valeurs."],
       tags:["dynamic range","highlights","practicals","exposure"]
     },
     {
       id:"blocking-light",
-      title:"Light the blocking, pas seulement la marque",
+      title:"Éclairer le déplacement, pas seulement une position",
       kicker:"STAGING",
       summary:"Sur un plan vivant, la lumière peut être pensée comme une suite de zones plutôt qu’une exposition constante.",
       bullets:[
@@ -163,7 +163,7 @@ window.BOS_V2={
         "Une source lointaine homogénéise davantage les plans de profondeur.",
         "Déplacer le sujet de 50 cm peut parfois avoir plus d’effet que monter ou descendre la key."
       ],
-      watch:["Regarder l’ombre portée du sujet sur le décor.","Sur grands décors, penser plusieurs zones plutôt qu’une source unique poussée très loin."],
+      watch:["Regarder l’ombre portée du sujet sur le décor.","Dans un grand décor, prévoir plusieurs zones lumineuses plutôt que demander à une seule source d’éclairer tout l’espace."],
       tags:["distance","background","fall-off","separation"]
     }
   ],
