@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f3f4f3">
+<meta name="description" content="BOS LIGHTING GUIDE — encyclopédie pratique des techniques, situations, projecteurs et accessoires de lumière au cinéma.">
+<title>BOS — LIGHTING GUIDE</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=1.0.0">
+</head>
+<body>
+<div class="app-shell">
+<header class="topbar">
+<a class="brand" href="#accueil" aria-label="BOS — Accueil"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><rect x="1.5" y="1.5" width="37" height="37" rx="10" stroke="currentColor" stroke-width="1.5"/><path d="M10 26V14h7c5 0 5 6 1.5 6 4 0 4.5 6-1 6H10Zm4-7h3c2 0 2-2 0-2h-3v2Zm0 4h3.4c2 0 2-2.2 0-2.2H14V23Zm12-9h5v12h-5z" fill="currentColor"/></svg></span><span class="brand-text"><small>Bruno OnSet</small><strong>LIGHTING GUIDE</strong></span></a>
+<div class="top-actions">
+<button class="icon-button" id="themeBtn" aria-label="Changer de thème" title="Mode sombre/clair"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 15.2A8 8 0 018.8 4 8.2 8.2 0 1020 15.2Z"/></svg></button>
+<button class="install-btn" id="installBtn" hidden>Installer <span>↓</span></button>
+</div>
+</header>
+<main id="main">
+<section class="hero" id="accueil">
+<div class="hero-content">
+<div class="eyebrow"><span class="eyebrow-dot"></span> BIBLIOTHÈQUE CINÉMA <span class="version">V1.0</span></div>
+<h1>Comprendre la lumière.<br><em>Savoir la construire.</em></h1>
+<p class="hero-lead">Des principes aux choix de plateau : techniques d’éclairage, solutions de mise en scène, projecteurs et accessoires professionnels.</p>
+<div class="hero-actions"><button class="primary-button" id="exploreBtn">Explorer le guide <span>↗</span></button><span class="hero-note">Fiches croisées · schémas en plan · sources</span></div>
+</div>
+<div class="hero-visual" aria-hidden="true">
+<svg viewBox="0 0 580 360" class="hero-drawing">
+<defs><linearGradient id="beamGlow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dbaf76" stop-opacity=".30"/><stop offset="1" stop-color="#dbaf76" stop-opacity=".015"/></linearGradient><pattern id="heroGrid" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#89918c" opacity=".14" stroke-width=".6"/></pattern></defs>
+<rect width="580" height="360" rx="22" fill="url(#heroGrid)"/>
+<path d="M55 43H510V316H55Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".22"/>
+<path d="M55 170v-62" stroke="#f4f5f0" stroke-width="7" opacity=".78"/>
+<path d="M15 130L300 65 330 275 15 200Z" fill="url(#beamGlow)" />
+<path d="M30 164L290 117M30 164L300 245" stroke="#d9a46b" stroke-width="1.2" stroke-dasharray="6 7" opacity=".8"/>
+<path d="M135 65V272" stroke="#e3c8a7" stroke-width="4" stroke-linecap="round" stroke-dasharray="9 7"/>
+<rect x="254" y="120" width="80" height="126" rx="8" fill="#c1c9c3" opacity=".09" stroke="#a6aca5" stroke-width="1"/>
+<ellipse cx="293" cy="174" rx="23" ry="28" fill="#c5d0c7" opacity=".7"/>
+<path d="M269 204q23-12 47 0v27h-47Z" fill="#c5d0c7" opacity=".5"/>
+<path d="M293 243v45" stroke="#c5d0c7" stroke-width="2" opacity=".6"/>
+<rect x="405" y="73" width="13" height="216" rx="4" fill="#323b38" stroke="#a7b0aa" stroke-width="1.2"/>
+<path d="M419 76h54M419 288h54" stroke="#a7b0aa" stroke-width="1.1" opacity=".55"/>
+<g transform="translate(296 309)"><rect x="-22" y="-9" width="44" height="16" rx="4" fill="#e0ad6c"/><path d="M-8-9v-15h16v15M-8-24l-12-9M8-24l12-9" stroke="#e0ad6c" stroke-width="3" fill="none"/></g>
+<g transform="translate(30 164)"><circle r="19" fill="#d9ad73"/><circle r="7" fill="#f9e7c3"/><path d="M-21-15l-12-8v46l12-8" fill="#d9ad73"/></g>
+<g fill="#acb3ac" font-size="10" font-family="Instrument Sans, sans-serif" letter-spacing="2"><text x="77" y="45">SOURCE</text><text x="147" y="49">DIFFUSION</text><text x="367" y="45">NEGATIVE FILL</text><text x="265" y="107">SUJET</text><text x="325" y="331">CAMÉRA</text></g>
+</svg><div class="hero-visual-caption"><span class="signal"></span> EXEMPLE D'IMPLANTATION / VUE DE DESSUS <span>01 / 04</span></div>
+</div>
+</section>
+<section class="overview" aria-label="Rubriques">
+<button class="overview-card" data-section="techniques"><span class="overview-top"><b>01</b><span class="round-arrow">↗</span></span><strong>Méthodes</strong><p>Construire et modeler la lumière.</p><span class="overview-count" data-count="techniques"></span></button>
+<button class="overview-card" data-section="situations"><span class="overview-top"><b>02</b><span class="round-arrow">↗</span></span><strong>Situations</strong><p>Résoudre les problèmes de plateau.</p><span class="overview-count" data-count="situations"></span></button>
+<button class="overview-card" data-section="projecteurs"><span class="overview-top"><b>03</b><span class="round-arrow">↗</span></span><strong>Projecteurs</strong><p>Comprendre et choisir les sources.</p><span class="overview-count" data-count="projecteurs"></span></button>
+<button class="overview-card" data-section="accessoires"><span class="overview-top"><b>04</b><span class="round-arrow">↗</span></span><strong>Accessoires</strong><p>Diffuser, réfléchir, découper, accrocher.</p><span class="overview-count" data-count="accessoires"></span></button>
+</section>
+<section class="library" id="bibliotheque">
+<div class="library-heading"><div><span class="section-kicker">LE GUIDE / 01—04</span><h2>Bibliothèque</h2></div><p>Des fiches concrètes, documentées et reliées entre elles.</p></div>
+<div class="tabs" id="tabs" role="tablist" aria-label="Rubriques du guide">
+<button role="tab" aria-selected="true" data-tab="techniques" class="active">Méthodes</button>
+<button role="tab" aria-selected="false" data-tab="situations">Situations</button>
+<button role="tab" aria-selected="false" data-tab="projecteurs">Projecteurs</button>
+<button role="tab" aria-selected="false" data-tab="accessoires">Accessoires</button>
+<button role="tab" aria-selected="false" data-tab="favoris">Favoris <span id="favCounter"></span></button>
+</div>
+<div class="toolbar"><label class="search-field"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.7" cy="10.7" r="6.7"/><path d="m16 16 5 5"/></svg><input id="searchInput" type="search" placeholder="Rechercher une technique, un projecteur, un terme…" autocomplete="off" aria-label="Rechercher dans le guide"><kbd id="clearSearch" hidden>×</kbd></label><div class="list-count" id="resultCount"></div></div>
+<div class="filters" id="filters" aria-label="Filtres"></div>
+<div class="cards-grid" id="cards" aria-live="polite"></div>
+<div class="empty-state" id="emptyState" hidden><strong>Aucune fiche trouvée</strong><span>Essaie un autre terme ou supprime le filtre.</span><button id="resetBtn">Réinitialiser</button></div>
+</section>
+<section class="reference" id="references"><div><span class="section-kicker">MÉTHODE DE TRAVAIL</span><h2>Un guide de terrain,<br>pas une recette universelle.</h2></div><div class="reference-copy"><p>Chaque configuration dépend du décor, du cadre, des déplacements, de la puissance disponible et du rendu recherché. Les schémas sont pédagogiques, non à l’échelle et ne remplacent pas une étude technique ou de sécurité.</p><p>Les caractéristiques indiquées sont vérifiées sur les pages constructeurs quand elles sont chiffrées. Les exemples d’utilisation sont des pratiques possibles, pas des prescriptions des fabricants.</p><a href="SOURCES.md" target="_blank" rel="noopener">Sources, images et périmètre de la V1 ↗</a></div></section>
+</main>
+<footer class="footer"><span><b>BOS</b> — LIGHTING GUIDE · V1.0</span><span>Bruno OnSet · Pour les équipes image & lumière</span><a href="https://brunoguillard.com" target="_blank" rel="noopener noreferrer">BrunoGuillard.com ↗</a></footer>
+</div>
+<div id="detailOverlay" class="detail-overlay" hidden>
+<div class="overlay-backdrop" id="overlayBackdrop"></div>
+<article class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detailTitle" tabindex="-1">
+<div class="detail-top"><span class="detail-breadcrumb" id="detailBreadcrumb">BOS / GUIDE</span><div class="detail-controls"><button class="detail-action" id="shareBtn" title="Copier le lien" aria-label="Copier le lien">↗</button><button class="detail-action" id="favoriteBtn" title="Ajouter aux favoris" aria-label="Ajouter aux favoris">☆</button><button class="close-btn" id="closeDetail" aria-label="Fermer la fiche">×</button></div></div>
+<div class="detail-scroll" id="detailScroll"></div>
+</article>
+</div>
+<div class="toast" role="status" id="toast" aria-live="polite"></div>
+<script src="data.js?v=1.0.0" defer></script>
+<script src="app.js?v=1.0.0" defer></script>
+</body>
+</html>
