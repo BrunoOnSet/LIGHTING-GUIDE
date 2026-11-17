@@ -101,25 +101,160 @@ window.BOS_VISUAL_CASES={
  ],
  takeaway:"Pour un plan-séquence complexe, la vraie fiche lumière est couplée au parcours caméra et au blocking. Les deux ne peuvent pas être préparés indépendamment.",
  caveat:"Cette source documente le plan du DP et des BTS, mais pas un triptyque avec image finale associée. Le troisième visuel est donc explicitement une deuxième photo de plateau."
- }
+ },
+{
+ "id": "hall-times-square",
+ "title": "Fantastic Four : Times Square de nuit, 2 000 sources et DMX",
+ "author": "Jess Hall ASC, BSC — American Cinematographer",
+ "production": "The Fantastic Four: First Steps • scène 54",
+ "year": "2025",
+ "match": "documente",
+ "relevance": [
+  "exterior-night",
+  "moving-pools",
+  "plan-sequence"
+ ],
+ "context": "Jess Hall décrit le Times Square reconstruit : plus de deux mille luminaires de décor, grandes batteries de Creamsource Vortex8 sur des nacelles et searchlight mobile sur câble. Le plan de lumière de la scène et la photo du plateau sont publiés par l'ASC.",
+ "source": "https://theasc.com/article/3-lighting-diagrams-from-the-fantastic-four-first-steps/",
+ "media": [
+  {
+   "role": "plan",
+   "title": "Plan lumière scène 54",
+   "url": "https://theasc.com/wp-content/uploads/2025/11/1.-SC-54-Lighting-Plan_R.jpg",
+   "caption": "Plan de lumière original du film, publié par l'ASC et l'équipe image.",
+   "relation": "scène 54 / plan original"
+  },
+  {
+   "role": "bts",
+   "title": "Times Square sur plateau",
+   "url": "https://theasc.com/wp-content/uploads/2025/11/F4FS-BTS-TIMES-SQ.-V.2.jpg",
+   "caption": "Vue BTS de Times Square et des sources en hauteur.",
+   "relation": "même scène / plateau original"
+  },
+  {
+   "role": "frame",
+   "title": "Plan final : Silver Surfer",
+   "url": "https://theasc.com/wp-content/uploads/2025/11/TSN1960_comp_SPI_v1733.1148.jpg",
+   "caption": "Image finale de Silver Surfer dans la séquence Times Square.",
+   "relation": "même séquence / rendu final"
+  }
+ ],
+ "positions": [
+  {
+   "name": "A · Arrays Vortex8",
+   "where": "Groupes serrés de 24 à 36 Creamsource Vortex8 sur nacelles de 120 pieds, suivant les axes du décor.",
+   "purpose": "Créer de vastes directions colorées et contrôlables indépendamment des lampadaires visibles.",
+   "consequence": "En pilotant certains projecteurs de chaque array séparément, le DP peut faire correspondre la couleur du key aux practicals du quartier ; des milliers de points de décor ne suffisent pas toujours à donner du relief à la peau."
+  },
+  {
+   "name": "B · Plus de 2 000 practicals",
+   "where": "Enseignes, façades et lampadaires du décor reconstruit ; réseau DMX.",
+   "purpose": "Fournir des motivations à chaque poche de lumière dans l'espace.",
+   "consequence": "Le DMX permet de contrôler rapidement le rapport key/décor ; trop de points lumineux égaux rendent le plan plat."
+  },
+  {
+   "name": "C · Robe LTX sur câble",
+   "where": "Source mobile sur wire rig très haut au-dessus de l'action.",
+   "purpose": "Simuler la recherche d'un hélicoptère avec un faisceau volontairement plus intense que le key.",
+   "consequence": "Jess Hall indique une cible d'environ 2,5 à 3 stops au-dessus du key pour l'effet de surexposition de la peau métallique. C'est une valeur propre à CET effet, pas une règle générale de nuit."
+  },
+  {
+   "name": "D · Réglage en prise dans un mouvement de caméra",
+   "where": "Le plan s'inverse sur environ 180° pendant l'action.",
+   "purpose": "Changer en temps réel la hiérarchie des sources pour éviter de révéler ou d'inverser le dispositif.",
+   "consequence": "La programmation d'un cue à la caméra devient une partie de la mise en scène, pas un correctif de dernière minute."
+  }
+ ],
+ "takeaway": "Les immenses nuits de studio se construisent par secteurs de motivation, avec un key modelé et un programme DMX pensé pour le mouvement de caméra.",
+ "caveat": "Images du film et du plateau sous droits Disney/équipe du film, affichées depuis la source ASC ; le plan final n'est pas une photo prise au même instant que la BTS."
+},
+{
+ "id": "hall-worldship",
+ "title": "Fantastic Four : nuit d'intérieur géant et lumière de lave",
+ "author": "Jess Hall ASC, BSC — American Cinematographer",
+ "production": "The Fantastic Four: First Steps • scène 83",
+ "year": "2025",
+ "match": "documente",
+ "relevance": [
+  "interior-night-studio",
+  "night-skin",
+  "smoke",
+  "practical",
+  "moving-pools"
+ ],
+ "context": "Dans le vaisseau de Galactus, Jess Hall garde une ambiance de studio très sombre, sous le key, et utilise des effets de lave et d'extraction comme sources secondaires motivées. Les structures lumineuses diffuses restent très grandes malgré un environnement de nuit.",
+ "source": "https://theasc.com/article/3-lighting-diagrams-from-the-fantastic-four-first-steps/",
+ "media": [
+  {
+   "role": "plan",
+   "title": "Plan lumière scène 83",
+   "url": "https://theasc.com/wp-content/uploads/2025/11/1.-SC-83-Lighting-Plan_R.jpg",
+   "caption": "Plan d'installation réel de la scène 83, publié par l'ASC.",
+   "relation": "scène 83 / plan original"
+  },
+  {
+   "role": "bts",
+   "title": "Lava field et sources au plateau",
+   "url": "https://theasc.com/wp-content/uploads/2025/11/LAVA-FIELD_-BMN-BTS.LIGHTING.jpg",
+   "caption": "Grandes sources diffuses en plafond et éléments interactifs de lave orange.",
+   "relation": "même décor / installation filmée"
+  },
+  {
+   "role": "frame",
+   "title": "Image finale du vaisseau",
+   "url": "https://theasc.com/wp-content/uploads/2025/11/WGE1680_comp_SPI_v0245.1032_R-1.jpg",
+   "caption": "Plan d'ensemble final dans la zone d'extraction du vaisseau.",
+   "relation": "même séquence / rendu final"
+  }
+ ],
+ "positions": [
+  {
+   "name": "A · Vortex8 + Prolights ECL sur Magic Cloth",
+   "where": "De grands caissons overhead de diffusion au-dessus de la zone de jeu.",
+   "purpose": "Créer un niveau de fill diffus très étendu, volontairement nettement inférieur à la key.",
+   "consequence": "L'espace reste sombre mais la caméra peut conserver des matières et des volumes sans mettre un projecteur visible au sol."
+  },
+  {
+   "name": "B · LiteGear Auroris au sol",
+   "where": "Plusieurs unités proches des surfaces du décor représentant de la lave.",
+   "purpose": "Créer des variations orangées et rouges qui semblent provenir du processus industriel fictif.",
+   "consequence": "Les variations doivent rester liées au jeu et aux actions du décor, sinon le flicker fait artificiel."
+  },
+  {
+   "name": "C · Backings noirs",
+   "where": "Hors champ autour des zones avec chrome et tissus blancs.",
+   "purpose": "Retirer les réflexions et la contamination des costumes réfléchissants.",
+   "consequence": "Un plafond géant très lumineux peut se refléter dans un casque : le noir permet de garder une lecture contrôlée des surfaces."
+  },
+  {
+   "name": "D · Source intégrée dans les casques",
+   "where": "À l'intérieur de l'accessoire de jeu.",
+   "purpose": "Rendre les expressions visibles dans un environnement très sous-éclairé.",
+   "consequence": "Les carnations restent compréhensibles même quand la key principale est faible ; vérifier reflets et dérives chromatiques sur la visière."
+  }
+ ],
+ "takeaway": "On peut éclairer un décor gigantesque et garder une nuit profonde : une très grande ambiance douce sous key, des accents motivés et une solution spéciale pour la lecture des visages.",
+ "caveat": "La BTS et l'image finale proviennent de la même scène mais ne représentent pas nécessairement une prise identique ; données et légendes d'après l'entretien de Jess Hall dans ASC."
+}
  ],
  situationPriority:{
  "night-day-interior":["josh-bar-wide","grant-apartment"],
- "interior-night-studio":["josh-bar-wide","grant-apartment"],
- "night-skin":["josh-bar-close","grant-apartment"],
+ "interior-night-studio":["josh-bar-wide","grant-apartment","hall-worldship"],
+ "night-skin":["josh-bar-close","grant-apartment","hall-worldship"],
  "window-night":["grant-apartment"],
- "moving-pools":["grant-apartment"],
- "smoke":["grant-apartment"],
- "practical":["josh-bar-wide","grant-apartment"],
+ "moving-pools":["grant-apartment","hall-times-square","hall-worldship"],
+ "smoke":["grant-apartment","hall-worldship"],
+ "practical":["josh-bar-wide","grant-apartment","hall-worldship"],
  "table":["josh-bar-wide","josh-bar-close"],
  "dialogue":["josh-bar-close","grant-saloon"],
  "low-ceiling":["josh-bar-wide"],
  "window-sky":["grant-saloon"],
  "day-continuity":["grant-saloon"],
  "reverse-window":["grant-saloon"],
- "plan-sequence":["helenek-one-shot"],
+ "plan-sequence":["helenek-one-shot","hall-times-square"],
  "walk-and-talk":["helenek-one-shot"],
  "scene-360":["helenek-one-shot"],
- "moving-soft":["helenek-one-shot","grant-saloon"]
+ "moving-soft":["helenek-one-shot","grant-saloon"],
+ "exterior-night":["hall-times-square"]
  }
 };
