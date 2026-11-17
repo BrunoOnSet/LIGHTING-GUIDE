@@ -36,5 +36,5 @@ for(const [key,media] of Object.entries(context.window.BOS_MEDIA)){
 const manifest=JSON.parse(fs.readFileSync('manifest.webmanifest','utf8'));
 assert(manifest.name&&manifest.icons.some(i=>i.sizes==='192x192'));
 const html=fs.readFileSync('index.html','utf8');
-for(const f of files)assert(html.includes('src="'+f+'?'),'Script non référencé : '+f);
+for(const f of files.filter(x=>x!=='sw.js'))assert(html.includes('src="'+f+'?'),'Script non référencé : '+f);
 console.log('Vérification terminée. '+items.length+' fiches et '+Object.keys(context.window.BOS_MEDIA).length+' médias directs.');
