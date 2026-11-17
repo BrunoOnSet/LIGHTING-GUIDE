@@ -93,3 +93,28 @@ La V1.1 ajoute des dossiers techniques (fichiers data-pro-xxx.js) comprenant plu
 - Une valeur photométrique n'est comparable qu'à **même distance, angle, optique, CCT et mode**.
 - Un exemple de projecteur sur une configuration montre son **usage possible**, pas une recommandation exclusive ni une preuve qu'il a été employé sur un film précis.
 - Les caractéristiques peuvent changer avec une version, un firmware ou un accessoire. Toujours confirmer la documentation correspondant au matériel loué.
+
+
+
+## Atlas des Situations — V1.2 (photographies et plans de tournages)
+
+**Règle de provenance :** on n'associe jamais un plan de feu, un BTS et un photogramme appartenant à trois productions différentes comme s'ils appartenaient au même tournage. Pour chaque étude, le lecteur distingue les pièces réellement publiées par un directeur photo, les vues du même décor mais d'une autre prise et, lorsque nécessaire, un **schéma pédagogique BOS explicitement signalé**. La description de la position et de l'impact des sources est une analyse éditoriale fondée sur les explications et le plan publiés ; aucun lux ni distance inconnue ne sont inventés.
+
+### Références originales des études
+
+- [Josh White, DP — Feature Lighting Breakdown: Bar](https://josh-white.co.uk/feature-lighting-breakdown-bar/) : deux configurations (large/serré) du même tournage, plans de feu, BTS et photogrammes. Sources LiteMat, Aputure MC, practicals.
+- [Grant MacAllister, DP — Nights Crawling](https://www.grantmacallister.com/blog/lighting-breakdown-nights-crawling) : plan de feu, BTS, photogrammes et photos complémentaires de projecteurs à la fenêtre. Aputure 600C/300X, InfiniBars, LiteMat, Titan, B7C.
+- [Grant MacAllister, DP — On a Razor's Edge](https://www.grantmacallister.com/blog/cinematography-lighting-breakdown-on-a-razors-edge-short-film) : cas de ciel couvert après pluie, Nanlite Pavo Tubes, DMG Dash et négatif. **Pas de plan de feu original identifié**.
+- [Michael Helenek, DP — Monster in a House / Prep](https://www.michaelhelenek.com/prep) : plan de lumière publié pour plan-séquence de 12 minutes et BTS. **Pas de photogramme final identique identifié**.
+- [American Cinematographer — Jess Hall ASC, 3 Lighting Diagrams from Fantastic Four](https://theasc.com/article/3-lighting-diagrams-from-the-fantastic-four-first-steps/) : plans de lumière originaux, BTS et images finales des scènes Times Square (54) et Worldship (83). Images de films sous droits des ayants droit ; ne pas republier sans autorisation.
+- [American Cinematographer — Stephen Burum ASC, Lighting a Set](https://theasc.com/article/lighting-a-set/) : plan lumière et deux photogrammes de la même démonstration (sans fill / fill 3:1). **La deuxième image n'est pas un BTS.**
+- [Grant MacAllister, DP — Gibson Songbook / Fantastic Negrito](https://www.grantmacallister.com/blog/2023/05/05/cinematography-breakdown-songbook) : prévisualisation Set.A.Light, BTS et photogramme d'interview, avec modification des couleurs sur le tournage.
+- [Nathaniel Kohfield, DP — Lighting a Car Interior](https://nathanielkohfield.com/journal/2016/1/17/lighting-a-night-car-interior-scene) : voiture sous la pluie, T1 gélatiné et rebond 4x4 blanc, BTS et images finales. **Pas de plan de feu original publié**.
+
+### Droits / visibilité
+
+Les images distantes sont affichées avec crédits et liens vers les documents d'origine ; elles **ne sont pas copiées dans le dépôt**, mais l'intégration visuelle par hotlink peut également relever des droits d'exploitation ou être techniquement bloquée par le site source. Il ne faut pas considérer cette V1.2 comme disposant d'une autorisation de reproduction des images de l'ASC, de Disney, des réalisateurs ou des photographes. Pour une diffusion publique durable, demander la permission ou substituer des photos sous licence adéquate ; sinon privilégier les liens externes vers les études.
+
+En cas de hotlink bloqué, l'application affiche un lien vers l'image chez son auteur. Un plan reconstruit est **un schéma original** et doit toujours être identifié comme tel, pas présenté comme le plan de feu d'une production.
+
+Les Situations sans véritable ensemble documentaire complet conservent leur fiche technique et leurs schémas BOS, accompagnés d'un avertissement explicite. L'absence d'une vraie photo ne doit jamais être dissimulée avec une image IA ou une photo de plateau sans rapport.
