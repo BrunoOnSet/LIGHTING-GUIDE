@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
 
-const files=['data.js','data-techniques.js','data-situations.js','data-projecteurs.js','data-accessoires.js','data-pro.js','data-pro-extra.js','data-pro-final.js','data-pro-methods.js','app.js','sw.js'];
+const files=['data.js','data-techniques.js','data-situations.js','data-projecteurs.js','data-accessoires.js','data-pro.js','data-pro-extra.js','data-pro-final.js','data-pro-methods.js','data-visual-cases.js','app.js','sw.js'];
 for (const file of files) {
   const code=fs.readFileSync(file,'utf8');
   new vm.Script(code,{filename:file});
@@ -46,6 +46,25 @@ for(const [id,dossier] of Object.entries(pro)){
   for(const source of dossier.refs||[])assert(proSources[source],'Source avancée manquante : '+id+' -> '+source);
 }
 console.log(Object.keys(pro).length+' dossiers DP vérifiés, dont '+sections.situations.length+' situations couvertes.');
+
+const cases=context.window.BOS_VISUAL_CASES;
+assert(cases?.cases?.length>=7,'Atlas de cas réels manquant');
+const caseIds=new Set(cases.cases.map(x=>x.id));
+assert.equal(caseIds.size,cases.cases.length,'Cas visuels avec identifiant répété');
+for(const entry of cases.cases){
+  assert(entry.author&&entry.source&&entry.context&&entry.takeaway,'Cas sans contexte : '+entry.id);
+  assert(entry.positions?.length>=3,'Analyse de postes insuffisante : '+entry.id);
+  assert(entry.media?.length===3,'Trois emplacements visuels attendus : '+entry.id);
+  for(const photo of entry.media)assert(photo.caption&&photo.relation&&(!photo.url||photo.url.startsWith('https://')),'Photo incorrecte : '+entry.id);
+  for(const id of entry.relevance||[])assert(ids.has(id),'Situation inconnue : '+id);
+}
+for(const [id,caseList] of Object.entries(cases.situationPriority)){
+  assert(sections.situations.some(x=>x.id===id),'Situation associée inconnue : '+id);
+  for(const caseId of caseList)assert(caseIds.has(caseId),'Cas visuel introuvable : '+caseId);
+}
+assert(fs.readFileSync('sw.js','utf8').includes('data-visual-cases.js'),'Atlas non mis en cache');
+assert(fs.readFileSync('app.js','utf8').includes('is-full-reader'),'Mode plein écran absent');
+console.log('Atlas vérifié : '+caseIds.size+' dossiers illustrés, '+Object.keys(cases.situationPriority).length+' situations référencées.');
 
 for(const [key,media] of Object.entries(context.window.BOS_MEDIA)){
   assert(media.url.startsWith('https://'),'Média sans HTTPS : '+key);
