@@ -37,6 +37,17 @@ Une navigation précédente/suivante et un sélecteur par situation permettent d
 
 **Fausse nuit et nuit américaine :** les fiches sont volontairement distinctes : filmer de jour pour nuit (day-for-night extérieur), filmer un intérieur nuit en plein jour avec occultations, créer une nuit dans un décor de studio, composer une source lunaire par fenêtre, produire une nuit extérieure, traiter les peaux rouges/magenta. La qualité des peaux varie selon les sources, l’exposition et la postproduction : les causes et solutions proposées restent des diagnostics à confirmer par essais caméra.
 
+
+## Situations V1.2 — pleine page & plan / BTS / rendu
+
+Les 27 **Situations** s'ouvrent en lecture pleine largeur, sur téléphone comme sur ordinateur (les autres rubriques conservent leur panneau latéral). Une navigation précédente / suivante et un sélecteur donnent accès à toute la bibliothèque sans refermer la fiche ; un index déroulant permet aussi d'accéder directement à une autre Situation.
+
+L'**Atlas visuel** associe, lorsque les auteurs les ont publiés : plan d'implantation original, photo du plateau, photogramme final et analyse de chaque source (position / fonction / conséquence sur l'image). Les exemples provenants de films et de breakdowns professionnels sont regroupés **par tournage** afin de ne jamais montrer des images de trois scènes comme si elles étaient liées. Les images de comparaison et BTS sans photogramme identique sont signalées. Des photos supplémentaires du dispositif peuvent être consultées à partir de certaines études.
+
+**Toutes les situations** conservent, même sans vrai jeu complet de photos, plusieurs configurations techniques et un plan BOS original vu du dessus. Ces schémas ne simulent pas les lux, les ratios réels, les distances de sécurité ou les appareils exacts d'une scène dont le plan de feu n'a pas été publié.
+
+Au démarrage V1.2, dix études visuelles d'auteur sont disponibles, avec couvertures différentes : certaines ont trois documents de même scène, d'autres deux documents et un schéma pédagogique. Les autres situations affichent clairement l'absence de photos vérifiées. Pour les crédits, l'usage des images et les liens de source : voir [SOURCES.md](SOURCES.md).
+
 ## Conditions d'utilisation
 
 Voir [SOURCES.md](SOURCES.md) pour les sources, les licences visuelles, les limites des fiches et la sécurité. Toutes les images intégrées sont des références externes, sans fichiers de photos copiés dans le dépôt. L'utilisation publique des images soumises au droit d'auteur reste à autoriser.
