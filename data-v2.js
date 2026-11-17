@@ -53,7 +53,7 @@ window.BOS_V2={
       bullets:[
         "La longueur de la pénombre renseigne sur la taille apparente ; la densité de l’umbra dépend aussi du fill ambiant et des réflexions du décor.",
         "Bounce, diffusion et book light ne donnent pas nécessairement la même structure d’ombre même à surface comparable.",
-        "Sur une peau, lire nez, mandibule et orbite est plus utile qu’un qualificatif global ‘doux’."
+        "Pour juger la lumière sur un visage, observer les ombres du nez, de la mâchoire et des orbites est plus précis que de simplement dire « c’est doux »."
       ],
       watch:["Ne pas juger uniquement la netteté du contour : la profondeur de l’ombre fait partie de la signature.","Les murs clairs peuvent réduire la densité de l’ombre sans modifier la key."],
       source:{label:"ASC — Shadow transfer / book light test",url:"https://theasc.com/article/shot-craft-diffusion-confusion-part-2-alternative-diffusion/"},
@@ -92,9 +92,9 @@ window.BOS_V2={
       kicker:"EXPOSURE LAYERS",
       summary:"Le ratio visage, le contraste du décor et la plage enregistrée sont trois lectures différentes.",
       bullets:[
-        "Un visage peut avoir un ratio marqué dans un décor très haut en valeurs moyennes.",
-        "À l’inverse, un visage presque sans ratio peut vivre dans un décor fortement séparé par zones.",
-        "Penser en couches : peau, arrière-plan, sources visibles, fenêtres, noirs de référence, spéculaires."
+        "Un visage peut présenter un fort écart entre key et fill alors que le décor reste globalement lumineux.",
+        "À l’inverse, un visage peu contrasté peut se détacher dans un décor composé de zones très claires et très sombres.",
+        "Évaluer séparément la peau, l’arrière-plan, les sources visibles, les fenêtres, les noirs et les reflets spéculaires."
       ],
       watch:["Éviter de résumer une scène à un seul ratio incident.","Le contraste final dépend aussi de l’exposition, de la courbe d’affichage et de l’étalonnage."],
       tags:["key fill","contrast","exposure","tonal separation"]
@@ -103,13 +103,13 @@ window.BOS_V2={
       id:"specular-diffuse",
       title:"Réponse diffuse et réponse spéculaire",
       kicker:"MATIERE",
-      summary:"La même source peut sembler douce sur la géométrie d’ombre et dure sur une réflexion spéculaire.",
+      summary:"Une source peut produire des ombres douces tout en dessinant un reflet spéculaire très visible.",
       bullets:[
         "La peau, le verre, le métal, le vernis et les textiles ne répondent pas de la même manière à une surface lumineuse.",
         "Agrandir la source agrandit souvent le reflet spéculaire ; cela peut adoucir son gradient mais aussi le rendre plus présent.",
-        "Sur produit, déplacer la source change souvent davantage le dessin que modifier sa puissance."
+        "Lorsqu’on filme un objet, déplacer la source modifie souvent davantage la forme des reflets que changer son intensité."
       ],
-      watch:["Lire la source comme une forme reflétée dans l’objet.","Le polarisant peut contrôler certaines réflexions mais pas les réflexions métalliques au sens simple."],
+      watch:["Observer la forme de la source telle qu’elle se reflète sur l’objet.","Un filtre polarisant peut atténuer certains reflets sur les surfaces non métalliques, mais il n’agit pas de la même manière sur les reflets d’un métal nu."],
       tags:["specular","diffuse","product","skin"]
     },
     {
@@ -120,7 +120,7 @@ window.BOS_V2={
       bullets:[
         "CRI et TM-30 décrivent une partie du rendu ; ils ne prédisent pas à eux seuls la réponse spécifique d’un capteur cinéma.",
         "Le Duv décrit l’écart au locus de Planck dans l’axe vert/magenta ; utile pour comprendre un blanc qui ‘tire’ malgré une CCT correcte.",
-        "Le métamérisme devient visible quand textiles, maquillage ou décors réagissent différemment à deux spectres apparemment similaires."
+        "Deux sources paraissant de même couleur peuvent rendre différemment les textiles ou le maquillage si leurs spectres diffèrent."
       ],
       watch:["Faire les comparaisons avec la caméra du projet, LUT active et exposition de travail.","Éviter de corriger un problème spectral uniquement avec une balance des blancs globale."],
       source:{label:"ARRI — Color fidelity, TM-30 et réponse caméra",url:"https://www.arri.com/en/learn/lighting/arri-alexa-modes"},
