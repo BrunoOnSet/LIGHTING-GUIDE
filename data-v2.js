@@ -253,9 +253,9 @@ window.BOS_V2={
     },
     {
       id:"overhead-base",
-      title:"Top ambience + local keys",
+      title:"Ambiance diffuse au plafond et keys ponctuelles",
       kicker:"METHOD",
-      summary:"Construire un niveau de base par le plafond puis ajouter des directions locales seulement là où le blocking le demande.",
+      summary:"Créer une ambiance légère depuis le plafond, puis ajouter des sources plus directionnelles là où les déplacements des comédiens le nécessitent.",
       bullets:[
         "Overhead diffus, lanternes juponnées, soft boxes ou surfaces indirectes peuvent fournir le floor.",
         "Skirts et grids évitent que l’ambiance ne lave les murs et le fond.",
@@ -266,25 +266,25 @@ window.BOS_V2={
     },
     {
       id:"hard-soft-layer",
-      title:"Hard structure + soft base",
+      title:"Lumière dure pour le décor, ambiance douce pour les visages",
       kicker:"METHOD",
-      summary:"Séparer la fonction graphique de la lumière dure de la fonction d’exposition tenue par une ambiance douce.",
+      summary:"Utiliser une lumière dure pour dessiner les ombres du décor et une ambiance douce pour maintenir de la lecture sur les visages.",
       bullets:[
         "Une source dure peut dessiner fenêtre, sol, mur ou haze sans être obligée d’exposer correctement tout le visage.",
-        "Un soft base plus bas tient les peaux et le mouvement.",
-        "Cette dissociation permet de doser indépendamment texture du décor et lisibilité du sujet."
+        "Une ambiance douce de faible niveau garde les visages lisibles pendant les déplacements.",
+        "On peut ainsi régler séparément les ombres du décor et le niveau de lumière sur le sujet."
       ],
       watch:["Éviter deux keys concurrentes sur le visage.","Le niveau de base doit rester assez bas pour que la structure dure garde son poids."],
       tags:["hard light","soft base","sun effect","haze"]
     },
     {
       id:"zone-lighting",
-      title:"Lighting into zones",
+      title:"Éclairer le décor par zones",
       kicker:"METHOD",
       summary:"Préparer plusieurs zones lumineuses cohérentes plutôt que suivre chaque acteur avec une source.",
       bullets:[
         "Chaque zone peut avoir une fonction : entrée sombre, table chaude, fenêtre froide, couloir silhouetté.",
-        "Le blocking devient un outil de contraste et non un problème à neutraliser.",
+        "Les déplacements des comédiens deviennent un choix de mise en scène : ils traversent volontairement des zones de lumière différentes.",
         "DMX et sources intégrées facilitent les transitions sans déplacer le matériel."
       ],
       watch:["Prévoir la continuité des gros plans tournés hors chronologie.","Les zones doivent être motivées visuellement ou assumées stylistiquement."],
@@ -293,22 +293,22 @@ window.BOS_V2={
     },
     {
       id:"practical-augment",
-      title:"Practical visible + augmentation hors champ",
+      title:"Lampe de décor visible et renfort hors champ",
       kicker:"METHOD",
-      summary:"Dissocier la luminance de l’objet visible de la quantité et de la qualité de lumière nécessaire sur le visage.",
+      summary:"Régler séparément l’intensité de la lampe visible et la lumière nécessaire pour éclairer correctement le visage.",
       bullets:[
         "Régler d’abord la practical pour qu’elle tienne dans le cadre et raconte la scène.",
         "Ajouter un renfort hors champ de même logique directionnelle : bounce, petite source diffusée, tube caché, réflecteur.",
-        "La practical motive ; le renfort contrôle la peau."
+        "La lampe visible justifie la direction de lumière ; le renfort hors champ permet de régler précisément le rendu du visage."
       ],
       watch:["Tester flicker, driver et dimming aux cadences du projet.","Éviter qu’un renfort trop frontal révèle une direction étrangère à la practical."],
       tags:["practical","augmentation","motivated light","flicker"]
     },
     {
       id:"cross-key",
-      title:"Cross-key : une source, deux fonctions",
+      title:"Cross-key : chaque source éclaire deux acteurs",
       kicker:"METHOD",
-      summary:"Sur deux acteurs face à face, chaque source peut être key pour l’un et edge / separation pour l’autre.",
+      summary:"Avec deux acteurs face à face, une même source peut éclairer le visage de l’un et dessiner le contour de l’autre.",
       bullets:[
         "Croiser les sources derrière ou au-delà de chaque acteur plutôt que créer deux frontales indépendantes.",
         "Différencier les niveaux pour éviter doubles ombres et aplatissement.",
@@ -319,13 +319,13 @@ window.BOS_V2={
     },
     {
       id:"day-exterior-subtractive",
-      title:"Day exterior : soustraire avant de pousser",
+      title:"Extérieur jour : retirer de la lumière avant d’en ajouter",
       kicker:"METHOD",
       summary:"En jour extérieur, le contrôle le plus efficace peut être d’abaisser ou filtrer le ciel / soleil sur le sujet plutôt que lutter en puissance.",
       bullets:[
         "Choisir orientation et horaire, placer le soleil arrière ou latéral, puis travailler overhead, negative fill et passive fill.",
         "Un grand textile peut transformer une zone de jeu entière et rendre les raccords plus stables.",
-        "La source active devient alors un accent ou une correction plutôt qu’un combat contre le soleil."
+        "Le projecteur ne sert plus qu’à ajouter un accent ou à corriger une zone, sans chercher à rivaliser avec le soleil."
       ],
       watch:["Vent, rigging et sécurité deviennent des paramètres de photographie.","Le fond non contrôlé peut rester beaucoup plus contrasté que la zone sous textile."],
       source:{label:"ARRI — gaffer Franck Barrault, soustraction de lumière",url:"https://www.arri.com/news-en/gaffer-franck-barrault-passion-for-light-with-arri-tools/301520-301520"},
@@ -333,12 +333,12 @@ window.BOS_V2={
     },
     {
       id:"low-glow",
-      title:"Low glow / floor bounce",
+      title:"Lueur basse / rebond au sol",
       kicker:"ATTRIBUTED METHOD",
       summary:"Créer une lueur basse et diffuse depuis le sol ou une surface basse pour relever légèrement des visages ou installer une sensation de lumière ambiante inhabituelle.",
       bullets:[
         "Le terme ‘low glow’ apparaît dans des descriptions d’équipe de Robert Richardson / Ian Kincaid : il désigne une contribution basse, souvent indirecte.",
-        "Le dispositif peut être très discret et sert davantage à donner de la matière qu’à constituer une key classique.",
+        "Ce faible apport sert surtout à révéler un peu de détail dans les ombres, plutôt qu’à constituer la lumière principale.",
         "Sur table ou décor sombre, le rebond bas peut aussi modeler mains et objets."
       ],
       watch:["Une source basse remonte facilement dans les yeux et sous le nez : niveau très contrôlé.","À employer comme vocabulaire attribué, pas comme terme universel de tous les plateaux."],
