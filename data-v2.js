@@ -101,7 +101,7 @@ window.BOS_V2={
     },
     {
       id:"specular-diffuse",
-      title:"Réponse diffuse et réponse spéculaire",
+      title:"Réflexions diffuses et reflets spéculaires",
       kicker:"MATIERE",
       summary:"Une source peut produire des ombres douces tout en dessinant un reflet spéculaire très visible.",
       bullets:[
@@ -455,20 +455,20 @@ window.BOS_V2={
   ],
 
   vocabulary:[
-    {term:"Ambient floor",family:"LIGHTING",definition:"Niveau de base présent dans les ombres avant la contribution principale.",nuance:"Très utile pour raisonner contraste dans un décor clair ou une ambiance overhead."},
+    {term:"Ambient floor",family:"LIGHTING",definition:"Niveau de base présent dans les ombres avant la contribution principale.",nuance:"Utile pour déterminer le contraste possible dans un décor clair ou sous une ambiance venant du plafond."},
     {term:"Far-side key",family:"LIGHTING",definition:"Key placée du côté du visage opposé à la caméra.",nuance:"Souvent aussi appelée upstage key selon le contexte de mise en scène."},
     {term:"Near-side key",family:"LIGHTING",definition:"Key du côté caméra du visage.",nuance:"Peut aplatir davantage si le fill et le décor sont élevés, mais reste un choix stylistique valide."},
     {term:"Upstage key",family:"LIGHTING",definition:"Key venant du côté ‘fond de scène’ / opposé caméra dans une géographie de dialogue.",nuance:"Terminologie surtout anglo-saxonne ; se recoupe souvent avec far-side."},
     {term:"Passive fill",family:"LIGHTING",definition:"Fill obtenu par réflexion d’une source existante plutôt que par une source active dédiée.",nuance:"Muslin, poly, mur, sol ou showcard."},
     {term:"Negative fill",family:"LIGHTING",definition:"Réduction du fill ambiant par surface absorbante.",nuance:"L’efficacité dépend surtout de la taille apparente du noir depuis le sujet."},
-    {term:"Shadow transfer",family:"LIGHTING",definition:"Zone de transition entre partie éclairée et ombre ; lecture de la pénombre et de sa densité.",nuance:"Terme utile pour comparer des qualités de source au-delà de ‘hard/soft’."},
+    {term:"Shadow transfer",family:"LIGHTING",definition:"Zone de transition entre partie éclairée et ombre ; lecture de la pénombre et de sa densité.",nuance:"Permet de comparer deux éclairages au-delà des seules étiquettes « dur » et « doux »."},
     {term:"Umbra",family:"OPTICS",definition:"Partie de l’ombre où la source est entièrement occultée.",nuance:"Sa densité réelle dépend aussi des autres contributions lumineuses."},
     {term:"Penumbra",family:"OPTICS",definition:"Zone de transition où la source n’est que partiellement occultée.",nuance:"Sa largeur augmente avec la taille angulaire de la source."},
-    {term:"Wrap",family:"LIGHTING",definition:"Sensation qu’une source enveloppe le volume au-delà du côté directement exposé.",nuance:"Souvent liée à taille de source, proximité et fill environnant."},
+    {term:"Wrap",family:"LIGHTING",definition:"Sensation qu’une source enveloppe le volume au-delà du côté directement exposé.",nuance:"Dépend notamment de la taille apparente de la source, de sa proximité et de la lumière de remplissage environnante."},
     {term:"Carry",family:"SET SLANG",definition:"Capacité pratique d’une source à conserver un niveau utile sur une distance ou une zone.",nuance:"Terme de plateau, pas une grandeur photométrique normalisée."},
     {term:"Spill",family:"LIGHTING",definition:"Lumière qui atteint une zone non désirée.",nuance:"À distinguer du fall-off : on peut avoir peu de spill et beaucoup de fall-off."},
     {term:"Feather",family:"LIGHTING",definition:"Utiliser le bord du faisceau / de la source plutôt que son centre.",nuance:"Permet d’égaliser, réduire un hotspot ou éviter de frapper le fond."},
-    {term:"Book light",family:"METHOD",definition:"Dispositif combinant bounce et diffusion pour créer une grande source indirecte.",nuance:"L’ordre et les distances peuvent varier ; le nom décrit une famille, pas une recette unique."},
+    {term:"Book light",family:"METHOD",definition:"Dispositif combinant bounce et diffusion pour créer une grande source indirecte.",nuance:"L’ordre des surfaces et leurs distances peuvent varier selon le montage."},
     {term:"Double break",family:"GRIP / LIGHTING",definition:"Deux niveaux successifs de contrôle ou diffusion dans le trajet lumineux.",nuance:"Le sens exact peut varier selon équipes ; préciser le dispositif."},
     {term:"Dead light",family:"ATTRIBUTED SLANG",definition:"Grande lumière très diffuse donnant peu de sensation de provenance.",nuance:"Terme rencontré dans certaines équipes, notamment autour de Janusz Kamiński ; pas universel."},
     {term:"Low glow",family:"ATTRIBUTED SLANG",definition:"Faible contribution diffuse et basse, souvent par rebond au sol.",nuance:"Terme attribué dans des retours d’équipe de Robert Richardson / Ian Kincaid."},
@@ -477,10 +477,10 @@ window.BOS_V2={
     {term:"Eye light",family:"PORTRAIT",definition:"Petite contribution destinée au reflet dans l’œil et/ou à ouvrir légèrement l’orbite.",nuance:"Ne doit pas forcément modifier sensiblement l’exposition du visage."},
     {term:"Topper",family:"GRIP",definition:"Drapeau utilisé pour couper la partie haute d’un faisceau.",nuance:"Le terme décrit la fonction de la coupe."},
     {term:"Sider",family:"GRIP",definition:"Drapeau placé latéralement pour contenir un faisceau.",nuance:"Souvent associé à topper/bottomer dans le langage grip."},
-    {term:"Teaser",family:"GRIP / STAGE",definition:"Coupe supérieure suspendue destinée à limiter la lumière vers le décor ou l’objectif.",nuance:"Très courant en studio / plateau."},
-    {term:"Floppy",family:"GRIP",definition:"Drapeau noir avec extension rabattable permettant de doubler rapidement la surface.",nuance:"Souvent utilisé pour negative fill ou contrôle de spill."},
+    {term:"Teaser",family:"GRIP / STAGE",definition:"Coupe supérieure suspendue destinée à limiter la lumière vers le décor ou l’objectif.",nuance:"Très courant sur les plateaux de studio."},
+    {term:"Floppy",family:"GRIP",definition:"Drapeau noir avec extension rabattable permettant de doubler rapidement la surface.",nuance:"Sert notamment de panneau noir pour retirer les retours lumineux ou couper un débordement de faisceau."},
     {term:"Wag flag",family:"GRIP",definition:"Petit drapeau léger et rapide à repositionner pour corriger une fuite ou un reflet.",nuance:"Terme surtout anglo-saxon."},
-    {term:"Single / Double net",family:"GRIP",definition:"Filet réduisant partiellement le niveau sans créer une coupure opaque.",nuance:"Single ≈ réduction plus faible ; double plus forte. Tester le moiré / focus selon distance."},
+    {term:"Single / Double net",family:"GRIP",definition:"Filet réduisant partiellement le niveau sans créer une coupure opaque.",nuance:"Un single net atténue moins qu’un double net. Vérifier le risque de trame ou de moiré selon la distance et la mise au point."},
     {term:"Duv",family:"COLOR",definition:"Distance au locus de Planck sur l’axe vert–magenta pour un blanc donné.",nuance:"Deux sources à même CCT peuvent avoir des Duv différents."},
     {term:"TM-30 Rf / Rg",family:"COLOR",definition:"Rf décrit la fidélité moyenne ; Rg la tendance globale de gamut / saturation.",nuance:"Indicateurs utiles mais non spécifiques à un capteur cinéma."},
     {term:"Metamerism",family:"COLOR",definition:"Deux objets ou sources peuvent sembler correspondre sous une condition et diverger sous une autre.",nuance:"Important avec LED, textiles, maquillage et caméras différentes."},
@@ -490,9 +490,9 @@ window.BOS_V2={
   ],
 
   materials:[
-    {id:"mat-gridcloth",title:"Grid Cloth — Full / Half / Quarter",type:"DIFFUSION",summary:"Famille de textiles diffusion robustes, souvent utilisés en grands cadres.",use:"Choisir le grade selon perte, homogénéisation et niveau de shadow transfer recherché.",watch:"Le grade ne remplace pas la taille apparente ni le remplissage du cadre."},
-    {id:"mat-magiccloth",title:"Magic Cloth",type:"DIFFUSION",summary:"Diffusion très dense donnant une surface homogène lorsque correctement remplie.",use:"Book lights, grands softs, caissons.",watch:"Perte importante ; vérifier puissance et hotspot réel derrière la toile."},
-    {id:"mat-muslin",title:"Muslin bleached / unbleached",type:"BOUNCE",summary:"Surface de bounce très utilisée ; l’unbleached apporte généralement une chaleur perceptible.",use:"Grand bounce, passive fill, overhead indirect.",watch:"La teinte réelle dépend du textile et du vieillissement : tester caméra."},
+    {id:"mat-gridcloth",title:"Grid Cloth — Full / Half / Quarter",type:"DIFFUSION",summary:"Famille de textiles diffusion robustes, souvent utilisés en grands cadres.",use:"Choisir le tissu selon l’atténuation du flux, l’uniformité de la surface et la transition d’ombre recherchées.",watch:"Le type de diffusion ne compense ni un cadre trop petit ni une surface insuffisamment éclairée."},
+    {id:"mat-magiccloth",title:"Magic Cloth",type:"DIFFUSION",summary:"Diffusion très dense, qui donne une grande surface lumineuse homogène si toute la toile est suffisamment éclairée.",use:"Book lights, grands softs, caissons.",watch:"Atténuation importante : vérifier que le projecteur reste assez puissant et que le point chaud ne se voit pas à travers la toile."},
+    {id:"mat-muslin",title:"Muslin bleached / unbleached",type:"BOUNCE",summary:"Surface de rebond très utilisée. La toile écrue (unbleached) donne généralement une lumière un peu plus chaude.",use:"Grand bounce, passive fill, overhead indirect.",watch:"La teinte exacte dépend du textile et de son état : vérifier le rendu avec la caméra du tournage."},
     {id:"mat-ultrabounce",title:"UltraBounce",type:"BOUNCE / CONTROL",summary:"Face blanche très réfléchissante, revers noir utile pour contrôle et négatif.",use:"Grand bounce extérieur, solids réversibles, grands cadres.",watch:"Surface très efficace : surveiller le niveau de fill et les réflexions."},
     {id:"mat-silver",title:"Silver / Soft Silver",type:"REFLECTOR",summary:"Réflexion plus directionnelle et spéculaire qu’un bounce blanc.",use:"Reprendre du soleil, envoyer à distance, créer un accent.",watch:"Hotspots, éblouissement, texture de peau et variation d’angle très sensibles."},
     {id:"mat-solids",title:"Solids / Duvetyne / Black",type:"SUBTRACTIVE",summary:"Surfaces absorbantes destinées à supprimer spill ou retour ambiant.",use:"Negative fill, tenting, protection objectif, découpe.",watch:"La distance au sujet détermine fortement leur efficacité comme négatif."},
@@ -500,8 +500,8 @@ window.BOS_V2={
     {id:"mat-eggcrate",title:"Eggcrate / SnapGrid",type:"CONTROL",summary:"Réduit les angles de sortie d’une source diffuse pour contenir le spill.",use:"Softbox, LiteMat, overhead, interview.",watch:"Ne transforme pas la source en spot et n’augmente pas sa douceur ; il réduit surtout le champ angulaire."},
     {id:"mat-crls",title:"CRLS Cine Reflectors",type:"REFLECTOR SYSTEM",summary:"Réflecteurs de précision avec plusieurs grades de diffusion pour rediriger la lumière avec peu de spill.",use:"Relay, key réfléchie, petites pièces, interviews, produits.",watch:"Raisonner angle et sécurité de rigging ; ce n’est pas un bounce blanc générique.",source:{label:"Lightbridge",url:"https://www.thelightbridge.com/faq/"}},
     {id:"mat-haze",title:"Haze",type:"ATMOSPHERE",summary:"Rend le trajet lumineux visible et réduit le contraste global en ajoutant de la diffusion volumétrique.",use:"Faisceaux, profondeur, séparation de plans.",watch:"Dose très faible et homogène ; continuité, ventilation, sécurité et autorisations."},
-    {id:"mat-216",title:"216 / Full White Diffusion",type:"DIFFUSION",summary:"Diffusion blanche dense très courante pour cadres et petites sources.",use:"Homogénéiser une source, créer une surface plus large si le cadre est rempli.",watch:"La référence de diffusion ne dit rien à elle seule de la taille apparente finale."},
-    {id:"mat-opal",title:"Opal / light frost",type:"DIFFUSION",summary:"Diffusion légère servant davantage à homogénéiser / casser une dureté extrême qu’à créer une grande source.",use:"Petits fixtures, réduction de multiples ombres LED, légère diffusion.",watch:"Si le matériau reste collé à une petite source, la taille apparente change peu."}
+    {id:"mat-216",title:"216 / Full White Diffusion",type:"DIFFUSION",summary:"Diffusion blanche dense très courante pour cadres et petites sources.",use:"Homogénéiser une source, créer une surface plus large si le cadre est rempli.",watch:"Le type de diffusion ne suffit pas à déterminer la douceur : la dimension du cadre et sa distance au sujet restent essentielles."},
+    {id:"mat-opal",title:"Opal / light frost",type:"DIFFUSION",summary:"Diffusion légère servant davantage à homogénéiser / casser une dureté extrême qu’à créer une grande source.",use:"Petits projecteurs, atténuation des ombres multiples de certaines LED et diffusion légère.",watch:"Si la diffusion est placée directement sur une petite source, la taille apparente augmente très peu."}
   ],
 
   sources:[
