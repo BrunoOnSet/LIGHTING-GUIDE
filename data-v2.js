@@ -171,13 +171,13 @@ window.BOS_V2={
   methods:[
     {
       id:"book-light",
-      title:"Book light : bounce → diffusion, mais pas comme dogme",
+      title:"Book light : rebond puis diffusion, sans recette figée",
       kicker:"METHOD",
       summary:"Créer une grande source indirecte, homogène et contrôlable ; le résultat dépend du remplissage du bounce, du grade de diffusion et des distances.",
       bullets:[
-        "Classique : source → bounce → diffusion. La diffusion peut être très proche du bounce pour compacter le dispositif.",
-        "Le bounce élimine une partie du hotspot primaire ; la diffusion finale homogénéise encore la surface vue du sujet.",
-        "Une variante diffusion → bounce peut être pertinente lorsque l’implantation ou la réflexion du décor l’impose."
+        "Classique : source → bounce → diffusion. La diffusion peut être placée près du rebond pour gagner de la place.",
+        "Le rebond atténue le point chaud de la source initiale ; la diffusion finale répartit encore plus uniformément la lumière vue par le sujet.",
+        "Selon l’espace disponible, on peut aussi faire passer la lumière par une diffusion avant de la renvoyer sur une surface réfléchissante."
       ],
       watch:["Mesurer la perte réelle plutôt que supposer ‘deux stops’.","Éviter qu’une petite zone du bounce soit la seule réellement éclairée."],
       source:{label:"ASC — Book light / diffusion test",url:"https://theasc.com/article/shot-craft-diffusion-confusion-part-2-alternative-diffusion/"},
@@ -187,10 +187,10 @@ window.BOS_V2={
       id:"bounce-source",
       title:"Bounce : traiter le réflecteur comme la vraie source",
       kicker:"METHOD",
-      summary:"Le projecteur fournit l’énergie ; la surface réfléchissante définit souvent la taille, la direction et la texture effectivement vues par le sujet.",
+      summary:"Le projecteur éclaire le réflecteur ; c’est souvent la surface de ce dernier qui détermine la taille et la direction de la lumière reçue par le sujet.",
       bullets:[
-        "Orienter la normale du bounce vers la zone de jeu plutôt que viser intuitivement ‘le mur’.",
-        "La zone réellement illuminée du bounce détermine la source effective.",
+        "Orienter le réflecteur pour que la lumière renvoyée atteigne la zone de jeu, plutôt que diriger le projecteur vers un mur au hasard.",
+        "La taille de la zone éclairée sur le réflecteur détermine la taille réelle de la source indirecte.",
         "Muslin, poly, ultrabounce, silver ou miroir modifient rendement, diffusion et caractère spéculaire."
       ],
       watch:["Contrôler la lumière directe qui contourne le bounce.","Sur murs colorés, le bounce prend la chromaticité du décor."],
@@ -198,21 +198,21 @@ window.BOS_V2={
     },
     {
       id:"negative-fill",
-      title:"Negative fill : soustraire un angle solide de fill",
+      title:"Negative fill : retirer une partie de la lumière ambiante",
       kicker:"METHOD",
-      summary:"Le négatif est efficace lorsqu’il remplace réellement une portion importante de l’environnement lumineux vu par le sujet.",
+      summary:"Un panneau noir est efficace s’il masque une surface qui renvoie réellement de la lumière vers le sujet.",
       bullets:[
         "Plus le solid est proche et grand depuis le visage, plus il retire de retour ambiant.",
         "Identifier l’origine du fill : mur, sol, ciel, diffusion, décor. Placer le noir contre cette contribution plutôt que ‘côté caméra’ par automatisme.",
         "En extérieur, grands solids, charcoals ou structures peuvent modeler l’ambiance avant toute source active."
       ],
-      watch:["Un négatif lointain et petit peut être presque cosmétique.","Vérifier qu’il ne coupe pas involontairement une source destinée au fond."],
+      watch:["Un petit panneau noir placé loin du sujet peut n’avoir presque aucun effet.","Vérifier qu’il ne coupe pas involontairement une source destinée au fond."],
       source:{label:"ASC — negative fill / passive fill sur Django Unchained",url:"https://theasc.com/article/django-unchained-richardson-tarantino/"},
       tags:["negative fill","solid","subtractive lighting"]
     },
     {
       id:"passive-fill",
-      title:"Passive fill : relever sans ajouter une nouvelle direction",
+      title:"Fill passif : déboucher les ombres par réflexion",
       kicker:"METHOD",
       summary:"Utiliser une surface disponible ou placée pour récupérer la key ou l’ambiance et ouvrir une ombre sans créer une seconde source perceptible.",
       bullets:[
@@ -226,13 +226,13 @@ window.BOS_V2={
     },
     {
       id:"crls-relay",
-      title:"CRLS / reflector relay : déplacer le point d’émission",
+      title:"CRLS : renvoyer une source hors champ vers le sujet",
       kicker:"METHOD",
-      summary:"Envoyer une source vers un ou plusieurs réflecteurs de précision pour obtenir des directions impossibles depuis la position du projecteur primaire.",
+      summary:"Utiliser un ou plusieurs réflecteurs de précision pour faire arriver la lumière depuis un angle inaccessible au projecteur principal.",
       bullets:[
         "Le réflecteur devient la source apparente depuis le sujet ; le projecteur peut rester au sol ou hors d’une zone caméra.",
         "Les grades de diffusion permettent de choisir entre réflexion quasi miroir et réflexion plus diffusée.",
-        "Le relay peut prolonger le trajet optique et limiter le spill sans ajouter un nouveau luminaire."
+        "Ce renvoi permet de changer la direction de la lumière sans ajouter un second projecteur, tout en limitant les fuites."
       ],
       watch:["La logique reste géométrique : angle d’incidence, angle réfléchi, taille apparente.","Ne pas confondre CRLS avec un simple bounce blanc : la surface est conçue pour une réflexion dirigée."],
       source:{label:"Lightbridge — CRLS official",url:"https://www.thelightbridge.com/faq/"},
@@ -242,7 +242,7 @@ window.BOS_V2={
       id:"far-side-key",
       title:"Far-side / upstage key",
       kicker:"METHOD",
-      summary:"Placer la key du côté opposé à la caméra par rapport au visage pour conserver modelé, nez lisible et côté caméra plus bas.",
+      summary:"Placer la key du côté du visage opposé à la caméra pour donner du relief au nez et laisser le côté caméra plus sombre.",
       bullets:[
         "La source est souvent du côté vers lequel le sujet regarde ou du côté opposé à l’axe caméra, selon le blocking.",
         "Le côté caméra peut être laissé sans fill, relevé passivement ou sculpté au négatif.",
@@ -259,7 +259,7 @@ window.BOS_V2={
       bullets:[
         "Overhead diffus, lanternes juponnées, soft boxes ou surfaces indirectes peuvent fournir le floor.",
         "Skirts et grids évitent que l’ambiance ne lave les murs et le fond.",
-        "Les keys locales peuvent être faibles : elles servent à redonner une direction, pas à porter toute l’exposition."
+        "Les keys locales peuvent rester discrètes : elles servent surtout à modeler les visages, sans nécessairement assurer toute l’exposition."
       ],
       watch:["Une ambiance trop verticale creuse orbites et dessous de nez.","Le plafond lumineux se reflète fortement dans verres, carrosseries et surfaces polies."],
       tags:["overhead","ambient","local key","skirt"]
