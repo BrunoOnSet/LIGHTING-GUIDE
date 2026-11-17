@@ -143,11 +143,76 @@ const target=find(ref.id);if(!target)return "";
 return '<article class="pro-equip"><div><strong>'+esc(target.brand||"MATÉRIEL")+'</strong><button type="button" data-related="'+esc(target.id)+'">'+esc(target.title)+' ↗</button><small>'+esc(ref.role||"")+'</small></div><p>'+esc(ref.reason||"")+'</p></article>';
 }).join("");
 }
+
+/* V1.2 — Dossiers de Situations pleine page et références photographiques de tournages */
+const VISUAL=window.BOS_VISUAL_CASES||{cases:[],situationPriority:{}};
+const CASES=new Map((VISUAL.cases||[]).map(x=>[x.id,x]));
+function situCases(id){
+const shortlist=VISUAL.situationPriority?.[id]||[];
+return shortlist.map(key=>CASES.get(key)).filter(Boolean);
+}
+function mediaFigure(img,source){
+const label={plan:"01 / PLAN DE FEU",bts:"02 / PHOTO DU PLATEAU",frame:"03 / IMAGE / RÉSULTAT"}[img.role]||"PHOTO DOCUMENTAIRE";
+const image=img.url?'<a class="case-photo-link" href="'+esc(img.url)+'" target="_blank" rel="noopener noreferrer" title="Ouvrir l’image à sa taille originale"><img class="case-photo" src="'+esc(img.url)+'" alt="'+esc(img.title)+'" loading="lazy" referrerpolicy="no-referrer"><span class="case-zoom" aria-hidden="true">Agrandir ↗</span></a>':'<div class="case-unavailable"><strong>Plan de feu original non publié</strong><p>Le plan pédagogique BOS de cette fiche n’est pas une photographie du plan de production.</p></div>';
+return '<figure class="case-photo-item"><div class="case-photo-heading"><b>'+label+'</b><span>'+esc(img.relation||"")+'</span></div>'+image+'<figcaption><strong>'+esc(img.title)+'</strong><span>'+esc(img.caption)+'</span></figcaption></figure>';
+}
+function caseStudy(caseInfo,index){
+const positions=list(caseInfo.positions).map((p,i)=>
+ '<article class="case-position"><div class="case-position-label"><span>'+String(i+1).padStart(2,"0")+'</span><h5>'+esc(p.name)+'</h5></div><div class="case-position-body"><p><b>Position</b>'+esc(p.where)+'</p><p><b>Rôle</b>'+esc(p.purpose)+'</p><p><b>Conséquence sur l’image / limite</b>'+esc(p.consequence)+'</p></div></article>').join("");
+const media=list(caseInfo.media).map(x=>mediaFigure(x,caseInfo.source)).join("");
+const extras=list(caseInfo.extras).map(x=>'<figure class="case-extra-photo"><a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(x.url)+'" alt="'+esc(x.title)+'" loading="lazy" referrerpolicy="no-referrer"></a><figcaption><strong>'+esc(x.title)+'</strong> — '+esc(x.caption)+'</figcaption></figure>').join("");
+return '<article class="case-study" id="case-'+esc(caseInfo.id)+'"><div class="case-study-heading"><div><div class="case-study-label">'+String(index+1).padStart(2,"0")+' / '+(caseInfo.match==="documente"?"CAS DE TOURNAGE DOCUMENTÉ":"DOCUMENTATION PARTIELLE")+'</div><h4>'+esc(caseInfo.title)+'</h4><p>'+esc(caseInfo.context)+'</p></div><div class="case-author"><span>'+esc(caseInfo.author)+'</span><small>'+esc(caseInfo.production)+'</small><a href="'+esc(caseInfo.source)+'" target="_blank" rel="noopener noreferrer">Voir le breakdown complet ↗</a></div></div>'+
+ '<div class="case-photo-grid">'+media+'</div>'+
+ '<div class="case-analysis"><div class="case-analysis-top"><span>ANALYSE DE LA CONFIGURATION</span><h5>Chaque poste, son rôle et son impact sur l’image</h5></div><div class="case-positions">'+positions+'</div></div>'+
+ (extras?'<details class="case-extras"><summary>Photos complémentaires du dispositif ('+list(caseInfo.extras).length+')</summary><div class="case-extras-grid">'+extras+'</div></details>':"")+
+ '<div class="case-takeaway"><span>À RETENIR</span><p>'+esc(caseInfo.takeaway)+'</p></div>'+
+ '<p class="case-disclosure">'+esc(caseInfo.caveat)+' Photographies et documents © leurs auteurs respectifs ; images affichées depuis le site source, non hébergées dans BOS.</p></article>';
+}
+function exploreSituations(){
+const arr=DATA.situations||[],groups=[...new Set(arr.map(x=>x.group))];
+return '<details class="reader-index"><summary><span>Parcourir toutes les situations</span><small>'+arr.length+' fiches · accès direct</small></summary><div class="reader-index-inner">'+groups.map(g=>'<section class="reader-group"><h4>'+esc(g)+'</h4><div>'+arr.filter(x=>x.group===g).map(x=>'<button type="button" data-related="'+esc(x.id)+'">'+esc(x.title)+'<span>↗</span></button>').join("")+'</div></section>').join("")+'</div></details>';
+}
+function visualAtlas(item){
+if(item.type!=="situations")return "";
+const cases=situCases(item.id);
+const gallery=cases.length?cases.map(caseStudy).join(""):'<div class="case-none"><strong>Pas encore de triptyque vérifié pour cette situation.</strong><p>Le plan de principe est présenté plus bas avec les configurations de travail. J’évite d’associer trois photos qui ne proviennent pas de la même scène. Les sources documentaires en bas de fiche permettent de poursuivre la recherche.</p></div>';
+return '<section class="casebook" id="casebook"><div class="casebook-intro"><div><span>ATLAS VISUEL / '+(cases.length?cases.length+" ÉTUDE"+(cases.length>1?"S":""):"RECHERCHE DOCUMENTAIRE")+'</span><h3>Plan de feu · Plateau · Image</h3></div><p>Les documents de tournage réels sont réunis lorsque le lien entre les images est attesté. Mon analyse décrit ce que fait chaque source et l’effet de sa position. Un plan pédagogique reconstruit n’est jamais présenté comme un plan original.</p></div>'+gallery+'</section>';
+}
+function drawnSituationPlot(item,variant,index){
+if(item.type!=="situations")return "";
+const id=item.id;
+const needsWindow=/window|night-day-interior|reverse-window|day-continuity|studio-day/.test(id);
+const moving=/moving|walk-and-talk|plan-sequence|scene-360/.test(id);
+const dialog=/dialogue|table/.test(id);
+const exterior=/sun-outdoor|moonlight|exterior-night|day-for-night/.test(id);
+const hasCar=/car-night/.test(id);
+const gap=7;
+const bg='<rect x="24" y="25" width="592" height="333" rx="11" fill="#26342f" stroke="#8e9a8f" stroke-width="1.4"/>';
+let s=bg;
+if(needsWindow)s+='<path d="M169 26v80m0 124v127" stroke="#aec1b4" stroke-width="7"/><path d="M169 106v124" stroke="#e3e2d2" stroke-width="7" opacity=".95"/>'+txt(180,103,"FENÊTRE / OUVERTURE");
+if(moving){
+ s+=panel(120,85,14,201,"A / SOURCE LARGE")+actor(343,137,"POSITION A")+actor(477,237,"POSITION B")+camera(351,302)+ray(150,145,315,145)+ray(150,205,449,236);
+ s+='<path d="M345 170Q384 213 454 224" fill="none" stroke="#e9ae7b" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#arr)"/>';
+}else if(dialog){
+ s+=lamp(164,96,"A / KEY")+lamp(465,96,"B / KEY")+actor(300,204,"SUJET 1")+actor(436,204,"SUJET 2")+camera(360,312)+ray(184,110,422,185)+ray(447,110,312,182);
+}else if(hasCar){
+ s+='<rect x="285" y="127" width="195" height="112" rx="32" fill="#485b53" stroke="#c7d9ca" stroke-width="3"/>'+actor(330,173,"CONDUCTEUR")+actor(427,173,"PASSAGER")+lamp(181,102,"A / PASSAGE")+lamp(529,266,"B / PRACTICAL")+camera(320,300)+ray(200,117,305,155);
+}else if(exterior){
+ s+=lamp(136,80,"A / DIRECTION")+actor(407,197,"SUJET")+camera(407,311)+ray(162,100,378,171)+panel(520,122,13,144,"B / NEG","#111815")+txt(60,333,"FOND / PROFONDEUR");
+}else{
+ s+=lamp(needsWindow?84:150,148,"A / KEY")+actor(401,181,"SUJET")+camera(402,311)+ray(needsWindow?108:174,154,372,175)+panel(518,119,12,137,"B / CONTRÔLE","#121916");
+ if(/night|candle|interior/.test(id))s+=lamp(532,278,"C / DÉCOR")+ray(513,270,438,205);
+}
+const cues='<span>Configuration '+String(index+1).padStart(2,"0")+' · hypothèse BOS</span>';
+const cap='Schéma original, construit à partir des indications de la fiche. Il précise les grandes directions, pas la géométrie exacte d’un tournage réel ; ni distances ni lux ne sont mesurés.';
+return '<figure class="situ-plot"><div class="situ-plot-heading"><b>IMPLANTATION EXPLIQUÉE</b>'+cues+'</div>'+SVG_BASE(s)+'<figcaption>'+esc(cap)+'</figcaption></figure>';
+}
+
 function proDetail(item){
 const p=PRO[item.id];if(!p)return"";
 const setups=list(p.variants).map((v,i)=>{
 const linked=list(v.kit).map(id=>find(id)).filter(Boolean);
-return '<article class="pro-setup"><div class="pro-setup-top"><span class="pro-number">'+String(i+1).padStart(2,"0")+'</span><h4>'+esc(v.title)+'</h4></div><p class="pro-when">'+esc(v.when||"")+'</p><div class="pro-setup-grid"><div><b>Implantation</b>'+proPara(v.setup||"")+'</div><div><b>Contrôle caméra</b>'+proPara(v.camera||"")+'</div></div><p class="pro-why"><b>Logique :</b> '+esc(v.why||"")+'</p>'+(linked.length?'<div class="pro-mini-kit"><span>Sources / accessoires</span>'+linked.map(o=>'<button type="button" data-related="'+esc(o.id)+'">'+esc(o.title)+' ↗</button>').join("")+'</div>':"")+'</article>';
+return '<article class="pro-setup"><div class="pro-setup-top"><span class="pro-number">'+String(i+1).padStart(2,"0")+'</span><h4>'+esc(v.title)+'</h4></div><p class="pro-when">'+esc(v.when||"")+'</p>'+drawnSituationPlot(item,v,i)+'<div class="pro-setup-grid"><div><b>Implantation</b>'+proPara(v.setup||"")+'</div><div><b>Contrôle caméra</b>'+proPara(v.camera||"")+'</div></div><p class="pro-why"><b>Logique :</b> '+esc(v.why||"")+'</p>'+(linked.length?'<div class="pro-mini-kit"><span>Sources / accessoires</span>'+linked.map(o=>'<button type="button" data-related="'+esc(o.id)+'">'+esc(o.title)+' ↗</button>').join("")+'</div>':"")+'</article>';
 }).join("");
 const problems=list(p.traps).map(v=>'<article class="pro-issue"><div class="pro-issue-title"><span>PIÈGE</span><h4>'+esc(v.symptom||"")+'</h4></div><div><strong>Cause probable</strong><p>'+esc(v.cause||"")+'</p><strong>Diagnostic / correction</strong><p>'+esc(v.fix||"")+'</p></div></article>').join("");
 const citations=list(p.refs).map(id=>PRO_SOURCES[id]).filter(Boolean).map(v=>'<a target="_blank" rel="noopener noreferrer" href="'+esc(v.url)+'">'+esc(v.name)+' ↗</a>').join("");
@@ -182,12 +247,13 @@ $("#itemJump").addEventListener("change",e=>{if(find(e.target.value))openItem(e.
 function detailHTML(item){
 let isTech=item.type==="techniques"||item.type==="situations";
 const advanced=!!PRO[item.id];
-return '<div class="detail-kicker">'+esc(SECTIONS[item.type])+' / '+esc(item.group)+'</div><h2 class="detail-title" id="detailTitle">'+esc(item.title)+'</h2><p class="detail-summary">'+esc(item.summary)+'</p><div class="detail-labels">'+(item.brand?'<span>'+esc(item.brand)+'</span>':"")+'<span>'+esc(item.group)+'</span><span>'+(advanced?"Carnet DP · dossier technique":isTech?"Installation illustrée":"Référence de plateau")+'</span></div>'+(advanced?proDetail(item)+'<details class="pro-legacy"><summary>Fiche synthétique & photographie documentaire</summary>'+(photoFor(item)?"":showPhotograph(item))+mainDetails(item)+(isTech?diagram(item.diagram):"")+'</details>':showPhotograph(item)+(isTech?diagram(item.diagram):"")+mainDetails(item)+materialSpecs(item)+(isTech?"":diagram(item.diagram)))+related(item)+sourceList(item);
+return (item.type==="situations"?exploreSituations():"")+'<div class="detail-kicker">'+esc(SECTIONS[item.type])+' / '+esc(item.group)+'</div><h2 class="detail-title" id="detailTitle">'+esc(item.title)+'</h2><p class="detail-summary">'+esc(item.summary)+'</p><div class="detail-labels">'+(item.brand?'<span>'+esc(item.brand)+'</span>':"")+'<span>'+esc(item.group)+'</span><span>'+(advanced?"Carnet DP · dossier technique":isTech?"Installation illustrée":"Référence de plateau")+'</span></div>'+(advanced?visualAtlas(item)+proDetail(item)+'<details class="pro-legacy"><summary>Fiche synthétique & photographie documentaire</summary>'+(photoFor(item)?"":showPhotograph(item))+mainDetails(item)+(isTech?diagram(item.diagram):"")+'</details>':showPhotograph(item)+(isTech?diagram(item.diagram):"")+mainDetails(item)+materialSpecs(item)+(isTech?"":diagram(item.diagram)))+related(item)+sourceList(item);
 }
 function openItem(id,{fromHash=false}={}){
 const item=find(id);if(!item)return;if(!current)previousFocus=document.activeElement;current=id;loadingMedia++;
 $("#detailBreadcrumb").textContent="BOS / "+SECTIONS[item.type].toUpperCase()+" / FICHE";
 $("#detailScroll").innerHTML=detailHTML(item);
+$("#detailOverlay").classList.toggle("is-full-reader",item.type==="situations");
 updateStepper(item);
 $("#detailOverlay").hidden=false;document.body.classList.add("modal-open");$("#favoriteBtn").textContent=favoriteIds.has(id)?"★":"☆";$("#favoriteBtn").classList.toggle("is-fav",favoriteIds.has(id));
 $("#detailScroll").scrollTop=0;$(".detail-panel").focus();
@@ -198,7 +264,7 @@ if(img)img.addEventListener("error",()=>{const fig=img.closest("figure");if(fig)
 }
 function closeItem({fromHash=false}={}){
 if(!current)return;
-$("#detailOverlay").hidden=true;document.body.classList.remove("modal-open");current=null;loadingMedia++;if(!fromHash)history.pushState(null,"","#bibliotheque");if(previousFocus&&previousFocus.isConnected)previousFocus.focus();
+$("#detailOverlay").hidden=true;$("#detailOverlay").classList.remove("is-full-reader");document.body.classList.remove("modal-open");current=null;loadingMedia++;if(!fromHash)history.pushState(null,"","#bibliotheque");if(previousFocus&&previousFocus.isConnected)previousFocus.focus();
 }
 $("#closeDetail").addEventListener("click",()=>closeItem());
 $("#overlayBackdrop").addEventListener("click",()=>closeItem());
