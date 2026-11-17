@@ -38,14 +38,50 @@ $("#clearSearch").addEventListener("click",()=>{query="";$("#searchInput").value
 $("#resetBtn").addEventListener("click",()=>{query="";filter="Tous";$("#searchInput").value="";$("#clearSearch").hidden=true;render()});
 function baseItems(){if(query)return all;return tab==="favoris"?all.filter(x=>favoriteIds.has(x.id)):DATA[tab]||[]}
 const searchIndex=new Map();
-function searchText(o){if(searchIndex.has(o.id))return searchIndex.get(o.id);const p=window.BOS_PRO?.[o.id];const extra=p?JSON.stringify(p):"";const study=o.study?JSON.stringify({author:o.study.author,production:o.study.production,context:o.description,positions:o.study.positions,tags:o.tags}):"";const value=normalize([o.title,o.group,o.brand,o.summary,o.principle,o.usage,o.tip,...list(o.steps),...list(o.related),extra,study].join(" "));searchIndex.set(o.id,value);return value}
-function renderFilters(items){const groups=[...new Set(items.map(x=>x.group).filter(Boolean))];if(!groups.includes(filter))filter="Tous";const filters=$("#filters");filters.innerHTML=["Tous",...groups].map(g=>'<button type="button" data-filter="'+esc(g)+'" class="'+(filter===g?"active":"")+'" aria-pressed="'+(filter===g)+'">'+esc(g)+'</button>').join("");$$("[data-filter]",filters).forEach(el=>el.addEventListener("click",()=>{filter=el.dataset.filter;render()}))}
+function searchText(o){if(searchIndex.has(o.id))return searchIndex.get(o.id);const p=window.BOS_PRO?.[o.id];const extra=p?JSON.stringify(p):"";const study=o.study?JSON.stringify({author:o.study.author,production:o.study.production,context:o.description,positions:o.study.positions,tags:o.tags}):"";const value=normalize([o.title,o.group,o.brand,o.summary,o.principle,o.usage,o.tip,...list(o.steps),...list(o.related),extra,study,JSON.stringify(METHOD_TIPS[o.id]||[])].join(" "));searchIndex.set(o.id,value);return value}
+function renderFilters(items){
+  const methodMode=tab==="techniques"&&!query;
+  const groups=methodMode?["Toutes","Méthodes","Configurations types"]:[ "Tous",...[...new Set(items.map(x=>x.group).filter(Boolean))] ];
+  if(methodMode){
+    if(filter==="Tous")filter="Toutes";
+    if(!groups.includes(filter))filter="Toutes";
+  } else if(!groups.includes(filter))filter="Tous";
+  const filters=$("#filters");
+  filters.innerHTML=groups.map(g=>'<button type="button" data-filter="'+esc(g)+'" class="'+(filter===g?"active":"")+'" aria-pressed="'+(filter===g)+'">'+esc(g)+'</button>').join("");
+  $("[data-filter]",filters).forEach(el=>el.addEventListener("click",()=>{filter=el.dataset.filter;render()}))
+}
 function cardSketch(type){
 const variant=({window:1,book:2,bounce:3,cove:3,negative:4,moving:5,top:6,cross:7,back:8,direct:9,diffuse:10,double:10,three:7,practical:8,side:9,under:9,cookie:1})[type]||9;
 const loc=[[45,76],[74,75],[87,73],[68,55],[55,115],[96,78],[70,60],[82,80],[90,78],[80,70],[76,85]][variant]||[80,70];
 return '<svg viewBox="0 0 440 170" aria-hidden="true"><defs><pattern id="gridc" width="23" height="23" patternUnits="userSpaceOnUse"><path d="M23 0H0V23" fill="none" stroke="#708179" stroke-width=".45" opacity=".22"/></pattern><linearGradient id="glowc"><stop stop-color="#c88a52" stop-opacity=".35"/><stop offset="1" stop-color="#c88a52" stop-opacity=".015"/></linearGradient></defs><rect width="440" height="170" fill="#26342f"/><rect width="440" height="170" fill="url(#gridc)"/><path d="M30 20H410V150H30Z" fill="none" stroke="#61746b" stroke-width="1.2"/><path d="M'+loc[0]+' '+loc[1]+'L240 20L240 150Z" fill="url(#glowc)"/><circle cx="'+loc[0]+'" cy="'+loc[1]+'" r="12" fill="#d2a272" stroke="#e5c9a0" stroke-width="1.5"/><circle cx="260" cy="75" r="18" fill="#b3c4b8"/><path d="M243 99q18-10 35 0v18h-35z" fill="#8fae9b"/><path d="M260 117v19" stroke="#b3c4b8"/><rect x="241" y="145" width="38" height="10" rx="3" fill="#d6a16a"/><path d="M241 145l-8-7m46 7 8-7" stroke="#d6a16a" stroke-width="2"/><path d="M'+loc[0]+' '+loc[1]+'L245 69" fill="none" stroke="#d5b28a" stroke-dasharray="5 6" stroke-width="1.5"/>'+([2,3,10].includes(variant)?'<rect x="170" y="28" width="10" height="110" rx="3" fill="#d5d7c7" opacity=".8"/>':'')+([4].includes(variant)?'<rect x="350" y="35" width="12" height="100" rx="2" fill="#101815" stroke="#738078"/>':'')+'<text x="23" y="159" fill="#a5b9ac" font-size="9" font-family="sans-serif" letter-spacing="1.4">BOS / LIGHTING</text></svg>';
 }
 function photoFor(item){return item.media&&MEDIA[item.media]?MEDIA[item.media]:null}
+
+/* V1.4 — Carnet Méthodes : bulles repliables, sans schémas BOS. */
+const METHOD_TIPS=window.BOS_METHOD_TIPS||{};
+const METHOD_PHOTOS=new Set(["book","bounce","cove","motivated"]); // photos documentaires réelles, jamais un plan inventé
+function methodCard(item){
+  const m=METHOD_PHOTOS.has(item.id)?photoFor(item):null;
+  const hasPro=!!PRO[item.id];
+  const tips=list(METHOD_TIPS[item.id]);
+  const title=esc(item.title);
+  const genre=item.documentationType==="configuration"?"Configuration type":item.group;
+  const action=list(item.steps).filter(Boolean)[0]||item.principle||"";
+  const photo=m?'<figure class="method-figure"><a href="'+esc(m.page)+'" target="_blank" rel="noopener noreferrer"><img class="method-photo" src="'+esc(m.url)+'" alt="Photographie documentaire : '+title+'" loading="lazy" referrerpolicy="no-referrer"></a><figcaption>'+esc(m.credit)+' · <a href="'+esc(m.page)+'" target="_blank" rel="noopener noreferrer">Source photographique ↗</a></figcaption></figure>':"";
+  const notes=tips.length?'<div class="method-tips"><h4>Conseil de chef opérateur · source vérifiable</h4>'+tips.map(t=>'<div class="method-tip"><p>'+esc(t.text)+'</p><a href="'+esc(t.url)+'" target="_blank" rel="noopener noreferrer">'+esc(t.by)+' · Voir l’explication originale ↗</a></div>').join("")+'</div>':"";
+  const favorite=favoriteIds.has(item.id);
+  return '<details class="method-bubble" data-method-id="'+esc(item.id)+'"><summary class="method-head"><span class="method-head-text"><small>'+esc(genre)+'</small><strong>'+title+'</strong><span>'+esc(item.summary||"")+'</span></span><span class="method-chevron" aria-hidden="true">⌄</span></summary>'+
+  '<div class="method-body"><div class="method-main"><p class="method-action"><b>En pratique</b>'+esc(action)+'</p>'+notes+'</div>'+photo+
+  '<div class="method-foot"><button type="button" class="method-fav" data-method-fav="'+esc(item.id)+'" aria-pressed="'+favorite+'" aria-label="'+(favorite?"Retirer des favoris":"Ajouter aux favoris")+'">'+(favorite?"★ En favori":"☆ Ajouter aux favoris")+'</button></div></div></details>';
+}
+function openMethod(id,{fromHash=false}={}){
+  if(current)closeItem({fromHash:true});
+  if(tab!=="techniques"||query||filter!=="Tous")selectTab("techniques");
+  let node=$("[data-method-id]",$("#cards")).find(el=>el.dataset.methodId===id);
+  if(node){node.open=true;node.scrollIntoView({behavior:"smooth",block:"center"});}
+  if(!fromHash)history.pushState(null,"","#methode/"+encodeURIComponent(id));
+}
+
 function card(item){
 const m=item.study?.media?.find(x=>x.role==="frame")||photoFor(item);const typeLabel=SECTIONS[item.type]||"Guide";
 return '<button class="guide-card" type="button" data-open="'+esc(item.id)+'" aria-label="Ouvrir '+esc(item.title)+'"><div class="card-graphic">'+(m?'<img class="card-photo" src="'+esc(m.url)+'" alt="Photographie réelle : '+esc(item.title)+'" loading="lazy" referrerpolicy="no-referrer">':cardSketch(item.diagram))+'<span class="graphic-corner">'+esc(typeLabel.toUpperCase())+'</span></div><div class="card-content"><div class="card-topline"><span class="card-category">'+esc(item.brand?item.brand+" · "+item.group:item.group)+'</span><span class="card-arrow">'+(favoriteIds.has(item.id)?"★":"↗")+'</span></div><h3>'+esc(item.title)+'</h3><p>'+esc(item.summary)+'</p><div class="card-tags"><span>'+(item.study?"Plan + plateau + image":window.BOS_PRO?.[item.id]?"Dossier DP approfondi":"Fiche de référence")+'</span>'+(item.study?'<span>3 documents du tournage</span>':item.type==="techniques"?'<span>Schéma en plan</span>':'<span>Documentation</span>')+'</div></div></button>';
@@ -55,13 +91,23 @@ favoritesCount();const base=baseItems();
 let output=base;
 if(query){const terms=normalize(query).split(/\s+/).filter(Boolean);output=output.filter(x=>terms.every(q=>searchText(x).includes(q)))}
 renderFilters(output);
-if(filter!=="Tous")output=output.filter(x=>x.group===filter);
+if(filter!=="Tous"&&filter!=="Toutes")output=output.filter(x=>tab==="techniques"&&!query?filter==="Méthodes"?x.documentationType!=="configuration":x.documentationType==="configuration":x.group===filter);
 $("#resultCount").textContent=output.length+" fiche"+(output.length!==1?"s":"")+(query?" · recherche dans toutes les rubriques":"");
-$("#cards").innerHTML=output.map(card).join("");
+const methodsOnly=tab==="techniques"&&output.every(x=>x.type==="techniques");
+$("#cards").classList.toggle("methods-list",methodsOnly);
+$("#cards").innerHTML=methodsOnly?output.map(methodCard).join(""):output.map(card).join("");
 $("#emptyState").hidden=output.length>0;
 }
-$("#cards").addEventListener("click",e=>{const el=e.target.closest("[data-open]");if(el)openItem(el.dataset.open)});
-$("#cards").addEventListener("error",e=>{const img=e.target;if(img.matches("img.card-photo"))img.replaceWith(document.createRange().createContextualFragment(cardSketch("direct")))},true);
+$("#cards").addEventListener("click",e=>{
+  const fav=e.target.closest("[data-method-fav]");
+  if(fav){const id=fav.dataset.methodFav;favoriteIds.has(id)?favoriteIds.delete(id):favoriteIds.add(id);persist();const on=favoriteIds.has(id);fav.textContent=on?"★ En favori":"☆ Ajouter aux favoris";fav.setAttribute("aria-pressed",String(on));fav.setAttribute("aria-label",on?"Retirer des favoris":"Ajouter aux favoris");favoritesCount();toast(on?"Ajouté aux favoris":"Retiré des favoris");return}
+  const el=e.target.closest("[data-open]");if(el)openItem(el.dataset.open);
+});
+$("#cards").addEventListener("error",e=>{
+ const img=e.target;
+ if(img.matches("img.method-photo")){const link=img.closest("a");if(link){img.remove();const notice=document.createElement("span");notice.className="method-photo-error";notice.textContent="Photographie non affichable — ouvrir chez son auteur ↗";link.append(notice)}return}
+ if(img.matches("img.card-photo"))img.replaceWith(document.createRange().createContextualFragment(cardSketch("direct")));
+},true);
 const SVG_BASE=(contents)=>'<svg viewBox="0 0 640 390" role="img" aria-label="Schéma technique, vue du dessus, non à l’échelle" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="board" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#788a80" stroke-opacity=".16" stroke-width="1"/></pattern><marker id="arr" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#dfb98f" stroke-width="1.2"/></marker></defs><rect width="640" height="390" fill="#24302d"/><rect width="640" height="390" fill="url(#board)"/><rect x="45" y="30" width="550" height="316" fill="none" stroke="#7f9286" stroke-width="1.3"/>'+contents+'<text x="60" y="369" fill="#b0baaf" font-size="10" letter-spacing="1.8" font-family="sans-serif">SCHÉMA D’IMPLANTATION / VUE DE DESSUS</text><text x="580" y="369" fill="#b0baaf" text-anchor="end" font-size="10" font-family="sans-serif">NON À L’ÉCHELLE</text></svg>';
 const txt=(x,y,t,anchor="start")=>'<text x="'+x+'" y="'+y+'" fill="#bdc9bb" font-family="sans-serif" font-size="10.5" text-anchor="'+anchor+'" letter-spacing=".4">'+esc(t)+'</text>';
 const lamp=(x,y,caption)=>'<g><circle cx="'+x+'" cy="'+y+'" r="21" fill="#c89158" stroke="#f8d9a9" stroke-width="1.5"/><circle cx="'+x+'" cy="'+y+'" r="7" fill="#f9e9cc"/><path d="M'+(x-23)+' '+(y-12)+'l-11-6v36l11-6Z" fill="#c89158"/></g>'+txt(x,y+39,caption,"middle");
@@ -276,7 +322,8 @@ const advanced=!!PRO[item.id];
 return (item.type==="situations"?exploreSituations():"")+'<div class="detail-kicker">'+esc(SECTIONS[item.type])+' / '+esc(item.group)+'</div><h2 class="detail-title" id="detailTitle">'+esc(item.title)+'</h2><p class="detail-summary">'+esc(item.summary)+'</p><div class="detail-labels">'+(item.brand?'<span>'+esc(item.brand)+'</span>':"")+'<span>'+esc(item.group)+'</span><span>'+(advanced?"Carnet DP · dossier technique":isTech?"Installation illustrée":"Référence de plateau")+'</span></div>'+(advanced?visualAtlas(item)+proDetail(item)+'<details class="pro-legacy"><summary>Fiche synthétique & photographie documentaire</summary>'+(photoFor(item)?"":showPhotograph(item))+mainDetails(item)+(isTech?diagram(item.diagram):"")+'</details>':showPhotograph(item)+(isTech?diagram(item.diagram):"")+mainDetails(item)+materialSpecs(item)+(isTech?"":diagram(item.diagram)))+related(item)+sourceList(item);
 }
 function openItem(id,{fromHash=false}={}){
-const item=find(id);if(!item)return;if(!current)previousFocus=document.activeElement;current=id;loadingMedia++;
+const item=find(id);if(!item)return;
+if(item.type==="techniques"){openMethod(id,{fromHash});return}if(!current)previousFocus=document.activeElement;current=id;loadingMedia++;
 $("#detailBreadcrumb").textContent="BOS / "+SECTIONS[item.type].toUpperCase()+" / FICHE";
 $("#detailScroll").innerHTML=detailHTML(item);
 $("#detailOverlay").classList.toggle("is-full-reader",item.type==="situations");
@@ -303,7 +350,7 @@ if(target){target.classList.add("case-photo-failed");img.remove();const note=doc
 $("#detailScroll").addEventListener("click",e=>{const btn=e.target.closest("[data-related]");if(btn){openItem(btn.dataset.related);return}const jump=e.target.closest("[data-scroll]");if(jump){const target=document.getElementById(jump.dataset.scroll);if(target)target.scrollIntoView({behavior:"smooth",block:"start"})}});
 $("#favoriteBtn").addEventListener("click",()=>{if(!current)return;if(favoriteIds.has(current))favoriteIds.delete(current);else favoriteIds.add(current);persist();const fav=favoriteIds.has(current);$("#favoriteBtn").textContent=fav?"★":"☆";$("#favoriteBtn").classList.toggle("is-fav",fav);render();toast(fav?"Ajouté aux favoris":"Retiré des favoris")});
 $("#shareBtn").addEventListener("click",async()=>{if(!current)return;const url=location.origin+location.pathname+"#fiche/"+encodeURIComponent(current);try{await navigator.clipboard.writeText(url);toast("Lien copié")}catch{toast("Lien : "+url)}});
-function syncHash(){const match=decodeURIComponent(location.hash).match(/^#fiche\/(.+)$/);if(match){if(match[1]!==current)openItem(match[1],{fromHash:true})}else if(current)closeItem({fromHash:true})}
+function syncHash(){const hash=decodeURIComponent(location.hash);const method=hash.match(/^#methode\/(.+)$/);if(method){openMethod(method[1],{fromHash:true});return}const match=hash.match(/^#fiche\/(.+)$/);if(match){if(match[1]!==current)openItem(match[1],{fromHash:true})}else if(current)closeItem({fromHash:true})}
 window.addEventListener("hashchange",syncHash);
 function stringText(html){const el=document.createElement("div");el.innerHTML=html||"";return el.textContent.trim()}
 async function loadCommonsPhoto(item,request){
