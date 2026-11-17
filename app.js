@@ -1,393 +1,189 @@
-/* BOS LIGHTING GUIDE — moteur statique, sans dépendances externes.
- * Les fiches textuelles et les schémas sont disponibles hors ligne après installation.
- */
-(()=>{"use strict";
-const DATA=window.BOS_GUIDE||{techniques:[],situations:[],projecteurs:[],accessoires:[]};
-const SOURCES=window.BOS_SOURCES||{},MEDIA=window.BOS_MEDIA||{};
-const SECTIONS={techniques:"Méthodes",situations:"Situations",projecteurs:"Projecteurs",accessoires:"Accessoires",favoris:"Favoris"};
-const all=Object.keys(DATA).flatMap(k=>DATA[k]);
-const find=id=>all.find(x=>x.id===id);
-const $=(s,root=document)=>root.querySelector(s);
-const $$=(s,root=document)=>Array.from(root.querySelectorAll(s));
-const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const normalize=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
-const list=x=>Array.isArray(x)?x:[];
-const iconArrow='<span aria-hidden="true">↗</span>';
-let tab="techniques",filter="Tous",query="",current=null,previousFocus=null,deferredInstall=null,loadingMedia=0;
-const storage=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}};
-let favoriteIds=new Set(storage("bos-guide-favs-v1",[]));
-function persist(){try{localStorage.setItem("bos-guide-favs-v1",JSON.stringify([...favoriteIds]))}catch{}}
-function toast(msg){const el=$("#toast");el.textContent=msg;el.classList.add("show");clearTimeout(toast._timer);toast._timer=setTimeout(()=>el.classList.remove("show"),2300)}
-function theme(mode){document.documentElement.dataset.theme=mode;document.querySelector('meta[name="theme-color"]').content=mode==="dark"?"#171d1b":"#f3f4f2";$("#themeBtn").setAttribute("aria-label",mode==="dark"?"Passer au thème clair":"Passer au thème sombre");try{localStorage.setItem("bos-guide-theme",JSON.stringify(mode))}catch{}}
-theme(storage("bos-guide-theme","light"));
-$("#themeBtn").addEventListener("click",()=>theme(document.documentElement.dataset.theme==="light"?"dark":"light"));
-Object.keys(DATA).forEach(k=>{const n=$('[data-count="'+k+'"]');if(n)n.textContent=DATA[k].length+" fiches"});
-function favoritesCount(){const el=$("#favCounter");el.textContent=favoriteIds.size||""}
-function selectTab(name,{scroll=false,clear=true}={}){
-if(!SECTIONS[name])return;
-tab=name;filter="Tous";if(clear){query="";$("#searchInput").value="";$("#clearSearch").hidden=true}
-$$('[data-tab]').forEach(el=>{const active=el.dataset.tab===tab;el.classList.toggle("active",active);el.setAttribute("aria-selected",String(active))});
-render();if(scroll)$("#bibliotheque").scrollIntoView({behavior:"smooth",block:"start"});
-}
-$$("[data-tab]").forEach(el=>el.addEventListener("click",()=>selectTab(el.dataset.tab)));
-$$("[data-section]").forEach(el=>el.addEventListener("click",()=>selectTab(el.dataset.section,{scroll:true})));
-$$("[data-quick]").forEach(el=>el.addEventListener("click",()=>openItem(el.dataset.quick)));
-$("#exploreBtn").addEventListener("click",()=>$("#bibliotheque").scrollIntoView({behavior:"smooth",block:"start"}));
-$("#searchInput").addEventListener("input",e=>{query=e.target.value.trim();filter="Tous";$("#clearSearch").hidden=!query;render()});
-$("#clearSearch").addEventListener("click",()=>{query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();$("#searchInput").focus()});
-$("#resetBtn").addEventListener("click",()=>{query="";filter="Tous";$("#searchInput").value="";$("#clearSearch").hidden=true;render()});
-function baseItems(){if(query)return all;return tab==="favoris"?all.filter(x=>favoriteIds.has(x.id)):DATA[tab]||[]}
-const searchIndex=new Map();
-function searchText(o){if(searchIndex.has(o.id))return searchIndex.get(o.id);const p=window.BOS_PRO?.[o.id];const extra=p?JSON.stringify(p):"";const study=o.study?JSON.stringify({author:o.study.author,production:o.study.production,context:o.description,positions:o.study.positions,tags:o.tags}):"";const value=normalize([o.title,o.group,o.brand,o.summary,o.principle,o.usage,o.tip,...list(o.steps),...list(o.related),extra,study,JSON.stringify(METHOD_TIPS[o.id]||[])].join(" "));searchIndex.set(o.id,value);return value}
-function renderFilters(items){
-  const methodMode=tab==="techniques"&&!query;
-  const groups=methodMode?["Toutes","Méthodes","Configurations types"]:[ "Tous",...[...new Set(items.map(x=>x.group).filter(Boolean))] ];
-  if(methodMode){
-    if(filter==="Tous")filter="Toutes";
-    if(!groups.includes(filter))filter="Toutes";
-  } else if(!groups.includes(filter))filter="Tous";
-  const filters=$("#filters");
-  filters.innerHTML=groups.map(g=>'<button type="button" data-filter="'+esc(g)+'" class="'+(filter===g?"active":"")+'" aria-pressed="'+(filter===g)+'">'+esc(g)+'</button>').join("");
-  $$("[data-filter]",filters).forEach(el=>el.addEventListener("click",()=>{filter=el.dataset.filter;render()}))
-}
-function cardSketch(type){
-const variant=({window:1,book:2,bounce:3,cove:3,negative:4,moving:5,top:6,cross:7,back:8,direct:9,diffuse:10,double:10,three:7,practical:8,side:9,under:9,cookie:1})[type]||9;
-const loc=[[45,76],[74,75],[87,73],[68,55],[55,115],[96,78],[70,60],[82,80],[90,78],[80,70],[76,85]][variant]||[80,70];
-return '<svg viewBox="0 0 440 170" aria-hidden="true"><defs><pattern id="gridc" width="23" height="23" patternUnits="userSpaceOnUse"><path d="M23 0H0V23" fill="none" stroke="#708179" stroke-width=".45" opacity=".22"/></pattern><linearGradient id="glowc"><stop stop-color="#c88a52" stop-opacity=".35"/><stop offset="1" stop-color="#c88a52" stop-opacity=".015"/></linearGradient></defs><rect width="440" height="170" fill="#26342f"/><rect width="440" height="170" fill="url(#gridc)"/><path d="M30 20H410V150H30Z" fill="none" stroke="#61746b" stroke-width="1.2"/><path d="M'+loc[0]+' '+loc[1]+'L240 20L240 150Z" fill="url(#glowc)"/><circle cx="'+loc[0]+'" cy="'+loc[1]+'" r="12" fill="#d2a272" stroke="#e5c9a0" stroke-width="1.5"/><circle cx="260" cy="75" r="18" fill="#b3c4b8"/><path d="M243 99q18-10 35 0v18h-35z" fill="#8fae9b"/><path d="M260 117v19" stroke="#b3c4b8"/><rect x="241" y="145" width="38" height="10" rx="3" fill="#d6a16a"/><path d="M241 145l-8-7m46 7 8-7" stroke="#d6a16a" stroke-width="2"/><path d="M'+loc[0]+' '+loc[1]+'L245 69" fill="none" stroke="#d5b28a" stroke-dasharray="5 6" stroke-width="1.5"/>'+([2,3,10].includes(variant)?'<rect x="170" y="28" width="10" height="110" rx="3" fill="#d5d7c7" opacity=".8"/>':'')+([4].includes(variant)?'<rect x="350" y="35" width="12" height="100" rx="2" fill="#101815" stroke="#738078"/>':'')+'<text x="23" y="159" fill="#a5b9ac" font-size="9" font-family="sans-serif" letter-spacing="1.4">BOS / LIGHTING</text></svg>';
-}
-function photoFor(item){return item.media&&MEDIA[item.media]?MEDIA[item.media]:null}
+/* BOS LIGHTING GUIDE V2 — static professional reader */
+(function(){
+"use strict";
 
-/* V1.4 — Carnet Méthodes : bulles repliables, sans schémas BOS. */
-const METHOD_TIPS=window.BOS_METHOD_TIPS||{};
-const METHOD_PHOTOS=new Set(["book","bounce","cove","motivated"]); // photos documentaires réelles, jamais un plan inventé
-function methodCard(item){
-  const m=METHOD_PHOTOS.has(item.id)?photoFor(item):null;
-  const hasPro=!!PRO[item.id];
-  const tips=list(METHOD_TIPS[item.id]);
-  const title=esc(item.title);
-  const genre=item.documentationType==="configuration"?"Configuration type":item.group;
-  const action=list(item.steps).filter(Boolean)[0]||item.principle||"";
-  const photo=m?'<figure class="method-figure"><a href="'+esc(m.page)+'" target="_blank" rel="noopener noreferrer"><img class="method-photo" src="'+esc(m.url)+'" alt="Photographie documentaire : '+title+'" loading="lazy" referrerpolicy="no-referrer"></a><figcaption>'+esc(m.credit)+' · <a href="'+esc(m.page)+'" target="_blank" rel="noopener noreferrer">Source photographique ↗</a></figcaption></figure>':"";
-  const notes=tips.length?'<div class="method-tips"><h4>Conseil de chef opérateur · source vérifiable</h4>'+tips.map(t=>'<div class="method-tip"><p>'+esc(t.text)+'</p><a href="'+esc(t.url)+'" target="_blank" rel="noopener noreferrer">'+esc(t.by)+' · Voir l’explication originale ↗</a></div>').join("")+'</div>':"";
-  const favorite=favoriteIds.has(item.id);
-  return '<details class="method-bubble" data-method-id="'+esc(item.id)+'"><summary class="method-head"><span class="method-head-text"><small>'+esc(genre)+'</small><strong>'+title+'</strong><span>'+esc(item.summary||"")+'</span></span><span class="method-chevron" aria-hidden="true">⌄</span></summary>'+
-  '<div class="method-body"><div class="method-main"><p class="method-action"><b>En pratique</b>'+esc(action)+'</p>'+notes+'</div>'+photo+
-  '<div class="method-foot"><button type="button" class="method-fav" data-method-fav="'+esc(item.id)+'" aria-pressed="'+favorite+'" aria-label="'+(favorite?"Retirer des favoris":"Ajouter aux favoris")+'">'+(favorite?"★ En favori":"☆ Ajouter aux favoris")+'</button></div></div></details>';
-}
-function openMethod(id,{fromHash=false}={}){
-  if(current)closeItem({fromHash:true});
-  if(tab!=="techniques"||query||filter!=="Tous")selectTab("techniques");
-  let node=$$("[data-method-id]",$("#cards")).find(el=>el.dataset.methodId===id);
-  if(node){node.open=true;node.scrollIntoView({behavior:"smooth",block:"center"});}
-  if(!fromHash)history.pushState(null,"","#methode/"+encodeURIComponent(id));
-}
+var DATA=window.BOS_V2||{principles:[],methods:[],situations:[],cases:[],vocabulary:[],materials:[]};
+var VISUAL=(window.BOS_VISUAL_CASES&&window.BOS_VISUAL_CASES.cases)||[];
+var byCase=new Map(VISUAL.map(function(x){return [x.id,x]}));
+var section="principles";
+var query="";
 
-function card(item){
-const isMethod=item.type==="techniques";
-const m=isMethod?(METHOD_PHOTOS.has(item.id)?photoFor(item):null):(item.study?.media?.find(x=>x.role==="frame")||photoFor(item));
-const typeLabel=SECTIONS[item.type]||"Guide";
-const graphic=m?'<img class="card-photo" src="'+esc(m.url)+'" alt="Photographie réelle : '+esc(item.title)+'" loading="lazy" referrerpolicy="no-referrer">':isMethod?'<div class="method-no-photo">Méthode de lumière</div>':cardSketch(item.diagram);
-return '<button class="guide-card" type="button" data-open="'+esc(item.id)+'" data-type="'+esc(item.type)+'" aria-label="Ouvrir '+esc(item.title)+'"><div class="card-graphic">'+graphic+'<span class="graphic-corner">'+esc(typeLabel.toUpperCase())+'</span></div><div class="card-content"><div class="card-topline"><span class="card-category">'+esc(item.brand?item.brand+" · "+item.group:item.group)+'</span><span class="card-arrow">'+(favoriteIds.has(item.id)?"★":"↗")+'</span></div><h3>'+esc(item.title)+'</h3><p>'+esc(item.summary)+'</p><div class="card-tags"><span>'+(item.study?"Plan + plateau + image":isMethod?"Fiche Méthode":"Fiche de référence")+'</span>'+(item.study?'<span>3 documents du tournage</span>':isMethod?'<span>Note technique</span>':'<span>Documentation</span>')+'</div></div></button>';
+var META={
+  principles:{num:"01",title:"Principes",intro:"Révisions courtes de phénomènes qui conditionnent réellement le rendu."},
+  methods:{num:"02",title:"Méthodes",intro:"Dispositifs de plateau décrits par leur logique, leurs variables et leurs limites."},
+  situations:{num:"03",title:"Situations",intro:"Tournages documentés : plan de feu, BTS, image finale et lecture source par source."},
+  cases:{num:"04",title:"Cas de plateau",intro:"Lis la contrainte, pense ton dispositif, puis ouvre les pistes et compare les compromis."},
+  vocabulary:{num:"05",title:"Vocabulaire",intro:"Termes de plateau, grip, lumière et colorimétrie à garder actifs."},
+  materials:{num:"06",title:"Matériel",intro:"Surfaces et outils de contrôle : ce qu’ils changent réellement dans le trajet lumineux."}
+};
+
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function norm(v){return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()}
+function arr(v){return Array.isArray(v)?v:[]}
+function toast(msg){var t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(function(){t.classList.remove("show")},1800)}
+function sourceLink(s){return s&&s.url?'<a class="source-link" href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.label||"Source")+' ↗</a>':""}
+function bulletList(items,cls){if(!items||!items.length)return "";return '<ul class="'+(cls||"bullets")+'">'+items.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+"</ul>"}
+function textIndex(obj){return norm(JSON.stringify(obj))}
+function matches(obj){return !query||textIndex(obj).indexOf(norm(query))>=0}
+
+function theme(mode){
+  document.documentElement.dataset.theme=mode;
+  var meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.content=mode==="light"?"#f2f3f0":"#0e1110";
+  try{localStorage.setItem("bos-lighting-v2-theme",mode)}catch(e){}
 }
-function render(){
-favoritesCount();const base=baseItems();
-let output=base;
-if(query){const terms=normalize(query).split(/\s+/).filter(Boolean);output=output.filter(x=>terms.every(q=>searchText(x).includes(q)))}
-renderFilters(output);
-if(filter!=="Tous"&&filter!=="Toutes")output=output.filter(x=>tab==="techniques"&&!query?filter==="Méthodes"?x.documentationType!=="configuration":x.documentationType==="configuration":x.group===filter);
-$("#resultCount").textContent=output.length+" fiche"+(output.length!==1?"s":"")+(query?" · recherche dans toutes les rubriques":"");
-const methodsOnly=tab==="techniques"&&output.every(x=>x.type==="techniques");
-$("#cards").classList.toggle("methods-list",methodsOnly);
-$("#cards").innerHTML=methodsOnly?output.map(methodCard).join(""):output.map(card).join("");
-$("#emptyState").hidden=output.length>0;
-}
-$("#cards").addEventListener("click",e=>{
-  const fav=e.target.closest("[data-method-fav]");
-  if(fav){const id=fav.dataset.methodFav;favoriteIds.has(id)?favoriteIds.delete(id):favoriteIds.add(id);persist();const on=favoriteIds.has(id);fav.textContent=on?"★ En favori":"☆ Ajouter aux favoris";fav.setAttribute("aria-pressed",String(on));fav.setAttribute("aria-label",on?"Retirer des favoris":"Ajouter aux favoris");favoritesCount();toast(on?"Ajouté aux favoris":"Retiré des favoris");return}
-  const el=e.target.closest("[data-open]");if(el)openItem(el.dataset.open);
+theme((function(){try{return localStorage.getItem("bos-lighting-v2-theme")||"dark"}catch(e){return "dark"}})());
+$("#themeBtn").addEventListener("click",function(){theme(document.documentElement.dataset.theme==="dark"?"light":"dark")});
+
+var installPrompt=null;
+window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();installPrompt=e;$("#installBtn").hidden=false});
+$("#installBtn").addEventListener("click",async function(){if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$("#installBtn").hidden=true});
+if("serviceWorker" in navigator)window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){})});
+
+Object.keys(META).forEach(function(k){
+  var el=$("#count-"+k);
+  if(el)el.textContent=(DATA[k]||[]).length+" fiches";
 });
-$("#cards").addEventListener("error",e=>{
- const img=e.target;
- if(img.matches("img.method-photo")){const link=img.closest("a");if(link){img.remove();const notice=document.createElement("span");notice.className="method-photo-error";notice.textContent="Photographie non affichable — ouvrir chez son auteur ↗";link.append(notice)}return}
- if(img.matches("img.card-photo")){
- const method=!!img.closest('[data-type="techniques"]');
- img.replaceWith(document.createRange().createContextualFragment(method?'<span class="method-image-fallback">Photographie non disponible</span>':cardSketch("direct")));
-}
-},true);
-const SVG_BASE=(contents)=>'<svg viewBox="0 0 640 390" role="img" aria-label="Schéma technique, vue du dessus, non à l’échelle" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="board" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#788a80" stroke-opacity=".16" stroke-width="1"/></pattern><marker id="arr" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#dfb98f" stroke-width="1.2"/></marker></defs><rect width="640" height="390" fill="#24302d"/><rect width="640" height="390" fill="url(#board)"/><rect x="45" y="30" width="550" height="316" fill="none" stroke="#7f9286" stroke-width="1.3"/>'+contents+'<text x="60" y="369" fill="#b0baaf" font-size="10" letter-spacing="1.8" font-family="sans-serif">SCHÉMA D’IMPLANTATION / VUE DE DESSUS</text><text x="580" y="369" fill="#b0baaf" text-anchor="end" font-size="10" font-family="sans-serif">NON À L’ÉCHELLE</text></svg>';
-const txt=(x,y,t,anchor="start")=>'<text x="'+x+'" y="'+y+'" fill="#bdc9bb" font-family="sans-serif" font-size="10.5" text-anchor="'+anchor+'" letter-spacing=".4">'+esc(t)+'</text>';
-const lamp=(x,y,caption)=>'<g><circle cx="'+x+'" cy="'+y+'" r="21" fill="#c89158" stroke="#f8d9a9" stroke-width="1.5"/><circle cx="'+x+'" cy="'+y+'" r="7" fill="#f9e9cc"/><path d="M'+(x-23)+' '+(y-12)+'l-11-6v36l11-6Z" fill="#c89158"/></g>'+txt(x,y+39,caption,"middle");
-const actor=(x,y,label="SUJET")=>'<g><ellipse cx="'+x+'" cy="'+y+'" rx="23" ry="28" fill="#bbd2c2" stroke="#dce9df" stroke-width="1"/><path d="M'+(x-20)+' '+(y+24)+'q20 10 40 0v20h-40Z" fill="#9ebaab"/></g>'+txt(x,y-39,label,"middle");
-const camera=(x,y)=>'<g><rect x="'+(x-19)+'" y="'+(y-8)+'" width="38" height="24" rx="5" fill="#bdc8bf"/><path d="M'+(x-8)+' '+(y-8)+'v-13h16v13M'+(x-16)+' '+(y+16)+'l-12 13m44-13 12 13" stroke="#bdc8bf" stroke-width="3" fill="none"/></g>'+txt(x,y+41,"CAMÉRA","middle");
-const panel=(x,y,w,h,label,color="#d6dac9")=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="3" fill="'+color+'" fill-opacity=".25" stroke="'+color+'" stroke-width="3"/>'+txt(x+w/2,y-10,label,"middle");
-const ray=(a,b,c,d)=>'<path d="M'+a+' '+b+'L'+c+' '+d+'" fill="none" stroke="#dfb98f" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#arr)"/>';
-const simple=()=>lamp(150,170,"PROJECTEUR")+actor(450,170)+camera(452,295)+ray(177,170,415,170);
-function diagram(type){
-let s="",note="";
-switch(type){
-case "book":s=lamp(110,260,"SOURCE")+panel(195,85,12,120,"BOUNCE")+panel(337,85,9,165,"DIFFUSION")+actor(495,168)+camera(498,291)+ray(125,239,195,171)+ray(207,150,337,164)+ray(349,163,464,170);note="Le faisceau éclaire d’abord le bounce, puis traverse la diffusion.";break;
-case "bounce":s=lamp(115,270,"SOURCE")+panel(245,95,12,135,"RÉFLECTEUR")+actor(479,177)+camera(478,293)+ray(131,250,245,166)+ray(257,168,448,175);note="La surface éclairée devient la source secondaire.";break;
-case "double":s=lamp(122,172,"SOURCE")+panel(230,85,10,167,"DIFF. 1")+panel(346,74,10,198,"DIFF. 2")+actor(500,179)+camera(501,299)+ray(144,172,230,172)+ray(242,172,346,172)+ray(359,172,469,174);note="La deuxième surface forme le dernier plan diffusant.";break;
-case "diffuse":s=lamp(145,178,"SOURCE")+panel(305,76,10,195,"DIFFUSION")+actor(490,179)+camera(495,300)+ray(169,176,304,176)+ray(318,174,458,176);note="La taille apparente du cadre vue du sujet détermine la douceur.";break;
-case "cove":s=lamp(115,260,"SOURCE")+panel(218,68,12,158,"REBONDA")+panel(327,58,143,10,"REBOND B")+actor(451,182)+camera(451,292)+ray(133,243,221,157)+ray(233,149,417,172);note="Les grandes surfaces réfléchissantes forment une source enveloppante.";break;
-case "negative":s=lamp(150,166,"KEY")+actor(419,173)+camera(422,292)+ray(178,164,389,168)+panel(502,103,13,153,"NEGATIVE FILL","#111816");note="Le noir supprime des retours sur le côté opposé.";break;
-case "side":s=lamp(410,81,"SOURCE")+actor(418,185)+camera(420,298)+ray(410,107,413,155);note="Vue de dessus : la direction latérale façonne le visage.";break;
-case "back":s=lamp(421,66,"CONTRE-JOUR")+actor(422,193)+camera(422,308)+ray(421,92,421,158);note="Le faisceau arrive depuis l’arrière du sujet.";break;
-case "cross":s=lamp(180,80,"SOURCE A")+lamp(466,80,"SOURCE B")+actor(256,212,"SUJET A")+actor(397,212,"SUJET B")+camera(332,309)+ray(191,101,378,195)+ray(450,101,270,194);note="Deux sources se croisent pour servir plusieurs positions.";break;
-case "three":s=lamp(145,110,"KEY")+lamp(520,177,"FILL")+lamp(420,66,"BACK")+actor(363,207)+camera(360,304)+ray(160,121,340,187)+ray(497,183,391,205)+ray(413,86,370,178);note="Fonctions key / fill / back : elles ne nécessitent pas toujours trois lampes.";break;
-case "top":s=panel(183,77,261,187,"EMPRISE OVERHEAD","#e6c398")+actor(322,191)+camera(324,306)+txt(320,55,"SOURCE EN HAUTEUR — projection sur le sol","middle");note="Le schéma montre l’emprise au sol ; la hauteur n’est pas représentée.";break;
-case "practical":s=lamp(225,129,"PRACTICAL")+actor(418,179)+camera(421,298)+ray(248,138,388,166)+panel(290,90,6,78,"RENFORT POSSIBLE");note="Une lampe visible peut motiver une source de renfort hors champ.";break;
-case "window":s='<path d="M180 30v60m0 146v110" stroke="#9bafa1" stroke-width="7"/><path d="M180 90v146" stroke="#d3e7de" stroke-width="9" opacity=".7"/>'+txt(187,82,"FENÊTRE")+lamp(82,166,"EXTÉRIEUR")+actor(447,184)+camera(450,304)+ray(106,165,409,181)+panel(290,102,8,142,"DIFF. SI BESOIN");note="Les positions exactes varient selon architecture, recul et axes.";break;
-case "moving":s=lamp(197,88,"SOURCE 1")+lamp(468,88,"SOURCE 2")+actor(244,205,"DÉPART")+actor(446,205,"ARRIVÉE")+camera(340,308)+'<path d="M278 214h131" stroke="#a0bcb0" stroke-width="2.5" stroke-dasharray="4 7" marker-end="url(#arr)"/>'+ray(197,110,236,170)+ray(467,110,452,170);note="Couverture d’une trajectoire : mesurer aussi les points intermédiaires.";break;
-case "under":s=lamp(434,255,"SOURCE BASSE")+actor(420,167)+camera(419,306)+ray(428,232,423,198);note="L’altitude de la source n’est pas visible sur ce plan.";break;
-case "cookie":s=lamp(120,175,"SOURCE")+panel(285,124,12,101,"GOBO","#ad9e87")+actor(485,179)+camera(491,303)+ray(141,175,282,175)+ray(301,174,454,177);note="L’obstacle structure des ombres sur le sujet ou le décor.";break;
-default:s=simple();note="Implantation de principe, à adapter au cadre et au décor.";}
-return '<div class="diagram-wrap"><div class="diagram-head"><span>IMPLANTATION DE PRINCIPE</span><span>VUE DE DESSUS · SCHÉMATIQUE</span></div>'+SVG_BASE(s)+'<div class="diagram-footer">'+esc(note)+'</div></div>';
-}
-function section(head,body){return '<section class="detail-section"><h3>'+esc(head)+'</h3>'+body+'</section>'}
-function paras(s){return s?'<p>'+esc(s)+'</p>':""}
-function bullets(items,ordered=false){if(!items||!items.length)return"";let tag=ordered?"ol":"ul";return '<'+tag+'>'+items.map(t=>'<li>'+esc(t)+'</li>').join("")+'</'+tag+'>'}
-function sourceList(item){const found=list(item.sources).map(k=>SOURCES[k]).filter(Boolean);
-return found.length?section("Sources et documentation",'<div class="sources-list">'+found.map(s=>'<a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer">'+esc(s.label)+' ↗</a>').join("")+'</div><p>Vérification documentaire : '+esc(window.BOS_REFERENCE_DATE||"2026")+'. Les documents et les versions de matériel peuvent évoluer.</p>'):""}
-function related(item){const found=list(item.related).map(id=>find(id)).filter(Boolean).slice(0,12);if(!found.length)return"";return section("À explorer également",'<div class="links-list">'+found.map(o=>'<button type="button" data-related="'+esc(o.id)+'">'+esc(o.title)+' ↗</button>').join("")+'</div>')}
-function materialSpecs(item){const entries=Object.entries(item.specs||{});return entries.length?section("Repères constructeur",'<div class="specs">'+entries.map(([k,v])=>'<div class="spec"><strong>'+esc(k)+'</strong><span>'+esc(v)+'</span></div>').join("")+'</div><p>Comparer seulement des valeurs mesurées dans des conditions identiques (optique, distance, mode, CCT).</p>'):""}
-function mainDetails(item){
-let body="";
-if(item.principle)body+=section(item.type==="projecteurs"?"Particularités":"Comprendre le principe",paras(item.principle));
-if(item.steps&&item.steps.length)body+=section("Mise en place — étape par étape",bullets(item.steps,true));
-if(item.usage)body+=section("Pour quoi l’utiliser ?",paras(item.usage));
-if(item.result)body+=section("Rendu recherché",paras(item.result));
-if(item.limits)body+=section("Limites et points de vigilance",paras(item.limits));
-if(item.tip)body+='<div class="tip"><strong>Conseil de plateau</strong>'+esc(item.tip)+'</div>';
-return body;
-}
-function showPhotograph(item){
-const media=photoFor(item);
-if(media)return '<figure class="detail-photo"><img src="'+esc(media.url)+'" alt="Photographie réelle liée à '+esc(item.title)+'" loading="eager" referrerpolicy="no-referrer"><figcaption>'+esc(media.credit)+' — <a href="'+esc(media.page)+'" target="_blank" rel="noopener noreferrer">Voir le document et les crédits ↗</a>. Photo non retouchée et hébergée par sa source.</figcaption></figure>';
-const search=encodeURIComponent(item.title+" film lighting");
-return '<div class="photo-status" id="dynamicPhoto"><b>Photographie documentaire</b><span class="photo-message">Recherche d’un fichier photographique sous licence libre…</span><div class="photo-actions"><a href="https://commons.wikimedia.org/w/index.php?search='+search+'&title=Special%3AMediaSearch&type=image" target="_blank" rel="noopener noreferrer">Chercher des photos réelles ↗</a>'+(item.type==="projecteurs"?'<a href="'+esc((SOURCES[list(item.sources)[0]]||SOURCES.arri).url)+'" target="_blank" rel="noopener noreferrer">Photos constructeur ↗</a>':"")+'</div></div>';
+
+function principleCard(item){
+  return '<details class="bubble" id="'+esc(item.id)+'">'+
+    '<summary><span><small>'+esc(item.kicker||"PRINCIPE")+'</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary||"")+'</em></span><b>⌄</b></summary>'+
+    '<div class="bubble-body">'+
+      bulletList(item.bullets)+
+      (item.watch&&item.watch.length?'<div class="watch"><span>À SURVEILLER</span>'+bulletList(item.watch,"watch-list")+'</div>':"")+
+      sourceLink(item.source)+
+      (item.tags?'<div class="tags">'+item.tags.map(function(t){return "<span>"+esc(t)+"</span>"}).join("")+"</div>":"")+
+    '</div></details>';
 }
 
-/* V1.1 — Carnet technique avancé */
-const PRO=window.BOS_PRO||{};
-const PRO_SOURCES=window.BOS_PRO_SOURCES||{};
-const proPara=text=>'<p>'+esc(text)+'</p>';
-const proList=entries=>'<ul class="pro-bullet-list">'+list(entries).map(v=>'<li>'+esc(v)+'</li>').join("")+'</ul>';
-function proAnchorNav(){
-const links=[["pro-configs","Configurations"],["pro-camera","Caméra"],["pro-color","Peaux / couleur"],["pro-traps","Pièges"],["pro-kit","Projecteurs"],["pro-checks","Contrôle"],["pro-evidence","Références"]];
-return '<nav class="pro-anchors" aria-label="Accès rapide aux chapitres">'+links.map(([id,label])=>'<button type="button" data-scroll="'+id+'">'+esc(label)+'</button>').join("")+'</nav>';
-}
-function proDiagram(item){
-if(!["day-for-night","night-skin","window-night","moonlight","exterior-night","night-day-interior","interior-night-studio","window-sun","window-sky","moving-soft"].includes(item.id))return"";
-const isWindow=/window|night-day-interior/.test(item.id);
-const isOutdoor=/moonlight|day-for-night|exterior-night/.test(item.id);
-const isMovement=item.id==="moving-soft";
-let svg;
-if(isMovement)svg=panel(140,70,16,232,"GRANDE SOURCE","#e6d5b3")+actor(360,137,"A")+actor(470,240,"B")+camera(420,312)+'<path d="M365 168Q385 210 450 231" fill="none" stroke="#dfb98f" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#arr)"/>'+txt(320,65,"PARCOURS DES ACTEURS");
-else if(isWindow)svg='<path d="M210 30V107M210 235V345" stroke="#a6b9ac" stroke-width="8"/><path d="M210 107V235" stroke="#d4e4d7" stroke-width="9" opacity=".9"/>'+txt(213,100,"FENÊTRE")+lamp(92,145,"SOURCE EXTÉRIEURE")+actor(412,164,"PERSONNAGE")+camera(411,300)+ray(115,145,378,164)+panel(509,103,10,152,"NEGATIVE FILL","#111816");
-else if(isOutdoor)svg=lamp(152,79,"LUNE / SOLEIL")+actor(350,196,"SUJET")+camera(350,313)+ray(176,99,328,175)+panel(462,128,12,120,"NEG / FLAG","#161b18")+'<path d="M45 270h550" stroke="#576a5e" stroke-width="2" stroke-dasharray="5 8"/>'+txt(70,288,"ARRIÈRE-PLAN");
-else svg=lamp(150,113,"KEY")+panel(274,91,11,167,"MODIFICATEUR")+actor(424,172)+camera(423,299)+ray(172,123,272,153)+ray(288,156,393,169);
-return '<div class="pro-diagram"><div class="pro-diagram-head"><b>PLAN DE PRINCIPE / 01</b><span>Vue de dessus · non à l’échelle</span></div>'+SVG_BASE(svg)+'<p>Schéma conceptuel : orientations et accessoires à adapter au cadre, aux dimensions, à la sécurité et à la lumière réellement mesurée.</p></div>';
-}
-function proEquip(item){
-return list(item.kit).map(ref=>{
-const target=find(ref.id);if(!target)return "";
-return '<article class="pro-equip"><div><strong>'+esc(target.brand||"MATÉRIEL")+'</strong><button type="button" data-related="'+esc(target.id)+'">'+esc(target.title)+' ↗</button><small>'+esc(ref.role||"")+'</small></div><p>'+esc(ref.reason||"")+'</p></article>';
-}).join("");
+function methodCard(item){
+  return '<details class="bubble method" id="'+esc(item.id)+'">'+
+    '<summary><span><small>'+esc(item.kicker||"METHOD")+'</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary||"")+'</em></span><b>⌄</b></summary>'+
+    '<div class="bubble-body">'+
+      bulletList(item.bullets)+
+      (item.watch&&item.watch.length?'<div class="watch"><span>LIMITES / PIÈGES</span>'+bulletList(item.watch,"watch-list")+'</div>':"")+
+      sourceLink(item.source)+
+      (item.tags?'<div class="tags">'+item.tags.map(function(t){return "<span>"+esc(t)+"</span>"}).join("")+"</div>":"")+
+    '</div></details>';
 }
 
-/* V1.2 — Dossiers de Situations pleine page et références photographiques de tournages */
-const VISUAL=window.BOS_VISUAL_CASES||{cases:[],situationPriority:{}};
-const CASES=new Map((VISUAL.cases||[]).map(x=>[x.id,x]));
-function situCases(id){
-const shortlist=VISUAL.situationPriority?.[id]||[];
-return shortlist.map(key=>CASES.get(key)).filter(Boolean);
-}
-function mediaFigure(img,source){
-const label={plan:"01 / PLAN DE FEU",bts:img.relation?.includes("photogramme")?"02 / IMAGE TÉMOIN":"02 / PHOTO DU PLATEAU",frame:img.relation?.includes("pas image finale")?"03 / AUTRE PHOTO DU SET":"03 / IMAGE / RÉSULTAT"}[img.role]||"PHOTO DOCUMENTAIRE";
-const image=img.url?'<a class="case-photo-link" href="'+esc(img.url)+'" target="_blank" rel="noopener noreferrer" title="Ouvrir l’image à sa taille originale"><img class="case-photo" src="'+esc(img.url)+'" alt="'+esc(img.title)+'" loading="lazy" referrerpolicy="no-referrer"><span class="case-zoom" aria-hidden="true">Agrandir ↗</span></a>':'<div class="case-unavailable"><strong>Plan de feu original non publié</strong><p>Le plan pédagogique BOS de cette fiche n’est pas une photographie du plan de production.</p></div>';
-return '<figure class="case-photo-item"><div class="case-photo-heading"><b>'+label+'</b><span>'+esc(img.relation||"")+'</span></div>'+image+'<figcaption><strong>'+esc(img.title)+'</strong><span>'+esc(img.caption)+'</span></figcaption></figure>';
-}
-function caseStudy(caseInfo,index){
-const positions=list(caseInfo.positions).map((p,i)=>
- '<article class="case-position"><div class="case-position-label"><span>'+String(i+1).padStart(2,"0")+'</span><h5>'+esc(p.name)+'</h5></div><div class="case-position-body"><p><b>Position</b>'+esc(p.where)+'</p><p><b>Rôle</b>'+esc(p.purpose)+'</p><p><b>Conséquence sur l’image / limite</b>'+esc(p.consequence)+'</p></div></article>').join("");
-const media=list(caseInfo.media).map(x=>mediaFigure(x,caseInfo.source)).join("");
-const extras=list(caseInfo.extras).map(x=>'<figure class="case-extra-photo"><a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(x.url)+'" alt="'+esc(x.title)+'" loading="lazy" referrerpolicy="no-referrer"></a><figcaption><strong>'+esc(x.title)+'</strong> — '+esc(x.caption)+'</figcaption></figure>').join("");
-return '<article class="case-study" id="case-'+esc(caseInfo.id)+'"><div class="case-study-heading"><div><div class="case-study-label">'+String(index+1).padStart(2,"0")+' / '+(caseInfo.match==="documente"?"CAS DE TOURNAGE DOCUMENTÉ":"DOCUMENTATION PARTIELLE")+'</div><h4>'+esc(caseInfo.title)+'</h4><p>'+esc(caseInfo.context)+'</p></div><div class="case-author"><span>'+esc(caseInfo.author)+'</span><small>'+esc(caseInfo.production)+'</small><a href="'+esc(caseInfo.source)+'" target="_blank" rel="noopener noreferrer">Voir le breakdown complet ↗</a></div></div>'+
- '<div class="case-photo-grid">'+media+'</div>'+
- '<div class="case-analysis"><div class="case-analysis-top"><span>ANALYSE DE LA CONFIGURATION</span><h5>Chaque poste, son rôle et son impact sur l’image</h5></div><div class="case-positions">'+positions+'</div></div>'+
- (extras?'<details class="case-extras"><summary>Photos complémentaires du dispositif ('+list(caseInfo.extras).length+')</summary><div class="case-extras-grid">'+extras+'</div></details>':"")+
- '<div class="case-takeaway"><span>À RETENIR</span><p>'+esc(caseInfo.takeaway)+'</p></div>'+
- '<p class="case-disclosure">'+esc(caseInfo.caveat)+' Photographies et documents © leurs auteurs respectifs ; images affichées depuis le site source, non hébergées dans BOS.</p></article>';
-}
-function exploreSituations(){
-const arr=DATA.situations||[],groups=[...new Set(arr.map(x=>x.group))];
-return '<details class="reader-index"><summary><span>Parcourir toutes les situations</span><small>'+arr.length+' fiches · accès direct</small></summary><div class="reader-index-inner">'+groups.map(g=>'<section class="reader-group"><h4>'+esc(g)+'</h4><div>'+arr.filter(x=>x.group===g).map(x=>'<button type="button" data-related="'+esc(x.id)+'">'+esc(x.title)+'<span>↗</span></button>').join("")+'</div></section>').join("")+'</div></details>';
-}
-function visualAtlas(item){
-if(item.type!=="situations"&&!PRO[item.id])return "";
-const cases=situCases(item.id);
-const gallery=cases.length?cases.map(caseStudy).join(""):'<div class="case-none"><strong>Pas encore de triptyque vérifié pour cette situation.</strong><p>Le plan de principe est présenté plus bas avec les configurations de travail. J’évite d’associer trois photos qui ne proviennent pas de la même scène. Les sources documentaires en bas de fiche permettent de poursuivre la recherche.</p></div>';
-return '<section class="casebook" id="casebook"><div class="casebook-intro"><div><span>ATLAS VISUEL / '+(cases.length?cases.length+" ÉTUDE"+(cases.length>1?"S":""):"RECHERCHE DOCUMENTAIRE")+'</span><h3>Plan de feu · Plateau · Image</h3></div><p>Les documents de tournage réels sont réunis lorsque le lien entre les images est attesté. Mon analyse décrit ce que fait chaque source et l’effet de sa position. Un plan pédagogique reconstruit n’est jamais présenté comme un plan original.</p></div>'+gallery+'</section>';
-}
-function drawnSituationPlot(item,variant,index){
-if(item.type!=="situations")return "";
-const id=item.id;
-const needsWindow=/window|night-day-interior|reverse-window|day-continuity|studio-day/.test(id);
-const moving=/moving|walk-and-talk|plan-sequence|scene-360/.test(id);
-const dialog=/dialogue|table/.test(id);
-const exterior=/sun-outdoor|moonlight|exterior-night|day-for-night/.test(id);
-const hasCar=/car-night/.test(id);
-const gap=7;
-const bg='<rect x="24" y="25" width="592" height="333" rx="11" fill="#26342f" stroke="#8e9a8f" stroke-width="1.4"/>';
-let s=bg;
-if(needsWindow)s+='<path d="M169 26v80m0 124v127" stroke="#aec1b4" stroke-width="7"/><path d="M169 106v124" stroke="#e3e2d2" stroke-width="7" opacity=".95"/>'+txt(180,103,"FENÊTRE / OUVERTURE");
-if(moving){
- s+=panel(120,85,14,201,"A / SOURCE LARGE")+actor(343,137,"POSITION A")+actor(477,237,"POSITION B")+camera(351,302)+ray(150,145,315,145)+ray(150,205,449,236);
- s+='<path d="M345 170Q384 213 454 224" fill="none" stroke="#e9ae7b" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#arr)"/>';
-}else if(dialog){
- s+=lamp(164,96,"A / KEY")+lamp(465,96,"B / KEY")+actor(300,204,"SUJET 1")+actor(436,204,"SUJET 2")+camera(360,312)+ray(184,110,422,185)+ray(447,110,312,182);
-}else if(hasCar){
- s+='<rect x="285" y="127" width="195" height="112" rx="32" fill="#485b53" stroke="#c7d9ca" stroke-width="3"/>'+actor(330,173,"CONDUCTEUR")+actor(427,173,"PASSAGER")+lamp(181,102,"A / PASSAGE")+lamp(529,266,"B / PRACTICAL")+camera(320,300)+ray(200,117,305,155);
-}else if(exterior){
- s+=lamp(136,80,"A / DIRECTION")+actor(407,197,"SUJET")+camera(407,311)+ray(162,100,378,171)+panel(520,122,13,144,"B / NEG","#111815")+txt(60,333,"FOND / PROFONDEUR");
-}else{
- s+=lamp(needsWindow?84:150,148,"A / KEY")+actor(401,181,"SUJET")+camera(402,311)+ray(needsWindow?108:174,154,372,175)+panel(518,119,12,137,"B / CONTRÔLE","#121916");
- if(/night|candle|interior/.test(id))s+=lamp(532,278,"C / DÉCOR")+ray(513,270,438,205);
-}
-const cues='<span>Configuration '+String(index+1).padStart(2,"0")+' · hypothèse BOS</span>';
-const cap='Schéma original, construit à partir des indications de la fiche. Il précise les grandes directions, pas la géométrie exacte d’un tournage réel ; ni distances ni lux ne sont mesurés.';
-return '<figure class="situ-plot"><div class="situ-plot-heading"><b>IMPLANTATION EXPLIQUÉE</b>'+cues+'</div>'+SVG_BASE(s)+'<figcaption>'+esc(cap)+'</figcaption></figure>';
+function materialCard(item){
+  return '<details class="bubble material" id="'+esc(item.id)+'">'+
+    '<summary><span><small>'+esc(item.type||"MATÉRIEL")+'</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary||"")+'</em></span><b>⌄</b></summary>'+
+    '<div class="bubble-body two-col">'+
+      '<div><span class="micro-label">UTILISER POUR</span><p>'+esc(item.use||"")+'</p></div>'+
+      '<div><span class="micro-label">À SURVEILLER</span><p>'+esc(item.watch||"")+'</p></div>'+
+      sourceLink(item.source)+
+    '</div></details>';
 }
 
-function proDetail(item){
-const p=PRO[item.id];if(!p)return"";
-const setups=list(p.variants).map((v,i)=>{
-const linked=list(v.kit).map(id=>find(id)).filter(Boolean);
-return '<article class="pro-setup"><div class="pro-setup-top"><span class="pro-number">'+String(i+1).padStart(2,"0")+'</span><h4>'+esc(v.title)+'</h4></div><p class="pro-when">'+esc(v.when||"")+'</p>'+drawnSituationPlot(item,v,i)+'<div class="pro-setup-grid"><div><b>Implantation</b>'+proPara(v.setup||"")+'</div><div><b>Contrôle caméra</b>'+proPara(v.camera||"")+'</div></div><p class="pro-why"><b>Logique :</b> '+esc(v.why||"")+'</p>'+(linked.length?'<div class="pro-mini-kit"><span>Sources / accessoires</span>'+linked.map(o=>'<button type="button" data-related="'+esc(o.id)+'">'+esc(o.title)+' ↗</button>').join("")+'</div>':"")+'</article>';
-}).join("");
-const problems=list(p.traps).map(v=>'<article class="pro-issue"><div class="pro-issue-title"><span>PIÈGE</span><h4>'+esc(v.symptom||"")+'</h4></div><div><strong>Cause probable</strong><p>'+esc(v.cause||"")+'</p><strong>Diagnostic / correction</strong><p>'+esc(v.fix||"")+'</p></div></article>').join("");
-const citations=list(p.refs).map(id=>PRO_SOURCES[id]).filter(Boolean).map(v=>'<a target="_blank" rel="noopener noreferrer" href="'+esc(v.url)+'">'+esc(v.name)+' ↗</a>').join("");
-return '<div class="pro-intro"><span>FICHE DE TRAVAIL · '+esc(p.level||"CHEF OPÉRATEUR")+'</span><h3>'+esc(p.headline||"")+'</h3><p>'+esc(p.intent||"")+'</p></div>'+
-proAnchorNav()+(photoFor(item)?showPhotograph(item):"")+proDiagram(item)+
-'<section id="pro-configs" class="pro-section"><div class="pro-chapter"><span>01</span><div><h3>Configurations de plateau</h3><p>Plusieurs réponses possibles à une même intention. Les implantations ne sont pas des prescriptions de matériel.</p></div></div><div class="pro-setups">'+setups+'</div></section>'+
-'<section id="pro-camera" class="pro-section"><div class="pro-chapter"><span>02</span><h3>Caméra, exposition & essais</h3></div>'+proList(p.camera)+'</section>'+
-'<section id="pro-color" class="pro-section"><div class="pro-chapter"><span>03</span><h3>Colorimétrie & carnation</h3></div>'+proList(p.color)+'</section>'+
-'<section id="pro-traps" class="pro-section"><div class="pro-chapter"><span>04</span><h3>Pièges et dépannage</h3></div><div class="pro-issues">'+problems+'</div></section>'+
-'<section id="pro-kit" class="pro-section"><div class="pro-chapter"><span>05</span><h3>Projecteurs adaptés / usages</h3></div><p class="pro-preface">Exemples de projecteurs actuels ou encore présents dans les parcs, à valider chez le loueur. Les puissances ne remplacent pas les photométries correspondant aux optiques choisies.</p><div class="pro-equips">'+proEquip(item)+'</div></section>'+
-'<section id="pro-checks" class="pro-section"><div class="pro-chapter"><span>06</span><h3>Contrôles avant prise</h3></div><ul class="pro-checklist">'+list(p.controls).map(x=>'<li><span aria-hidden="true">□</span>'+esc(x)+'</li>').join("")+'</ul></section>'+
-'<section id="pro-evidence" class="pro-section"><div class="pro-chapter"><span>07</span><h3>Références professionnelles</h3></div><div class="pro-ref-list">'+citations+'</div><p class="pro-disclaimer">Les exemples de configuration sont des propositions éditoriales basées sur les principes documentés, et non des plans de tournage attribués aux professionnels cités. Contrôler les spécifications et la documentation de sécurité du matériel réel.</p></section>';
-}
-function updateStepper(item){
-const members=DATA[item.type]||[],index=members.findIndex(x=>x.id===item.id),n=members.length;
-$("#stepperCount").textContent=(SECTIONS[item.type]||"GUIDE").toUpperCase()+" · "+(index+1)+" / "+n;
-const groups=[...new Set(members.map(v=>v.group))];
-$("#itemJump").innerHTML=groups.map(g=>'<optgroup label="'+esc(g)+'">'+members.filter(v=>v.group===g).map(v=>'<option value="'+esc(v.id)+'"'+(v.id===item.id?" selected":"")+'>'+esc(v.title)+'</option>').join("")+'</optgroup>').join("");
-$("#itemJump").value=item.id;
-$("#prevItem").disabled=index<=0;
-$("#nextItem").disabled=index<0||index>=n-1;
-}
-function stepMove(delta){
-if(!current)return;const item=find(current);if(!item)return;const members=DATA[item.type]||[];
-const index=members.findIndex(v=>v.id===item.id);const next=members[index+delta];
-if(next)openItem(next.id);
-}
-$("#prevItem").addEventListener("click",()=>stepMove(-1));
-$("#nextItem").addEventListener("click",()=>stepMove(1));
-$("#itemJump").addEventListener("change",e=>{if(find(e.target.value))openItem(e.target.value)});
-
-
-/* Étude de plateau V1.3 — une seule production par page, sans recyclage de photos. */
-function studyDetail(item){
-  const s=item.study;
-  const photos=list(s.media);
-  const positions=list(s.positions).map((p,i)=>'<article class="shoot-source"><div class="shoot-source-title"><span>'+String.fromCharCode(65+i)+'</span><h4>'+esc(p.name.replace(/^[A-Z]\s*·\s*/,""))+'</h4></div><div class="shoot-source-desc"><p><strong>Où ?</strong>'+esc(p.where)+'</p><p><strong>Pourquoi ?</strong>'+esc(p.purpose)+'</p><p><strong>Ce que cela change à l’image</strong>'+esc(p.consequence)+'</p></div></article>').join("");
-  const credits=esc(s.author)+" · "+esc(s.production);
-  const extras=list(s.extras).filter(x=>x.url);
-  const plus=extras.length?'<details class="shoot-more"><summary>Photos complémentaires de ce même tournage ('+extras.length+')</summary><div class="shoot-more-grid">'+extras.map(m=>'<figure><a href="'+esc(m.url)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(m.url)+'" alt="'+esc(m.title)+'" loading="lazy" referrerpolicy="no-referrer"></a><figcaption>'+esc(m.title)+' — '+esc(m.caption)+'</figcaption></figure>').join("")+'</div></details>':"";
-  const variation=item.variationId?'<p class="shoot-variant">Le même tournage comporte également une variante de cadre plus serré, décrite dans l’article du chef opérateur. Elle reste rattachée à cette étude, et n’apparaît plus comme une autre Situation.</p>':"";
-  const tags=list(item.tags).map(x=>'<span>'+esc(x)+'</span>').join("");
-  return '<div class="shoot-reader"><div class="shoot-kicker">SITUATION DE TOURNAGE / '+esc(item.group.toUpperCase())+'</div>'+
-  '<h2 class="shoot-title" id="detailTitle">'+esc(item.title)+'</h2>'+
-  '<p class="shoot-subtitle">'+esc(item.summary)+'</p>'+
-  '<div class="shoot-meta"><span>'+credits+'</span><a href="'+esc(s.source)+'" target="_blank" rel="noopener noreferrer">Breakdown original du chef opérateur ↗</a></div>'+
-  '<div class="shoot-tags">'+tags+'</div>'+
-  '<section class="shoot-section shoot-context"><h3>Le tournage</h3><p>'+esc(item.description)+'</p></section>'+
-  '<section class="shoot-section"><div class="shoot-section-heading"><span>01 / DOCUMENTS DU MÊME TOURNAGE</span><h3>Plan de feu · Plateau · Image tournée</h3><p>Les trois documents sont ceux de cette seule configuration. Le plan peut être une prévisualisation réalisée par le DP ; les vues de plateau et les photogrammes ne représentent pas nécessairement la même prise.</p></div><div class="case-photo-grid">'+photos.map(m=>mediaFigure(m,s.source)).join("")+'</div><p class="shoot-provenance">'+esc(item.provenance)+'</p></section>'+
-  '<section class="shoot-section"><div class="shoot-section-heading"><span>02 / LECTURE DU PLAN DE FEU</span><h3>Ce que fait chaque source</h3><p>Pour chaque appareil ou dispositif : sa place, sa fonction et ses conséquences sur le contraste, la profondeur ou la couleur.</p></div><div class="shoot-sources">'+positions+'</div></section>'+
-  '<section class="shoot-section shoot-takeaway"><span>03 / LE POINT TECHNIQUE À RETENIR</span><p>'+esc(item.lesson)+'</p></section>'+
-  plus+variation+
-  '<section class="shoot-foot"><h3>Documentation et limites</h3><p>'+esc(s.caveat)+'</p><p>Positions et usages rédigés à partir du breakdown de l’auteur ; ne pas déduire de distances, niveaux lux ou angles non documentés. Les photos sont affichées depuis les sites sources et leurs droits appartiennent à leurs auteurs.</p><a href="'+esc(s.source)+'" target="_blank" rel="noopener noreferrer">Consulter les photos et le récit complet sur le site d’origine ↗</a></section>'+
-  related(item)+'</div>';
+function vocabCard(item,i){
+  return '<details class="vocab" id="vocab-'+i+'">'+
+    '<summary><span><small>'+esc(item.family||"TERM")+'</small><strong>'+esc(item.term)+'</strong></span><b>⌄</b></summary>'+
+    '<div><p>'+esc(item.definition||"")+'</p><p class="nuance">'+esc(item.nuance||"")+'</p></div>'+
+  '</details>';
 }
 
-function detailHTML(item){
-if(item.type==="situations"&&item.study)return exploreSituations()+studyDetail(item);
-let isTech=item.type==="techniques"||item.type==="situations";
-const advanced=!!PRO[item.id];
-return (item.type==="situations"?exploreSituations():"")+'<div class="detail-kicker">'+esc(SECTIONS[item.type])+' / '+esc(item.group)+'</div><h2 class="detail-title" id="detailTitle">'+esc(item.title)+'</h2><p class="detail-summary">'+esc(item.summary)+'</p><div class="detail-labels">'+(item.brand?'<span>'+esc(item.brand)+'</span>':"")+'<span>'+esc(item.group)+'</span><span>'+(advanced?"Carnet DP · dossier technique":isTech?"Installation illustrée":"Référence de plateau")+'</span></div>'+(advanced?visualAtlas(item)+proDetail(item)+'<details class="pro-legacy"><summary>Fiche synthétique & photographie documentaire</summary>'+(photoFor(item)?"":showPhotograph(item))+mainDetails(item)+(isTech?diagram(item.diagram):"")+'</details>':showPhotograph(item)+(isTech?diagram(item.diagram):"")+mainDetails(item)+materialSpecs(item)+(isTech?"":diagram(item.diagram)))+related(item)+sourceList(item);
+function caseCard(item){
+  var constraints='<div class="chips">'+arr(item.constraints).map(function(x){return "<span>"+esc(x)+"</span>"}).join("")+"</div>";
+  var approaches=arr(item.approaches).map(function(a){
+    return '<article class="approach"><h4>'+esc(a.name)+'</h4><p>'+esc(a.idea)+'</p><small>'+esc(a.tradeoff)+'</small></article>';
+  }).join("");
+  return '<details class="bubble sparring" id="'+esc(item.id)+'">'+
+    '<summary><span><small>SPARRING / CAS À RÉSOUDRE</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.setup)+'</em></span><b>⌄</b></summary>'+
+    '<div class="bubble-body">'+constraints+
+      '<div class="questions"><span>AVANT D’OUVRIR LES PISTES</span>'+bulletList(item.ask,"watch-list")+'</div>'+
+      '<details class="reveal"><summary>Ouvrir les pistes de travail <b>↘</b></summary><div class="approach-grid">'+approaches+'</div></details>'+
+    '</div></details>';
 }
-function openItem(id,{fromHash=false}={}){
-const item=find(id);if(!item)return;
-if(item.type==="techniques"){openMethod(id,{fromHash});return}if(!current)previousFocus=document.activeElement;current=id;loadingMedia++;
-$("#detailBreadcrumb").textContent="BOS / "+SECTIONS[item.type].toUpperCase()+" / FICHE";
-$("#detailScroll").innerHTML=detailHTML(item);
-$("#detailOverlay").classList.toggle("is-full-reader",item.type==="situations");
-updateStepper(item);
-$("#detailOverlay").hidden=false;document.body.classList.add("modal-open");$("#favoriteBtn").textContent=favoriteIds.has(id)?"★":"☆";$("#favoriteBtn").classList.toggle("is-fav",favoriteIds.has(id));
-$("#detailScroll").scrollTop=0;$(".detail-panel").focus();
-if(!fromHash)history.pushState(null,"","#fiche/"+encodeURIComponent(id));
-if(!item.study&&!photoFor(item))loadCommonsPhoto(item,loadingMedia);
-const img=$(".detail-photo img");
-if(img)img.addEventListener("error",()=>{const fig=img.closest("figure");if(fig)fig.innerHTML='<div class="photo-status"><b>Photo non accessible depuis ce site</b><a href="'+esc(photoFor(item).page)+'" target="_blank" rel="noopener noreferrer">Consulter la photographie sur son site d’origine ↗</a></div>'},{once:true});
+
+function situationCard(item){
+  var c=byCase.get(item.caseId);
+  if(!c){
+    return '<details class="bubble"><summary><span><small>SITUATION DOCUMENTÉE</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary)+'</em></span><b>⌄</b></summary><div class="bubble-body"><p>Archive visuelle introuvable.</p></div></details>';
+  }
+  var media=arr(c.media).map(function(m){
+    return '<figure class="study-media"><a href="'+esc(m.url)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(m.url)+'" loading="lazy" referrerpolicy="no-referrer" alt="'+esc(m.title||"Visuel de tournage")+'"></a><figcaption><b>'+esc(m.title||"")+'</b><span>'+esc(m.caption||"")+'</span></figcaption></figure>';
+  }).join("");
+  var positions=arr(c.positions).map(function(p){
+    return '<article class="position"><h4>'+esc(p.name||"")+'</h4><p><b>Placement.</b> '+esc(p.where||"")+'</p><p><b>Fonction.</b> '+esc(p.purpose||"")+'</p><p><b>Conséquence.</b> '+esc(p.consequence||"")+'</p></article>';
+  }).join("");
+  return '<details class="bubble situation" id="'+esc(item.id)+'">'+
+    '<summary><span><small>'+esc(c.production||"SITUATION")+'</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary)+'</em></span><b>⌄</b></summary>'+
+    '<div class="bubble-body">'+
+      '<p class="focus">'+esc(item.focus||"")+'</p>'+
+      '<p>'+esc(c.context||"")+'</p>'+
+      '<div class="study-grid">'+media+'</div>'+
+      '<div class="positions">'+positions+'</div>'+
+      (c.takeaway?'<div class="takeaway"><span>POINT À RETENIR</span><p>'+esc(c.takeaway)+'</p></div>':"")+
+      '<a class="source-link" href="'+esc(c.source||"#")+'" target="_blank" rel="noopener noreferrer">'+esc(c.author||"Source originale")+' · source originale ↗</a>'+
+    '</div></details>';
 }
-function closeItem({fromHash=false}={}){
-if(!current)return;
-$("#detailOverlay").hidden=true;$("#detailOverlay").classList.remove("is-full-reader");document.body.classList.remove("modal-open");current=null;loadingMedia++;if(!fromHash)history.pushState(null,"","#bibliotheque");if(previousFocus&&previousFocus.isConnected)previousFocus.focus();
+
+function renderItems(key,items){
+  if(key==="principles")return items.map(principleCard).join("");
+  if(key==="methods")return items.map(methodCard).join("");
+  if(key==="materials")return items.map(materialCard).join("");
+  if(key==="vocabulary")return '<div class="vocab-grid">'+items.map(vocabCard).join("")+'</div>';
+  if(key==="cases")return items.map(caseCard).join("");
+  if(key==="situations")return items.map(situationCard).join("");
+  return "";
 }
-$("#closeDetail").addEventListener("click",()=>closeItem());
-$("#overlayBackdrop").addEventListener("click",()=>closeItem());
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&current)closeItem();if(current&&(e.key==="ArrowLeft"||e.key==="ArrowRight")&&!["INPUT","SELECT","TEXTAREA"].includes(document.activeElement?.tagName)){e.preventDefault();stepMove(e.key==="ArrowRight"?1:-1)}if(current&&e.key==="Tab"){const focusable=$$('button,a[href],input',$(".detail-panel")).filter(x=>!x.disabled&&x.getClientRects().length);if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
-$("#detailScroll").addEventListener("error",e=>{
-const img=e.target;if(!img||!img.matches||!img.matches(".case-photo, .case-extra-photo img"))return;
-const target=img.closest(".case-photo-link, .case-extra-photo a");
-if(target){target.classList.add("case-photo-failed");img.remove();const note=document.createElement("span");note.className="case-photo-error";note.textContent="Photo non chargée · consulter l’image chez l’auteur ↗";target.append(note)}
-},true);
-$("#detailScroll").addEventListener("click",e=>{const btn=e.target.closest("[data-related]");if(btn){openItem(btn.dataset.related);return}const jump=e.target.closest("[data-scroll]");if(jump){const target=document.getElementById(jump.dataset.scroll);if(target)target.scrollIntoView({behavior:"smooth",block:"start"})}});
-$("#favoriteBtn").addEventListener("click",()=>{if(!current)return;if(favoriteIds.has(current))favoriteIds.delete(current);else favoriteIds.add(current);persist();const fav=favoriteIds.has(current);$("#favoriteBtn").textContent=fav?"★":"☆";$("#favoriteBtn").classList.toggle("is-fav",fav);render();toast(fav?"Ajouté aux favoris":"Retiré des favoris")});
-$("#shareBtn").addEventListener("click",async()=>{if(!current)return;const url=location.origin+location.pathname+"#fiche/"+encodeURIComponent(current);try{await navigator.clipboard.writeText(url);toast("Lien copié")}catch{toast("Lien : "+url)}});
-function syncHash(){const hash=decodeURIComponent(location.hash);const method=hash.match(/^#methode\/(.+)$/);if(method){openMethod(method[1],{fromHash:true});return}const match=hash.match(/^#fiche\/(.+)$/);if(match){if(match[1]!==current)openItem(match[1],{fromHash:true})}else if(current)closeItem({fromHash:true})}
-window.addEventListener("hashchange",syncHash);
-function stringText(html){const el=document.createElement("div");el.innerHTML=html||"";return el.textContent.trim()}
-async function loadCommonsPhoto(item,request){
-const mount=$("#dynamicPhoto");if(!mount)return;
-// Recherche exacte : jamais afficher un résultat qui pourrait représenter un autre objet.
-const terms=normalize(item.title).replace(/[^\w\s-]/g," ").split(/\s+/).filter(s=>s.length>=4&&!["source","white","light","full","film","cinema","avec","tough","luminaire","panneau"].includes(s));
-const q=item.type==="projecteurs"?item.title:item.title+" lighting";
-const params=new URLSearchParams({action:"query",generator:"search",gsrsearch:q,gsrnamespace:"6",gsrlimit:"10",prop:"imageinfo",iiprop:"url|mime|extmetadata",iiurlwidth:"960",format:"json",origin:"*"});
-try{
-const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),6500);
-const response=await fetch("https://commons.wikimedia.org/w/api.php?"+params.toString(),{signal:controller.signal,credentials:"omit"});clearTimeout(timeout);
-if(!response.ok)throw Error("media");
-const data=await response.json();if(request!==loadingMedia||current!==item.id)return;
-const pages=Object.values(data.query?.pages||{});
-let candidates=pages.filter(p=>p.imageinfo?.[0]?.thumburl&&/^image\/(png|jpeg|webp)/.test(p.imageinfo[0].mime||""));
-const candidate=candidates.find(p=>{const name=normalize(p.title).replace("file:","");if(item.type==="projecteurs"){const brand=normalize(item.brand);return name.includes(brand)&&terms.slice(-1).some(t=>name.includes(t))}return terms.length>=1&&terms.every(t=>name.includes(t))});
-if(!candidate)throw Error("unverified");
-const info=candidate.imageinfo[0], meta=info.extmetadata||{};
-const author=stringText(meta.Artist?.value||meta.Credit?.value||"Auteur précisé sur Wikimedia Commons").slice(0,150);
-const license=stringText(meta.LicenseShortName?.value||"Licence à consulter").slice(0,60);
-const url="https://commons.wikimedia.org/wiki/"+encodeURIComponent(candidate.title.replace(/ /g,"_"));
-const fig=document.createElement("figure");fig.className="detail-photo";
-const image=document.createElement("img");image.alt="Photographie Wikimedia Commons : "+candidate.title;image.src=info.thumburl;image.loading="eager";
-const caption=document.createElement("figcaption");caption.append("Photo réelle : "+candidate.title+" · "+author+" · "+license+" · ");
-const anchor=document.createElement("a");anchor.href=url;anchor.target="_blank";anchor.rel="noopener noreferrer";anchor.textContent="Licence et fichier source ↗";caption.append(anchor);
-fig.append(image,caption);mount.replaceWith(fig);
-}catch{if(request!==loadingMedia||current!==item.id)return;const msg=$(".photo-message",mount);if(msg)msg.textContent="Aucune photographie précisément vérifiée n’a été trouvée automatiquement. Consulte les images du fabricant ou la recherche documentaire, sans substituer une image approximative."}
+
+function render(){
+  var meta=META[section];
+  $("#sectionKicker").textContent=meta.num+" / "+meta.title.toUpperCase();
+  $("#sectionTitle").textContent=meta.title;
+  $("#sectionIntro").textContent=meta.intro;
+  $$("[data-section]").forEach(function(btn){btn.classList.toggle("active",btn.dataset.section===section)});
+
+  var notice=$("#searchNotice");
+  if(query){
+    var groups=[];
+    Object.keys(META).forEach(function(k){
+      var found=(DATA[k]||[]).filter(matches);
+      if(found.length)groups.push({key:k,items:found});
+    });
+    notice.hidden=false;
+    notice.textContent="Recherche globale · "+groups.reduce(function(n,g){return n+g.items.length},0)+" résultat(s)";
+    $("#content").innerHTML=groups.length?groups.map(function(g){
+      return '<section class="result-group"><div class="result-head"><span>'+META[g.key].num+'</span><h3>'+esc(META[g.key].title)+'</h3><small>'+g.items.length+'</small></div>'+renderItems(g.key,g.items)+'</section>';
+    }).join(""):'<div class="empty">Aucun résultat.</div>';
+  }else{
+    notice.hidden=true;
+    var list=DATA[section]||[];
+    $("#content").innerHTML=renderItems(section,list);
+  }
 }
-window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#installBtn").hidden=false});
-$("#installBtn").addEventListener("click",async()=>{if(deferredInstall){const p=deferredInstall;deferredInstall=null;p.prompt();try{await p.userChoice}catch{}$("#installBtn").hidden=true}else toast("Installation : menu du navigateur → Ajouter à l’écran d’accueil")});
-window.addEventListener("appinstalled",()=>{$("#installBtn").hidden=true;toast("Application installée")});
-if("serviceWorker"in navigator&&location.protocol==="https:")navigator.serviceWorker.register("./sw.js").catch(()=>{});
-render();syncHash();
+
+$$("[data-section]").forEach(function(btn){
+  btn.addEventListener("click",function(){section=btn.dataset.section;query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();$(".workspace").scrollIntoView({behavior:"smooth",block:"start"})});
+});
+
+$("#searchInput").addEventListener("input",function(e){query=e.target.value.trim();$("#clearSearch").hidden=!query;render()});
+$("#clearSearch").addEventListener("click",function(){query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();$("#searchInput").focus()});
+
+$("#randomBtn").addEventListener("click",function(){
+  query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();
+  var items=DATA[section]||[];
+  if(!items.length)return;
+  var item=items[Math.floor(Math.random()*items.length)];
+  var id=section==="vocabulary"?"vocab-"+items.indexOf(item):item.id;
+  var el=document.getElementById(id);
+  if(el){el.open=true;el.scrollIntoView({behavior:"smooth",block:"center"});toast("Fiche au hasard · "+(item.title||item.term))}
+});
+
+document.addEventListener("click",function(e){
+  var link=e.target.closest(".tags span");
+  if(!link)return;
+  query=link.textContent.trim();
+  $("#searchInput").value=query;
+  $("#clearSearch").hidden=false;
+  render();
+  $(".workspace").scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+render();
 })();
