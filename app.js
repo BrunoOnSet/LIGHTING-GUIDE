@@ -30,7 +30,8 @@ $$('[data-tab]').forEach(el=>{const active=el.dataset.tab===tab;el.classList.tog
 render();if(scroll)$("#bibliotheque").scrollIntoView({behavior:"smooth",block:"start"});
 }
 $$("[data-tab]").forEach(el=>el.addEventListener("click",()=>selectTab(el.dataset.tab)));
-$$("[data-section]").forEach(el=>el.addEventListener("click",()=>selectTab(el.dataset.section,{scroll:true})));
+$("[data-section]").forEach(el=>el.addEventListener("click",()=>selectTab(el.dataset.section,{scroll:true})));
+$("[data-quick]").forEach(el=>el.addEventListener("click",()=>openItem(el.dataset.quick)));
 $("#exploreBtn").addEventListener("click",()=>$("#bibliotheque").scrollIntoView({behavior:"smooth",block:"start"}));
 $("#searchInput").addEventListener("input",e=>{query=e.target.value.trim();filter="Tous";$("#clearSearch").hidden=!query;render()});
 $("#clearSearch").addEventListener("click",()=>{query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();$("#searchInput").focus()});
