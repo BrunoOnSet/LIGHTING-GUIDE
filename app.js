@@ -49,9 +49,10 @@ const m=photoFor(item);const typeLabel=SECTIONS[item.type]||"Guide";
 return '<button class="guide-card" type="button" data-open="'+esc(item.id)+'" aria-label="Ouvrir '+esc(item.title)+'"><div class="card-graphic">'+(m?'<img class="card-photo" src="'+esc(m.url)+'" alt="Photographie réelle : '+esc(item.title)+'" loading="lazy" referrerpolicy="no-referrer">':cardSketch(item.diagram))+'<span class="graphic-corner">'+esc(typeLabel.toUpperCase())+'</span></div><div class="card-content"><div class="card-topline"><span class="card-category">'+esc(item.brand?item.brand+" · "+item.group:item.group)+'</span><span class="card-arrow">'+(favoriteIds.has(item.id)?"★":"↗")+'</span></div><h3>'+esc(item.title)+'</h3><p>'+esc(item.summary)+'</p><div class="card-tags"><span>Fiche pratique</span>'+(item.type==="situations"||item.type==="techniques"?'<span>Schéma en plan</span>':"<span>Documentation</span>")+'</div></div></button>';
 }
 function render(){
-favoritesCount();const base=baseItems();renderFilters(base);
+favoritesCount();const base=baseItems();
 let output=base;
 if(query){const terms=normalize(query).split(/\s+/).filter(Boolean);output=output.filter(x=>terms.every(q=>searchText(x).includes(q)))}
+renderFilters(output);
 if(filter!=="Tous")output=output.filter(x=>x.group===filter);
 $("#resultCount").textContent=output.length+" fiche"+(output.length!==1?"s":"")+(query?" · recherche dans toutes les rubriques":"");
 $("#cards").innerHTML=output.map(card).join("");
