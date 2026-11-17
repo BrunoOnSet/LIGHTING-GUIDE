@@ -29,24 +29,31 @@ En prévisualisation locale, servir le dossier par HTTP : `python3 -m http.serve
 La recherche croise les quatre rubriques dès qu'un terme est saisi ; les filtres de catégories agissent sur les résultats. Les favoris sont locaux. Les fiches de situation détaillent une séquence de mise en place, les projecteurs décrivent leurs usages, les accessoires sont expliqués en terminologie FR/EN et les schémas représentent le principe en plan, non des implantations constructibles au centimètre.
 
 
-## Dossiers de chef opérateur — V1.1
+## V1.3 — Situations réelles, une seule fois
 
-Chaque **situation de tournage** possède désormais un dossier de travail approfondi. Les méthodes majeures (book light, bounce, négatif, diffusion, overhead, cross key et practicals) disposent également d’une version technique avancée. Les dossiers comprennent : implantation, alternatives, critères de contrôle caméra, difficultés de couleur/peaux, diagnostics symptôme → cause → correction, exemples de projecteurs actuels ou classiques, contrôle avant prise et documentation liée.
+**Situations** contient cinq études de tournages réels. Chaque carte correspond à un **dispositif distinct**, avec un **plan d'éclairage publié par son auteur**, une **photo du plateau du même tournage**, une **image tournée**, et une lecture claire de chaque source : emplacement, fonction et conséquence sur le rendu.
 
-Une navigation précédente/suivante et un sélecteur par situation permettent de passer d’une fiche à une autre dans le même panneau ; des raccourcis donnent accès aux thèmes prioritaires directement depuis l’accueil.
+Les cinq études retenues sont :
 
-**Fausse nuit et nuit américaine :** les fiches sont volontairement distinctes : filmer de jour pour nuit (day-for-night extérieur), filmer un intérieur nuit en plein jour avec occultations, créer une nuit dans un décor de studio, composer une source lunaire par fenêtre, produire une nuit extérieure, traiter les peaux rouges/magenta. La qualité des peaux varie selon les sources, l’exposition et la postproduction : les causes et solutions proposées restent des diagnostics à confirmer par essais caméra.
+- *The Bar* — Josh White (plan large, intérieur nuit).
+- *Nights Crawling* — Grant MacAllister (appartement dystopique).
+- *The Fantastic Four: First Steps* — Jess Hall ASC, Times Square (scène 54).
+- *The Fantastic Four: First Steps* — Jess Hall ASC, Worldship (scène 83, autre décor / photos distinctes).
+- *Gibson Songbook: Fantastic Negrito* — Grant MacAllister (interview).
 
+**Aucune photographie du triptyque principal n'est répétée entre deux Situations.** Le plan large et le gros plan de *The Bar* sont regroupés dans une même étude, plutôt que comptés comme deux situations. Les schémas ne sont jamais attribués à un autre tournage.
 
-## Situations V1.2 — pleine page & plan / BTS / rendu
+La rubrique **Méthodes** conserve les 35 principes d'éclairage et les **27 anciennes configurations types**, classées ici comme connaissances techniques (faux jour, nuit américaine, mouvement d'acteurs, etc.). Leurs dossiers professionnels restent accessibles, mais ils ne réutilisent plus les photos des tournages de Situations. Ce sont des configurations possibles, pas des plans de production attribués à un auteur.
 
-Les 27 **Situations** s'ouvrent en lecture pleine largeur, sur téléphone comme sur ordinateur (les autres rubriques conservent leur panneau latéral). Une navigation précédente / suivante et un sélecteur donnent accès à toute la bibliothèque sans refermer la fiche ; un index déroulant permet aussi d'accéder directement à une autre Situation.
+La navigation précédente / suivante et le sélecteur sont maintenus. Les photos sont hébergées par leurs auteurs ; l'affichage sur une page publique reste soumis aux conditions des droits photographiques et aux éventuelles protections contre le chargement distant.
 
-L'**Atlas visuel** associe, lorsque les auteurs les ont publiés : plan d'implantation original, photo du plateau, photogramme final et analyse de chaque source (position / fonction / conséquence sur l'image). Les exemples provenants de films et de breakdowns professionnels sont regroupés **par tournage** afin de ne jamais montrer des images de trois scènes comme si elles étaient liées. Les images de comparaison et BTS sans photogramme identique sont signalées. Des photos supplémentaires du dispositif peuvent être consultées à partir de certaines études.
+## Organisation technique
 
-**Toutes les situations** conservent, même sans vrai jeu complet de photos, plusieurs configurations techniques et un plan BOS original vu du dessus. Ces schémas ne simulent pas les lux, les ratios réels, les distances de sécurité ou les appareils exacts d'une scène dont le plan de feu n'a pas été publié.
-
-Au démarrage V1.2, dix études visuelles d'auteur sont disponibles, avec couvertures différentes : certaines ont trois documents de même scène, d'autres deux documents et un schéma pédagogique. Les autres situations affichent clairement l'absence de photos vérifiées. Pour les crédits, l'usage des images et les liens de source : voir [SOURCES.md](SOURCES.md).
+- `data-shoots.js` sélectionne cinq études distinctes dans l'archive documentaire, puis déplace les configurations génériques vers Méthodes.
+- `data-visual-cases.js` conserve les sources et notes d'archive, **sans aucune association automatique d'un même tournage à plusieurs situations**.
+- `app.js` construit la page courte : contexte, trois visuels, sources analysées poste par poste et point à retenir.
+- `tests/verify.mjs` contrôle notamment qu'il existe cinq situations, 15 images distinctes, un plan de feu + une photo de plateau + un résultat par fiche, et aucun doublon d'URL.
+- `sw.js` assure la consultation hors ligne de l'interface et des textes. Les photographies hébergées ailleurs requièrent une connexion Internet.
 
 ## Conditions d'utilisation
 
