@@ -28,6 +28,13 @@ lighting:{label:"Manuel des techniciens lumière · principes de motivation",url
 wiki:{label:"Wikimedia Commons · Photographies sous licences libres",url:"https://commons.wikimedia.org/wiki/Category:Film_lighting_equipment"}
 };
 window.BOS_MEDIA={
+arriM18:{url:"https://www.direct-digital.com/sites/default/files/Website-Stock-Image-Bank/MSRARRIM18%20-%2001.jpg",credit:"Photographie réelle ARRI M18 · Direct Digital",page:"https://www.direct-digital.com/en/hire/arri-m18-1800w-hmi-arri-max-1000hz-kit"},
+vortex8:{url:"https://www.prisma.film/media/image/product/10684/lg/creamsource-vortex-8-650w-true-colour-led-inklusive-buegel~3.png",credit:"Photographie produit Creamsource Vortex8 · Prisma Film",page:"https://www.prisma.film/Creamsource-Vortex-8-650W-True-Colour-LED-Including-Yoke"},
+cstand:{url:"https://www.msegrip.com/cdn/shop/files/c-stand-collection.jpg?v=1732890366&width=875",credit:"Photographie C-stand · Matthews Studio Equipment",page:"https://www.msegrip.com/collections/matthews-university"},
+softbox:{url:"https://media.vocas.nl/media/catalog/product/a/p/aputure_light_dome_iii-2-vocas.png",credit:"Photographie d'une softbox Light Dome III · Vocas",page:"https://vocas.nl/aputure-light-dome-iii/"},
+portraitSetup:{url:"https://www.newsshooter.com/wp-content/uploads/2023/07/1DX_2931.jpg",credit:"Mise en situation d'une softbox Aputure Light Dome III · Newsshooter",page:"https://www.newsshooter.com/2023/07/25/aputure-announces-light-dome-iii-and-light-dome-mini-iii/"},
+studioGrid:{url:"https://www.panavision.com/images/default-source/articles/thumbnail_simon_rowling_video-1000x507-eaac6fd.png?sfvrsn=195b3a39_1",credit:"Mise en œuvre de diffuseurs sur une scène de nuit · Panavision",page:"https://www.panavision.com/highlights/highlights-detail/lighting-a-night-interior-bar-scene-with-lee-filters"},
+
 book:{url:"https://nofilmschool.com/media-library/shane-hurlbut-book-light2-e1353446145555.jpg?id=34091967&width=980",credit:"Photographie de montage : No Film School / article Shane Hurlbut ASC",page:"https://nofilmschool.com/2012/11/build-book-light-shane-hurlbut"},
 bounce:{url:"https://static.wixstatic.com/media/cb34b4_6257818ca12b4e96bcd70f58a39aaa40~mv2.jpg/v1/fill/w_980,h_654,al_c,q_85/cb34b4_6257818ca12b4e96bcd70f58a39aaa40~mv2.jpg",credit:"Essais de diffusion et réflexion : Matt Porwoll",page:"https://www.mattporwoll.com/the-ultimate-diffusion-bounce-test"},
 cove:{url:"https://www.rogerdeakins.com/wp-content/uploads/hm_bbpui/214768/aa8nwhlf7748n9z0th1tboyxdpd4mp96.jpeg",credit:"Discussion sur le cove lighting : Roger Deakins",page:"https://www.rogerdeakins.com/forums/topic/cove-lightning/"},
