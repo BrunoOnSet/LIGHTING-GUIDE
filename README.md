@@ -20,10 +20,22 @@ En prévisualisation locale, servir le dossier par HTTP : `python3 -m http.serve
 - `data.js` : sources documentaires et index des photographies
 - `data-techniques.js`, `data-situations.js`, `data-projecteurs.js`, `data-accessoires.js` : référentiel de fiches
 - `data-pro.js`, `data-pro-extra.js`, `data-pro-final.js`, `data-pro-methods.js` : dossiers professionnels, configurations alternatives, colorimétrie, pièges, contrôles et liens matériel
-- `app.js` : recherche, filtres, favoris, vues de détail, schémas originaux, images Wikimedia
+- `data-method-tips.js` : conseils de chefs opérateurs attribués et sources originales
+- `app.js` : recherche, filtres, favoris, bulles Méthodes et fiches Situations
 - `manifest.webmanifest`, `sw.js`, `icon.svg` : PWA
 - `SOURCES.md` : sources, droits d'image et limites
 
+## Méthodes V1.4 — consultation rapide
+
+Les **62 fiches Méthodes** s'affichent verticalement en **bulles repliables**, fermées par défaut et indépendantes les unes des autres. Filtres : Toutes, Méthodes, Configurations types.
+
+Chaque bulle ouverte présente une seule indication pratique, puis les conseils professionnels réellement retrouvés, avec nom et lien vers l'auteur. Lorsque la fiche dispose d'une vraie photographie documentaire, elle reste visible avec son crédit et son lien source. **Aucun schéma généré par BOS, aucune image de substitution ni longue liste numérotée ne figure dans Méthodes.**
+
+Au démarrage, **35 conseils sourcés** concernent **33 méthodes**. Ce sont des synthèses éditoriales françaises, pas des citations. Lorsque la provenance d'un conseil n'est pas vérifiable, aucun nom de chef opérateur n'est attribué.
+
+Les favoris fonctionnent dans les bulles. Les raccourcis et liens de méthode utilisent des adresses `#methode/<id>` et ouvrent directement la bonne bulle, sans passer par les anciennes fiches à schéma.
+
+Le module `data-method-tips.js` conserve les notes et les URL de référence. Les quatre photographies existantes sont hébergées par leurs auteurs ; leur affichage et réutilisation publique dépendent des sites sources et des droits applicables.
 ## Parcours
 
 La recherche croise les quatre rubriques dès qu'un terme est saisi ; les filtres de catégories agissent sur les résultats. Les favoris sont locaux. Les fiches de situation détaillent une séquence de mise en place, les projecteurs décrivent leurs usages, les accessoires sont expliqués en terminologie FR/EN et les schémas représentent le principe en plan, non des implantations constructibles au centimètre.
