@@ -92,11 +92,11 @@ const ids=[
 assert.equal(new Set(ids).size,ids.length,'Identifiants V2 dupliqués');
 
 const html=fs.readFileSync('index.html','utf8');
-assert(html.includes('data-v2.js?v=3.0.1'),'data-v2.js non chargé');
-assert(html.includes('data-library.js?v=3.0.1'),'data-library.js non chargé');
+assert(html.includes('data-v2.js?v=3.0.2'),'data-v2.js non chargé');
+assert(html.includes('data-library.js?v=3.0.2'),'data-library.js non chargé');
 assert(html.includes('data-section="fixtures"'),'Onglet Projecteurs absent');
 assert(html.includes('data-section="dossiers"'),'Onglet Dossiers absent');
-assert(html.includes('data-visual-cases.js?v=3.0.1'),'Archive visuelle non chargée');
+assert(html.includes('data-visual-cases.js?v=3.0.2'),'Archive visuelle non chargée');
 assert(!html.includes('data-techniques.js'),'La V1 ne doit plus être chargée');
 assert(html.includes('Cas de plateau'),'Navigation Cas de plateau absente');
 assert(html.includes('Vocabulaire'),'Navigation Vocabulaire absente');
@@ -117,7 +117,7 @@ assert(styles.includes('.approach-grid'),'Pistes des cas de plateau absentes');
 assert(styles.includes('.study-grid'),'Triptyques de tournage absents');
 
 const sw=fs.readFileSync('sw.js','utf8');
-assert(sw.includes('bos-lighting-guide-v3-0-1-20261118'),'Cache V3 non versionné');
+assert(sw.includes('bos-lighting-guide-v3-0-2-20261118'),'Cache V3 non versionné');
 assert(sw.includes('./data-library.js'),'Catalogue V3 absent du cache');
 assert(sw.includes('./data-v2.js'),'data-v2.js absent du cache');
 assert(sw.includes('./data-visual-cases.js'),'Archive visuelle absente du cache');
