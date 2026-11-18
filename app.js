@@ -7,6 +7,8 @@ var VISUAL=(window.BOS_VISUAL_CASES&&window.BOS_VISUAL_CASES.cases)||[];
 var byCase=new Map(VISUAL.map(function(x){return [x.id,x]}));
 var section="principles";
 var query="";
+var favoritesMode=false;
+var favorites=(function(){try{var x=JSON.parse(localStorage.getItem("bos-lighting-favorites-v1")||"[]");return new Set(Array.isArray(x)?x:[])}catch(e){return new Set()}})();
 
 var META={
   principles:{num:"01",title:"Principes",intro:"Révisions courtes de phénomènes qui conditionnent réellement le rendu."},
@@ -29,6 +31,9 @@ function sourceLink(s){return s&&s.url?'<a class="source-link" href="'+esc(s.url
 function bulletList(items,cls){if(!items||!items.length)return "";return '<ul class="'+(cls||"bullets")+'">'+items.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+"</ul>"}
 function textIndex(obj){return norm(JSON.stringify(obj))}
 function matches(obj){return !query||textIndex(obj).indexOf(norm(query))>=0}
+function favKey(item){return String(item.id||("vocab:"+norm(item.term)))}
+function favoriteButton(item){var k=favKey(item),saved=favorites.has(k);return '<button type="button" class="save-card" data-save="'+esc(k)+'" aria-pressed="'+saved+'">'+(saved?"★ Dans mes favoris":"☆ Garder à relire")+'</button>'}
+function updateFavoritesBtn(){var b=$("#favoritesBtn");if(b){b.textContent=favoritesMode?"Tous les articles":"Mes favoris ("+favorites.size+")";b.setAttribute("aria-pressed",String(favoritesMode))}}
 
 function theme(mode){
   document.documentElement.dataset.theme=mode;
@@ -52,7 +57,7 @@ Object.keys(META).forEach(function(k){
 function principleCard(item){
   return '<details class="bubble" id="'+esc(item.id)+'">'+
     '<summary><span><small>'+esc(item.kicker||"PRINCIPE")+'</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary||"")+'</em></span><b>⌄</b></summary>'+
-    '<div class="bubble-body">'+
+    '<div class="bubble-body">'+favoriteButton(item)+
       bulletList(item.bullets)+
       (item.watch&&item.watch.length?'<div class="watch"><span>À SURVEILLER</span>'+bulletList(item.watch,"watch-list")+'</div>':"")+
       sourceLink(item.source)+
@@ -63,7 +68,7 @@ function principleCard(item){
 function methodCard(item){
   return '<details class="bubble method" id="'+esc(item.id)+'">'+
     '<summary><span><small>'+esc(item.kicker||"METHOD")+'</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary||"")+'</em></span><b>⌄</b></summary>'+
-    '<div class="bubble-body">'+
+    '<div class="bubble-body">'+favoriteButton(item)+
       bulletList(item.bullets)+
       (item.watch&&item.watch.length?'<div class="watch"><span>LIMITES / PIÈGES</span>'+bulletList(item.watch,"watch-list")+'</div>':"")+
       sourceLink(item.source)+
@@ -74,7 +79,7 @@ function methodCard(item){
 function materialCard(item){
   return '<details class="bubble material" id="'+esc(item.id)+'">'+
     '<summary><span><small>'+esc(item.type||"MATÉRIEL")+'</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary||"")+'</em></span><b>⌄</b></summary>'+
-    '<div class="bubble-body two-col">'+
+    '<div class="bubble-body two-col">'+favoriteButton(item)+
       '<div><span class="micro-label">UTILISER POUR</span><p>'+esc(item.use||"")+'</p></div>'+
       '<div><span class="micro-label">À SURVEILLER</span><p>'+esc(item.watch||"")+'</p></div>'+
       sourceLink(item.source)+
@@ -84,7 +89,7 @@ function materialCard(item){
 function vocabCard(item,i){
   return '<details class="vocab" id="vocab-'+i+'">'+
     '<summary><span><small>'+esc(item.family||"TERM")+'</small><strong>'+esc(item.term)+'</strong></span><b>⌄</b></summary>'+
-    '<div><p>'+esc(item.definition||"")+'</p><p class="nuance">'+esc(item.nuance||"")+'</p></div>'+
+    '<div>'+favoriteButton(item)+'<p>'+esc(item.definition||"")+'</p><p class="nuance">'+esc(item.nuance||"")+'</p></div>'+
   '</details>';
 }
 
@@ -95,7 +100,7 @@ function caseCard(item){
   }).join("");
   return '<details class="bubble sparring" id="'+esc(item.id)+'">'+
     '<summary><span><small>SPARRING / CAS À RÉSOUDRE</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.setup)+'</em></span><b>⌄</b></summary>'+
-    '<div class="bubble-body">'+constraints+
+    '<div class="bubble-body">'+favoriteButton(item)+constraints+
       '<div class="questions"><span>AVANT D’OUVRIR LES PISTES</span>'+bulletList(item.ask,"watch-list")+'</div>'+
       '<details class="reveal"><summary>Ouvrir les pistes de travail <b>↘</b></summary><div class="approach-grid">'+approaches+'</div></details>'+
     '</div></details>';
@@ -114,7 +119,7 @@ function situationCard(item){
   }).join("");
   return '<details class="bubble situation" id="'+esc(item.id)+'">'+
     '<summary><span><small>'+esc(c.production||"SITUATION")+'</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary)+'</em></span><b>⌄</b></summary>'+
-    '<div class="bubble-body">'+
+    '<div class="bubble-body">'+favoriteButton(item)+
       '<p class="focus">'+esc(item.focus||"")+'</p>'+
       '<p>'+esc(c.context||"")+'</p>'+
       '<div class="study-grid">'+media+'</div>'+
@@ -144,7 +149,7 @@ function fixtureCard(item){
     '<div class="fixture-no-photo"><span>PHOTO PRODUIT</span><p>Consulter les visuels documentaires sur la page du fabricant.</p></div>';
   return '<details class="bubble fixture" id="'+esc(item.id)+'">'+
     '<summary><span><small>'+esc(item.brand+' / '+item.family)+'</small><strong>'+esc(item.name)+'</strong><em>'+esc(item.role)+'</em></span><b>⌄</b></summary>'+
-    '<div class="bubble-body">'+
+    '<div class="bubble-body">'+favoriteButton(item)+
       '<div class="fixture-grid">'+photo+'<div class="fixture-notes"><h4>Ce qui le distingue</h4><p>'+esc(item.strength)+'</p><h4>À vérifier sur le plateau</h4><p>'+esc(item.limits)+'</p>'+sourceLink(item.source)+'</div></div>'+
     '</div></details>';
 }
@@ -152,7 +157,7 @@ function dossierCard(item){
   function block(title,lines){return '<section class="chapter-section"><h4>'+esc(title)+'</h4>'+bulletList(arr(lines))+'</section>'}
   return '<details class="bubble dossier" id="'+esc(item.id)+'">'+
     '<summary><span><small>'+esc(item.kicker||"DOSSIER")+'</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary)+'</em></span><b>⌄</b></summary>'+
-    '<div class="bubble-body"><p class="chapter-intro">'+esc(item.intro)+'</p>'+diagramSvg(item.diagram)+
+    '<div class="bubble-body">'+favoriteButton(item)+'<p class="chapter-intro">'+esc(item.intro)+'</p>'+diagramSvg(item.diagram)+
     block("Comprendre le phénomène",item.science)+
     block("Raisonnement sur le plateau",item.plateau)+
     block("Choix et compromis",item.alternatives)+
@@ -180,17 +185,17 @@ function render(){
   $$("[data-section]").forEach(function(btn){btn.classList.toggle("active",btn.dataset.section===section)});
 
   var notice=$("#searchNotice");
-  if(query){
+  if(query||favoritesMode){
     var groups=[];
     Object.keys(META).forEach(function(k){
-      var found=(DATA[k]||[]).filter(matches);
+      var found=(DATA[k]||[]).filter(function(x){return matches(x)&&(!favoritesMode||favorites.has(favKey(x)))});
       if(found.length)groups.push({key:k,items:found});
     });
     notice.hidden=false;
-    notice.textContent="Recherche globale · "+groups.reduce(function(n,g){return n+g.items.length},0)+" résultat(s)";
+    notice.textContent=(favoritesMode?"Mes favoris":"Recherche globale")+" · "+groups.reduce(function(n,g){return n+g.items.length},0)+" résultat(s)";
     $("#content").innerHTML=groups.length?groups.map(function(g){
       return '<section class="result-group"><div class="result-head"><span>'+META[g.key].num+'</span><h3>'+esc(META[g.key].title)+'</h3><small>'+g.items.length+'</small></div>'+renderItems(g.key,g.items)+'</section>';
-    }).join(""):'<div class="empty">Aucun résultat.</div>';
+    }).join(""):'<div class="empty">'+(favoritesMode?"Aucun favori enregistré. Ouvre une fiche et sélectionne « Garder à relire ».":"Aucun résultat.")+'</div>';
   }else{
     notice.hidden=true;
     var list=DATA[section]||[];
@@ -199,14 +204,14 @@ function render(){
 }
 
 $$("[data-section]").forEach(function(btn){
-  btn.addEventListener("click",function(){section=btn.dataset.section;query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();$(".workspace").scrollIntoView({behavior:"smooth",block:"start"})});
+  btn.addEventListener("click",function(){favoritesMode=false;updateFavoritesBtn();section=btn.dataset.section;query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();$(".workspace").scrollIntoView({behavior:"smooth",block:"start"})});
 });
 
 $("#searchInput").addEventListener("input",function(e){query=e.target.value.trim();$("#clearSearch").hidden=!query;render()});
 $("#clearSearch").addEventListener("click",function(){query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();$("#searchInput").focus()});
 
 $("#randomBtn").addEventListener("click",function(){
-  query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();
+  favoritesMode=false;updateFavoritesBtn();query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();
   var items=DATA[section]||[];
   if(!items.length)return;
   var item=items[Math.floor(Math.random()*items.length)];
@@ -215,10 +220,24 @@ $("#randomBtn").addEventListener("click",function(){
   if(el){el.open=true;el.scrollIntoView({behavior:"smooth",block:"center"});toast("Fiche au hasard · "+(item.title||item.term))}
 });
 
+$("#favoritesBtn").addEventListener("click",function(){favoritesMode=!favoritesMode;query="";$("#searchInput").value="";$("#clearSearch").hidden=true;updateFavoritesBtn();render();$(".workspace").scrollIntoView({behavior:"smooth",block:"start"})});
+updateFavoritesBtn();
+document.addEventListener("click",function(e){
+  var target=e.target.closest("[data-save]");
+  if(!target)return;
+  e.preventDefault();e.stopPropagation();
+  var key=target.getAttribute("data-save");
+  if(favorites.has(key))favorites.delete(key);else favorites.add(key);
+  try{localStorage.setItem("bos-lighting-favorites-v1",JSON.stringify(Array.from(favorites)))}catch(err){}
+  updateFavoritesBtn();
+  target.setAttribute("aria-pressed",String(favorites.has(key)));
+  target.textContent=favorites.has(key)?"★ Dans mes favoris":"☆ Garder à relire";
+  if(favoritesMode)render();
+});
 document.addEventListener("click",function(e){
   var link=e.target.closest(".tags span");
   if(!link)return;
-  query=link.textContent.trim();
+  favoritesMode=false;updateFavoritesBtn();query=link.textContent.trim();
   $("#searchInput").value=query;
   $("#clearSearch").hidden=false;
   render();
