@@ -33,7 +33,7 @@ function textIndex(obj){return norm(JSON.stringify(obj))}
 function matches(obj){return !query||textIndex(obj).indexOf(norm(query))>=0}
 function favKey(item){return String(item.id||("vocab:"+norm(item.term)))}
 function favoriteButton(item){var k=favKey(item),saved=favorites.has(k);return '<button type="button" class="save-card" data-save="'+esc(k)+'" aria-pressed="'+saved+'">'+(saved?"★ Dans mes favoris":"☆ Garder à relire")+'</button>'}
-function updateFavoritesBtn(){var b=$("#favoritesBtn");if(b){b.textContent=favoritesMode?"Tous les articles":"Mes favoris ("+favorites.size+")";b.setAttribute("aria-pressed",String(favoritesMode))}}
+function updateFavoritesBtn(){var b=$("#favoritesBtn");if(b){b.textContent=favoritesMode?"Tous les articles":"Mes favoris ("+favorites.size+")";b.setAttribute("aria-pressed",String(favoritesMode));b.setAttribute("aria-label",favoritesMode?"Afficher tous les articles":"Afficher mes "+favorites.size+" favoris")}}
 
 function theme(mode){
   document.documentElement.dataset.theme=mode;
