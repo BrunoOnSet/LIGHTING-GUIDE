@@ -207,7 +207,7 @@ $$("[data-section]").forEach(function(btn){
   btn.addEventListener("click",function(){favoritesMode=false;updateFavoritesBtn();section=btn.dataset.section;query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();$(".workspace").scrollIntoView({behavior:"smooth",block:"start"})});
 });
 
-$("#searchInput").addEventListener("input",function(e){query=e.target.value.trim();$("#clearSearch").hidden=!query;render()});
+$("#searchInput").addEventListener("input",function(e){favoritesMode=false;updateFavoritesBtn();query=e.target.value.trim();$("#clearSearch").hidden=!query;render()});
 $("#clearSearch").addEventListener("click",function(){query="";$("#searchInput").value="";$("#clearSearch").hidden=true;render();$("#searchInput").focus()});
 
 $("#randomBtn").addEventListener("click",function(){
