@@ -1,56 +1,57 @@
-# BOS — LIGHTING GUIDE V2
+# BOS — LIGHTING GUIDE · V3.0
 
-Carnet personnel de révision pour directeur de la photographie expérimenté. La V2 ne cherche plus à enseigner les bases de l’éclairage : elle sert à réactiver des principes précis, du vocabulaire de plateau et des alternatives de mise en lumière avant un tournage.
+Bibliothèque professionnelle de la lumière au cinéma, pensée pour un chef opérateur expérimenté. Application autonome, statique et installable (PWA) : lecture, révision technique, cas de plateau et inspiration, en français avec le vocabulaire professionnel anglais lorsqu'il est pertinent.
 
-## Déploiement
+## Accès / déploiement
 
-Application statique sans compilation.
-
-- **Cloudflare Pages** : dépôt `BrunoOnSet/LIGHTING-GUIDE`
-- **Production branch** : `main`
+- **GitHub** : BrunoOnSet/LIGHTING-GUIDE
+- **Hébergement prévu** : Cloudflare Pages lié au dépôt
+- **Branche de production** : main
 - **Build command** : vide
 - **Build output directory** : racine du dépôt
 
-Une modification de `main` déclenche donc le redéploiement si la connexion Cloudflare Pages reste active.
+L'application fonctionne en ouvrant directement index.html depuis un serveur statique. Le déploiement Cloudflare dépend de la connexion existante au dépôt : une modification GitHub ne permet pas, à elle seule, de certifier le site publié.
 
-## V2 — structure affichée
+## Les huit rubriques de la V3
 
-La page publique ne charge plus les anciens catalogues V1. Elle utilise :
+1. **Principes** — lois physiques, optique, photométrie, réflectance, taille angulaire, qualité des ombres, spectres, phénomènes temporels.
+2. **Méthodes** — bounce, book light, cove, negative fill, CRLS, cross-key, faux jour, zones de jeu, projection.
+3. **Situations** — cinq tournages documentés, chacun avec plan de feu original, photo BTS et image finale ; analyses attribuées à leur auteur.
+4. **Cas de plateau** — contraintes de tournage et trois pistes concrètes à confronter.
+5. **Vocabulaire** — définitions concises avec nuances techniques, notamment beam/field, BRDF, gobo, Duv, SSI, grip.
+6. **Accessoires** — matières de diffusion, réflexion, coupe, contrôle optique et matériel de grip.
+7. **Projecteurs** — premier catalogue de 13 modèles/familles, avec photo réelle sourcée, fonction, particularités, limites et lien externe vers le fabricant ou la documentation.
+8. **Dossiers** — neuf chapitres de lecture approfondie, articulant physique, méthode de plateau et arbitrages, dont sept avec schémas pédagogiques originaux.
 
-- **Principes** : phénomènes séparés des recettes — taille angulaire, fall-off, shadow transfer, ambient floor, spectre, réponse spéculaire, exposition.
-- **Méthodes** : book light, bounce, negative/passive fill, CRLS, far-side key, overhead base, zone lighting, practical augmentation, cross-key, soustraction en extérieur, etc.
-- **Situations** : cinq tournages documentés avec plan de feu, BTS, image finale et lecture source par source.
-- **Cas de plateau** : contraintes à résoudre avant d’ouvrir trois pistes de travail et leurs compromis.
-- **Vocabulaire** : termes lumière, grip, staging et colorimétrie utilisés sur les plateaux.
-- **Matériel** : surfaces et outils décrits par leur effet réel dans le trajet lumineux.
+Les fiches sont repliables. La recherche parcourt toutes les rubriques ; « Fiche au hasard » ouvre une entrée aléatoire de la rubrique en cours. Le mode clair/sombre et le bouton d'installation restent disponibles.
 
-Les fiches sont verticales et repliables. Le bouton **Fiche au hasard** permet de feuilleter l’application comme un carnet de révision.
+## Exigence éditoriale
 
-## Règle éditoriale
+- Distinguer **lois physiques**, **conventions de mesure**, **pratiques courantes** et **choix artistiques**.
+- Décrire une méthode par **ses effets réels sur le trajet lumineux** : couverture, direction, douceur, rendement, spill, contraintes de plateau, et non par des recettes génériques.
+- Les **schémas BOS** sont des modèles spatiaux simplifiés, explicitement signalés comme tels. Ils ne sont jamais présentés comme un plan réel de film.
+- Les **situations documentées** conservent leurs liens directs vers les sources : même tournage pour plan/BTS/frame, sans mélanger les productions.
+- Les **photographies de projecteurs** restent chargées depuis les sites où elles sont publiées, avec crédit visible, sans être recopiées dans le dépôt. Ces URL externes peuvent changer ou être bloquées ; vérifier les droits et les autorisations avant une diffusion publique plus large.
+- Ne pas inventer de caractéristiques : renvoyer à la documentation de la configuration **exacte** pour photométrie, angle, masse, puissance, flicker et modes couleur.
+- Les fiches d'accessoires ne disposent pas encore toutes d'un visuel documentaire : c'est un chantier éditorial distinct.
 
-Une fiche doit apporter au moins une des choses suivantes :
+## Fichiers
 
-1. une nuance technique facile à oublier ;
-2. un terme professionnel à garder actif ;
-3. une méthode ou un dispositif réellement exploitable ;
-4. une autre manière de penser le blocking, le décor ou le contraste.
+- index.html : navigation des huit rubriques
+- style.css : styles responsive et lecteur de dossiers
+- data-v2.js : bibliothèque professionnelle initiale
+- data-library.js : approfondissements V3 (principes, cas, vocabulaire, accessoires, projecteurs, dossiers)
+- data-visual-cases.js : cinq études de tournage documentées et leurs 15 visuels distincts
+- app.js : rendu, schémas pédagogiques, recherche globale, PWA et navigation
+- sw.js, manifest.webmanifest : installation et cache versionné
+- tests/verify.mjs : cohérence des fiches, sources, photos, schémas et présence de la bibliothèque dans la PWA
 
-Les Méthodes ne contiennent **aucun schéma BOS inventé**. Les visuels des Situations proviennent uniquement de tournages documentés et restent chargés depuis leurs publications d’origine.
+## Vérification locale
 
-## Fichiers V2
+Avec Node.js, depuis la racine du dépôt :
 
-- `index.html` : interface et six rubriques
-- `style.css` : UI responsive
-- `data-v2.js` : contenu éditorial V2
-- `data-visual-cases.js` : archive des vrais tournages, plans et BTS
-- `app.js` : recherche globale, accordéons, cas de plateau, tirage aléatoire
-- `sw.js`, `manifest.webmanifest` : PWA / cache
-- `tests/verify.mjs` : contrôle de la structure V2 et des 15 visuels distincts
+    node tests/verify.mjs
 
-Les anciens fichiers V1 restent présents dans le dépôt comme archive de travail, mais ne sont plus chargés par `index.html`.
+## Suite éditoriale envisageable
 
-## Sources principales
-
-Le contenu V2 renvoie notamment vers American Cinematographer, ARRI et Lightbridge lorsque la fiche dépend d’un terme, d’un test ou d’une méthode documentée. Les liens sont affichés directement dans les fiches concernées.
-
-© Bruno OnSet
+Étendre la photothèque des accessoires, détailler les courbes optiques et tableaux de photométrie exacts, constituer davantage de vrais dossiers de tournage documentés et construire des chapitres plus avancés sur la lumière extérieure, l'exposition et le spectre. Ces ajouts doivent privilégier qualité et traçabilité plutôt que le volume pour le volume.
