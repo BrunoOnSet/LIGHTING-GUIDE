@@ -1,4 +1,4 @@
-# BOS — LIGHTING GUIDE · V3.0.1
+# BOS — LIGHTING GUIDE · V3.0.2
 
 Bibliothèque professionnelle de la lumière au cinéma, pensée pour un chef opérateur expérimenté. Application autonome, statique et installable (PWA) : lecture, révision technique, cas de plateau et inspiration, en français avec le vocabulaire professionnel anglais lorsqu'il est pertinent.
 
