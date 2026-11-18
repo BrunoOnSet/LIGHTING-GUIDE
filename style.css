@@ -31,7 +31,7 @@ a{color:inherit}
 .hero-copy{max-width:760px;font-size:19px;color:var(--muted);margin:0}
 .hero-meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:30px}
 .hero-meta span,.chips span,.tags span{border:1px solid var(--line);background:var(--panel);padding:7px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
-.section-nav{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:34px 0 70px}
+.section-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:34px 0 70px}
 .section-nav button{background:var(--panel);border:0;text-align:left;padding:18px;cursor:pointer;min-height:116px;display:flex;flex-direction:column;gap:6px}
 .section-nav button:hover,.section-nav button.active{background:var(--panel2)}
 .section-nav button.active{box-shadow:inset 0 -3px var(--accent)}
@@ -130,3 +130,23 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;display:flex;justify
   .bubble-body{padding:18px}
   footer{flex-direction:column;gap:5px}
 }
+/* V3 — chapitres de lecture, vrais appareils, schémas de principe */
+.fixture-grid{display:grid;grid-template-columns:minmax(190px,300px) 1fr;align-items:start;gap:26px}
+.fixture-photo{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#f0f1ee;color:#49534e}
+.fixture-photo img{display:block;width:100%;height:260px;object-fit:contain;padding:12px}
+.fixture-photo figcaption{padding:10px 12px;background:#e1e6e1;font-size:11px;line-height:1.5}
+.fixture-no-photo{background:var(--panel2);border:1px dashed var(--line);border-radius:12px;padding:26px;min-height:170px;display:flex;flex-direction:column;justify-content:center}
+.fixture-no-photo span{font-size:11px;color:var(--accent);letter-spacing:.12em;font-weight:700}
+.fixture-no-photo p{color:var(--muted);font-size:13px;max-width:220px}
+.fixture-notes h4,.chapter-section h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px;color:var(--accent)}
+.fixture-notes p{margin:0 0 20px;line-height:1.65;color:var(--muted)}
+.fixture-notes .source-link{margin-top:4px}
+.chapter-intro{font-size:18px;line-height:1.75;margin:0;max-width:850px;font-weight:500}
+.chapter-section{border-top:1px solid var(--line);padding:20px 0 0}
+.chapter-section .bullets{gap:16px;line-height:1.7}
+.chapter-section .bullets li{max-width:890px}
+.chapter-source{padding-top:18px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.teaching-diagram{margin:4px 0 8px;max-width:760px}
+.teaching-diagram svg{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:12px}
+.teaching-diagram figcaption{font-size:12px;color:var(--muted);margin-top:9px;line-height:1.55}
+@media(max-width:760px){.fixture-grid{grid-template-columns:1fr}.fixture-photo{max-width:350px}.fixture-photo img{height:230px}}
