@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
 
-const syntaxFiles=['data-v2.js','data-library.js','data-visual-cases.js','app.js','sw.js'];
+const syntaxFiles=['data-v2.js','data-library.js','data-glossary.js','data-visual-cases.js','app.js','glossary-ui.js','sw.js'];
 for(const file of syntaxFiles){
   const code=fs.readFileSync(file,'utf8');
   new vm.Script(code,{filename:file});
@@ -13,9 +13,15 @@ const context={window:{}};vm.createContext(context);
 vm.runInContext(fs.readFileSync('data-visual-cases.js','utf8'),context,{filename:'data-visual-cases.js'});
 vm.runInContext(fs.readFileSync('data-v2.js','utf8'),context,{filename:'data-v2.js'});
 vm.runInContext(fs.readFileSync('data-library.js','utf8'),context,{filename:'data-library.js'});
+vm.runInContext(fs.readFileSync('data-glossary.js','utf8'),context,{filename:'data-glossary.js'});
 
 const data=context.window.BOS_V2;
 assert(data,'BOS_V2 absent');
+const dictionary=context.window.BOS_GLOSSARY;
+assert(dictionary?.length>=65,'Dictionnaire contextuel insuffisant');
+for(const [id,alias] of [['grid','grids'],['skirt','skirts'],['flag','flags'],['negative-fill','négatifs']]){
+  assert(dictionary.some(x=>x.id===id&&x.aliases.includes(alias)&&x.definition&&x.application&&x.caution),'Bulle manquante ou incomplète : '+alias);
+}
 const required=['principles','methods','situations','cases','vocabulary','materials','fixtures','dossiers'];
 for(const key of required){
   assert(Array.isArray(data[key]),'Section absente: '+key);
@@ -94,11 +100,11 @@ const ids=[
 assert.equal(new Set(ids).size,ids.length,'Identifiants V2 dupliqués');
 
 const html=fs.readFileSync('index.html','utf8');
-assert(html.includes('data-v2.js?v=3.0.3'),'data-v2.js non chargé');
-assert(html.includes('data-library.js?v=3.0.3'),'data-library.js non chargé');
+assert(html.includes('data-v2.js?v=3.1.0'),'data-v2.js non chargé');
+assert(html.includes('data-library.js?v=3.1.0'),'data-library.js non chargé');
 assert(html.includes('data-section="fixtures"'),'Onglet Projecteurs absent');
 assert(html.includes('data-section="dossiers"'),'Onglet Dossiers absent');
-assert(html.includes('data-visual-cases.js?v=3.0.3'),'Archive visuelle non chargée');
+assert(html.includes('data-visual-cases.js?v=3.1.0'),'Archive visuelle non chargée');
 assert(!html.includes('data-techniques.js'),'La V1 ne doit plus être chargée');
 assert(html.includes('Cas de plateau'),'Navigation Cas de plateau absente');
 assert(html.includes('Vocabulaire'),'Navigation Vocabulaire absente');
@@ -112,14 +118,18 @@ assert(app.includes('function dossierCard'),'Lecteur de dossiers V3 absent');
 assert(app.includes('function fixtureCard'),'Lecteur de projecteurs V3 absent');
 assert(app.includes('function favoriteButton'),'Bouton favoris absent');
 assert(html.includes('id="favoritesBtn"'),'Commande favoris absente');
+assert(html.includes('data-glossary.js?v=3.1.0'),'Lexique non chargé');
+assert(html.includes('glossary-ui.js?v=3.1.0'),'Interface des bulles non chargée');
 
 const styles=fs.readFileSync('style.css','utf8');
 assert(styles.includes('.bubble'),'Accordéons absents');
+assert(styles.includes('.gloss-term')&&styles.includes('.glossary-popover'),'Styles de lexique absents');
 assert(styles.includes('.approach-grid'),'Pistes des cas de plateau absentes');
 assert(styles.includes('.study-grid'),'Triptyques de tournage absents');
 
 const sw=fs.readFileSync('sw.js','utf8');
-assert(sw.includes('bos-lighting-guide-v3-0-3-20261118'),'Cache V3 non versionné');
+assert(sw.includes('bos-lighting-guide-v3-1-0-20261118'),'Cache V3.1 non versionné');
+assert(sw.includes('./data-glossary.js')&&sw.includes('./glossary-ui.js'),'Lexique absent du cache');
 assert(sw.includes('./data-library.js'),'Catalogue V3 absent du cache');
 assert(sw.includes('./data-v2.js'),'data-v2.js absent du cache');
 assert(sw.includes('./data-visual-cases.js'),'Archive visuelle absente du cache');
