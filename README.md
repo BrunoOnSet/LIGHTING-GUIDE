@@ -1,4 +1,4 @@
-# BOS — LIGHTING GUIDE · V3.0
+# BOS — LIGHTING GUIDE · V3.0.1
 
 Bibliothèque professionnelle de la lumière au cinéma, pensée pour un chef opérateur expérimenté. Application autonome, statique et installable (PWA) : lecture, révision technique, cas de plateau et inspiration, en français avec le vocabulaire professionnel anglais lorsqu'il est pertinent.
 
@@ -23,7 +23,7 @@ L'application fonctionne en ouvrant directement index.html depuis un serveur sta
 7. **Projecteurs** — premier catalogue de 13 modèles/familles, avec photo réelle sourcée, fonction, particularités, limites et lien externe vers le fabricant ou la documentation.
 8. **Dossiers** — neuf chapitres de lecture approfondie, articulant physique, méthode de plateau et arbitrages, dont sept avec schémas pédagogiques originaux.
 
-Les fiches sont repliables. La recherche parcourt toutes les rubriques ; « Fiche au hasard » ouvre une entrée aléatoire de la rubrique en cours. Le mode clair/sombre et le bouton d'installation restent disponibles.
+Les fiches sont repliables. La recherche parcourt toutes les rubriques ; « Fiche au hasard » ouvre une entrée aléatoire de la rubrique en cours. Le mode clair/sombre et le bouton d'installation restent disponibles. **Mes favoris** permet de retrouver les fiches enregistrées localement sur cet appareil, sans compte ni serveur.
 
 ## Exigence éditoriale
 
