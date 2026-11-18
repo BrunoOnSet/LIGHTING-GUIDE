@@ -1,4 +1,4 @@
-# BOS — LIGHTING GUIDE · V3.0.3
+# BOS — LIGHTING GUIDE · V3.1.0
 
 Bibliothèque professionnelle de la lumière au cinéma, pensée pour un chef opérateur expérimenté. Application autonome, statique et installable (PWA) : lecture, révision technique, cas de plateau et inspiration, en français avec le vocabulaire professionnel anglais lorsqu'il est pertinent.
 
@@ -31,6 +31,15 @@ Les fiches sont repliables. La recherche parcourt toutes les rubriques ; « Fich
 - Dossier approfondi « Deux distances, deux phénomènes », avec hypothèses de validité de l’inverse du carré et exemple numérique pour une surface lambertienne.
 - Schéma pédagogique original ajouté.
 
+## Glossaire contextuel V3.1
+
+- `data-glossary.js` : plus de 70 définitions détaillées, avec variantes lexicales en français et anglais, usage de plateau, limites et parfois source ou renvoi.
+- `glossary-ui.js` : transforme automatiquement les mots reconnus dans toutes les rubriques en termes cliquables, sans altérer les URLs, les boutons, les images ou les champs de formulaire.
+- Les 47 entrées de Vocabulaire alimentent également le dictionnaire quand elles ne sont pas déjà couvertes.
+- Les définitions apparaissent dans une petite bulle accessible au clic, au toucher et au clavier ; fermeture par Échap ou tap extérieur ; fenêtre en bas d’écran sur mobile.
+- Le terme « grid » est distingué de « Grid Cloth », « skirt » de « flag », et le « negative fill » d’un matériel spécifique.
+- Le dispositif est basé sur une liste éditoriale explicite : **un terme technique non encore répertorié ne devient pas automatiquement cliquable**. Enrichir le fichier avant d’en promettre une définition.
+
 ## Exigence éditoriale
 
 - Distinguer **lois physiques**, **conventions de mesure**, **pratiques courantes** et **choix artistiques**.
@@ -49,6 +58,7 @@ Les fiches sont repliables. La recherche parcourt toutes les rubriques ; « Fich
 - data-library.js : approfondissements V3 (principes, cas, vocabulaire, accessoires, projecteurs, dossiers)
 - data-visual-cases.js : cinq études de tournage documentées et leurs 15 visuels distincts
 - app.js : rendu, schémas pédagogiques, recherche globale, PWA et navigation
+- data-glossary.js, glossary-ui.js : termes reconnus, définitions et bulles contextuelles
 - sw.js, manifest.webmanifest : installation et cache versionné
 - tests/verify.mjs : cohérence des fiches, sources, photos, schémas et présence de la bibliothèque dans la PWA
 
