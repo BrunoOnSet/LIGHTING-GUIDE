@@ -2,7 +2,7 @@
 (function(){
 "use strict";
 
-var DATA=window.BOS_V2||{principles:[],methods:[],situations:[],cases:[],vocabulary:[],materials:[]};
+var DATA=window.BOS_V2||{principles:[],methods:[],situations:[],cases:[],vocabulary:[],materials:[],fixtures:[],dossiers:[]};
 var VISUAL=(window.BOS_VISUAL_CASES&&window.BOS_VISUAL_CASES.cases)||[];
 var byCase=new Map(VISUAL.map(function(x){return [x.id,x]}));
 var section="principles";
@@ -14,7 +14,9 @@ var META={
   situations:{num:"03",title:"Situations",intro:"Tournages documentés : plan de feu, BTS, image finale et lecture source par source."},
   cases:{num:"04",title:"Cas de plateau",intro:"Lis la contrainte, pense ton dispositif, puis ouvre les pistes et compare les compromis."},
   vocabulary:{num:"05",title:"Vocabulaire",intro:"Termes de plateau, grip, lumière et colorimétrie à garder actifs."},
-  materials:{num:"06",title:"Matériel",intro:"Surfaces et outils de contrôle : ce qu’ils changent réellement dans le trajet lumineux."}
+  materials:{num:"06",title:"Accessoires",intro:"Diffusion, réflexion, coupe, projection et outils de grip : fonction réelle et limites."},
+  fixtures:{num:"07",title:"Projecteurs",intro:"Sources actuelles et classiques : famille optique, rôle, particularités et contraintes sur le plateau."},
+  dossiers:{num:"08",title:"Dossiers",intro:"Lectures de fond, schémas pédagogiques et arbitrages pour développer son regard."}
 };
 
 function $(s,r){return (r||document).querySelector(s)}
@@ -122,6 +124,42 @@ function situationCard(item){
     '</div></details>';
 }
 
+
+function diagramSvg(kind){
+  var diagrams={
+    specular:'<path d="M180 175 L235 175" stroke="#A6B6BB" stroke-width="5" stroke-linecap="round"/><path d="M207 175V65" stroke="#647A85" stroke-dasharray="4 5"/><path d="M70 57L207 175L341 57" fill="none" stroke="#F5BA78" stroke-width="3"/><circle cx="70" cy="57" r="14" fill="#D1A367"/><circle cx="341" cy="57" r="14" fill="#7C9DAA"/><text x="70" y="30" text-anchor="middle">SOURCE</text><text x="341" y="30" text-anchor="middle">CAMÉRA</text><text x="207" y="203" text-anchor="middle">SURFACE RÉFLÉCHISSANTE</text><text x="218" y="92" font-size="10">NORMALE</text>',
+    beam:'<rect x="24" y="98" width="44" height="32" rx="5" fill="#7A8E99"/><path d="M68 114L383 20L383 206Z" fill="#DCB064" fill-opacity=".10" stroke="#B79457" stroke-dasharray="5 5"/><path d="M68 114L383 67L383 161Z" fill="#EAC073" fill-opacity=".22" stroke="#EAC073" stroke-width="2"/><path d="M68 114H385" stroke="#687F8A" stroke-dasharray="4 5"/><text x="220" y="53" text-anchor="middle">FIELD • 10 %</text><text x="224" y="103" text-anchor="middle">BEAM • 50 %</text><text x="43" y="85" text-anchor="middle">SOURCE</text><text x="224" y="199" text-anchor="middle">COUPE DU FAISCEAU</text>',
+    surface:'<rect x="14" y="68" width="62" height="62" rx="6" fill="#354954" stroke="#7899A6"/><text x="45" y="100" text-anchor="middle">SOURCE</text><path d="M76 100H145" stroke="#EBC27A" stroke-width="3"/><rect x="145" y="53" width="28" height="92" fill="#E5BE84" fill-opacity=".46" stroke="#E5BE84"/><path d="M173 100L254 59M173 100H254M173 100L254 143" stroke="#EBC27A" stroke-width="2"/><rect x="254" y="32" width="7" height="140" fill="#7DA6AF"/><path d="M261 101L342 45M261 101L342 101M261 101L342 158" stroke="#8BC6C6" stroke-dasharray="5 4" stroke-width="2"/><circle cx="364" cy="101" r="20" fill="none" stroke="#9DBDAE" stroke-width="2"/><text x="159" y="28" text-anchor="middle">REBON(D)</text><text x="258" y="202" text-anchor="middle">DIFFUSION</text><text x="362" y="142" text-anchor="middle">SUJET</text>',
+    window:'<rect x="26" y="16" width="388" height="194" rx="4" fill="#15222C" stroke="#304A58"/><path d="M274 22V85M274 140V205" stroke="#7C959E" stroke-width="8"/><path d="M274 85V140" stroke="#E8C79D" stroke-width="6"/><circle cx="360" cy="111" r="15" fill="#E6B56B"/><path d="M346 103L245 66L109 99M346 116L245 147L118 165" fill="none" stroke="#E6B56B" stroke-width="2"/><ellipse cx="130" cy="134" rx="13" ry="20" fill="#9CBFB2"/><text x="359" y="80" text-anchor="middle">SOLEIL</text><text x="125" y="189" text-anchor="middle">COMÉDIEN</text><text x="277" y="20" text-anchor="middle">FENÊTRE</text><path d="M306 163L276 163L206 192" stroke="#7FA4B4" stroke-dasharray="4 4"/><text x="341" y="185" text-anchor="middle">CIEL / REBOND</text>',
+    walk:'<path d="M28 172H393" stroke="#8BA69A" stroke-width="4" stroke-dasharray="8 8"/><path d="M78 40L36 161L225 161Z" fill="#E0B16D" fill-opacity=".16"/><path d="M327 40L200 161L396 161Z" fill="#A6C1B9" fill-opacity=".16"/><rect x="47" y="27" width="62" height="21" rx="4" fill="#C5A271"/><rect x="295" y="27" width="62" height="21" rx="4" fill="#799E9E"/><text x="78" y="20" text-anchor="middle">ZONE A</text><text x="325" y="20" text-anchor="middle">ZONE B</text><circle cx="83" cy="171" r="12" fill="#D5DCD6"/><circle cx="207" cy="171" r="12" fill="#C5D1C7"/><circle cx="327" cy="171" r="12" fill="#D5DCD6"/><text x="83" y="204" text-anchor="middle">A</text><text x="207" y="204" text-anchor="middle">TRANSITION</text><text x="327" y="204" text-anchor="middle">B</text>',
+    book:'<rect x="25" y="132" width="54" height="28" rx="4" fill="#738996"/><path d="M79 146L156 51L179 62L79 146" fill="#D0B371" fill-opacity=".25" stroke="#E5C58A" stroke-width="2"/><path d="M154 30L187 80" stroke="#F4D59F" stroke-width="8"/><path d="M170 55L253 105M170 55L253 145" stroke="#D8A966" stroke-width="2"/><path d="M257 79V178" stroke="#8CBCC2" stroke-width="6"/><path d="M260 95L349 123M260 158L349 123" stroke="#9BBBC2" stroke-dasharray="4 4" stroke-width="2"/><circle cx="363" cy="123" r="17" fill="none" stroke="#C5D7D4" stroke-width="3"/><text x="44" y="179" text-anchor="middle">SOURCE</text><text x="170" y="21" text-anchor="middle">BOUNCE</text><text x="265" y="197" text-anchor="middle">DIFFUSION</text><text x="362" y="163" text-anchor="middle">SUJET</text>',
+    projection:'<rect x="21" y="89" width="64" height="45" rx="5" fill="#6D8592"/><path d="M85 110L358 34L358 190Z" fill="#E6B66C" fill-opacity=".15" stroke="#E6B66C" stroke-width="2"/><rect x="132" y="71" width="7" height="76" fill="#E5C98C"/><path d="M136 109L358 83M136 109L358 140" stroke="#E7C17D" stroke-dasharray="5 4" stroke-width="2"/><path d="M358 28V196" stroke="#98B6B8" stroke-width="6"/><rect x="353" y="83" width="12" height="59" fill="#E8C680" fill-opacity=".65"/><text x="56" y="78" text-anchor="middle">DÉCOUPE</text><text x="135" y="59" text-anchor="middle">GOBO</text><text x="359" y="215" text-anchor="middle">SURFACE PROJETÉE</text>'
+  };
+  if(!diagrams[kind])return "";
+  var labels={specular:"Trajet spéculaire de la source vers la caméra",beam:"Cônes illustratifs du beam et du field angle",surface:"Trajet illustratif de lumière réfléchie et transmise",window:"Faux jour à travers une fenêtre vu du dessus",walk:"Zones de lumière recouvrantes sur le trajet d'un comédien",book:"Trajet du book light, rebond puis diffusion",projection:"Gobo dans l'optique de projection et image formée"};
+  return '<figure class="teaching-diagram"><svg viewBox="0 0 430 226" role="img" aria-label="'+esc(labels[kind])+'" xmlns="http://www.w3.org/2000/svg"><rect width="430" height="226" rx="12" fill="#111D25"/><g fill="#DCE4E4" font-family="Arial,sans-serif" font-size="11">'+diagrams[kind]+'</g></svg><figcaption>Schéma de principe BOS, simplifié et non à l’échelle. Ce n’est pas un plan de feu de tournage réel.</figcaption></figure>';
+}
+function fixtureCard(item){
+  var photo=item.photo?'<figure class="fixture-photo"><img src="'+esc(item.photo)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="Photographie réelle : '+esc(item.brand+" "+item.name)+'"><figcaption>'+esc(item.credit||"Photo produit")+' · illustration documentaire du modèle</figcaption></figure>':
+    '<div class="fixture-no-photo"><span>PHOTO PRODUIT</span><p>Consulter les visuels documentaires sur la page du fabricant.</p></div>';
+  return '<details class="bubble fixture" id="'+esc(item.id)+'">'+
+    '<summary><span><small>'+esc(item.brand+' / '+item.family)+'</small><strong>'+esc(item.name)+'</strong><em>'+esc(item.role)+'</em></span><b>⌄</b></summary>'+
+    '<div class="bubble-body">'+
+      '<div class="fixture-grid">'+photo+'<div class="fixture-notes"><h4>Ce qui le distingue</h4><p>'+esc(item.strength)+'</p><h4>À vérifier sur le plateau</h4><p>'+esc(item.limits)+'</p>'+sourceLink(item.source)+'</div></div>'+
+    '</div></details>';
+}
+function dossierCard(item){
+  function block(title,lines){return '<section class="chapter-section"><h4>'+esc(title)+'</h4>'+bulletList(arr(lines))+'</section>'}
+  return '<details class="bubble dossier" id="'+esc(item.id)+'">'+
+    '<summary><span><small>'+esc(item.kicker||"DOSSIER")+'</small><strong>'+esc(item.title)+'</strong><em>'+esc(item.summary)+'</em></span><b>⌄</b></summary>'+
+    '<div class="bubble-body"><p class="chapter-intro">'+esc(item.intro)+'</p>'+diagramSvg(item.diagram)+
+    block("Comprendre le phénomène",item.science)+
+    block("Raisonnement sur le plateau",item.plateau)+
+    block("Choix et compromis",item.alternatives)+
+    '<div class="chapter-source"><span class="micro-label">ALLER À LA SOURCE</span>'+sourceLink(item.source)+'</div>'+
+    '</div></details>';
+}
+
 function renderItems(key,items){
   if(key==="principles")return items.map(principleCard).join("");
   if(key==="methods")return items.map(methodCard).join("");
@@ -129,6 +167,8 @@ function renderItems(key,items){
   if(key==="vocabulary")return '<div class="vocab-grid">'+items.map(vocabCard).join("")+'</div>';
   if(key==="cases")return items.map(caseCard).join("");
   if(key==="situations")return items.map(situationCard).join("");
+  if(key==="fixtures")return items.map(fixtureCard).join("");
+  if(key==="dossiers")return items.map(dossierCard).join("");
   return "";
 }
 
